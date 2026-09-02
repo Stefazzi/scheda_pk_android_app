@@ -1,0 +1,4 @@
+# Copia questo file come local.properties e inserisci i valori dal pannello Connect di Supabase.
+SUPABASE_URL=https://example.supabase.co
+SUPABASE_PUBLISHABLE_KEY=your-publishable-or-anon-key
+

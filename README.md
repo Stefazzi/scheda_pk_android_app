@@ -1,12 +1,106 @@
-https://pagliaa.github.io/schedapk
-https://pagliaa.github.io/schedapk/characters/Alice.html
-https://pagliaa.github.io/schedapk/characters/Elia Aster.html
-https://pagliaa.github.io/schedapk/characters/Macharius Von Valancius Massimo Af Scarius II _.html
-https://pagliaa.github.io/schedapk/characters/trainer_sample.html
-https://pagliaa.github.io/schedapk/characters/Wilton.html
-https://pagliaa.github.io/schedapk/characters/Zeno.html
-https://pagliaa.github.io/schedapk/pokemon/Alice_MEL.html
-https://pagliaa.github.io/schedapk/pokemon/El PUTRESS-1.html
-https://pagliaa.github.io/schedapk/pokemon/poke_sample.html
-https://pagliaa.github.io/schedapk/pokemon/Wilton_Gumpod.html
-https://pagliaa.github.io/schedapk/pokemon/Zeno_POLIWURL.html
+# Pokérole Sheets
+
+Applicazione Android per gestire le schede di allenatori e Pokémon durante una campagna Pokérole.
+
+Il repository deriva dal progetto web originale [Pagliaa/schedapk](https://github.com/Pagliaa/schedapk). La web app legacy è mantenuta separata e continua a funzionare senza dipendere dalla nuova applicazione Android.
+
+## Funzionalità
+
+- Accesso con account Google tramite Supabase Auth.
+- Ruoli separati per Dungeon Master e giocatori.
+- Il DM può visualizzare e modificare tutte le schede.
+- Ogni giocatore può accedere solamente al proprio allenatore e ai relativi Pokémon.
+- Associazione iniziale del giocatore tramite codice fornito dal DM.
+- Creazione e cattura di nuovi Pokémon.
+- Gestione della squadra e degli slot disponibili.
+- Modifica delle schede direttamente dall’app.
+- Reset rapido di PS, Difesa e Volontà ai rispettivi valori massimi.
+- Conservazione dei dati completi in formato JSONB.
+- Backup delle versioni precedenti delle schede.
+- Sprite automatici dei Pokémon.
+- Colori delle mosse basati sul relativo tipo.
+- Ritratto personalizzato dell’allenatore caricato dalla galleria.
+- Immagini private protette tramite Supabase Storage.
+
+## Tecnologie
+
+- Kotlin
+- Jetpack Compose
+- Supabase Authentication
+- PostgreSQL e Row Level Security
+- Supabase Storage
+- Google OAuth
+- PokéAPI per gli sprite dei Pokémon
+
+L’applicazione richiede Android 8.0 o successivo.
+
+## Installazione dell’APK
+
+L’ultima versione dell’app può essere scaricata dalla sezione **Releases** del repository.
+
+Per installarla potrebbe essere necessario autorizzare temporaneamente l’installazione di applicazioni provenienti da fonti esterne sul dispositivo Android.
+
+Gli aggiornamenti devono essere firmati con la stessa chiave utilizzata per la prima release.
+
+## Configurazione per lo sviluppo
+
+1. Clonare il repository.
+2. Aprire la cartella `android-app` con Android Studio.
+3. Copiare `android-app/local.properties.example` come `android-app/local.properties`.
+4. Inserire nel file:
+
+```properties
+SUPABASE_URL=https://PROJECT_REF.supabase.co
+SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
+```
+
+5. Sincronizzare il progetto con Gradle.
+6. Avviare l’app su un emulatore o dispositivo Android.
+
+Non inserire mai nel repository:
+
+- password del database;
+- chiavi `service_role` o secret key;
+- password del keystore;
+- file `.jks` o `.keystore`;
+- file `local.properties`.
+
+La chiave pubblica di Supabase non permette di superare le policy RLS configurate nel database.
+
+## Configurazione del database
+
+Gli script SQL necessari si trovano in `supabase/migrations`:
+
+1. `01_create_android_schema.sql`
+2. `02_prepare_legacy_import.sql`
+3. `03_populate_selected_sheets.sql`
+4. `04_configure_portrait_storage.sql`
+
+Gli script creano le tabelle dell’app Android, configurano autenticazione e permessi, importano le schede selezionate e preparano il bucket privato `pokerole-media`.
+
+Prima di eseguire gli script in un nuovo progetto Supabase è consigliato controllarne il contenuto e creare un backup dei dati esistenti.
+
+## Struttura del repository
+
+```text
+android-app/           Applicazione Android nativa
+supabase/migrations/   Schema, policy e configurazione Supabase
+characters/            Schede legacy degli allenatori
+pokemon/               Schede legacy dei Pokémon
+js/, css/, img/        Risorse della web app originale
+```
+
+## Sicurezza e ruoli
+
+L’accesso ai dati è controllato tramite le policy Row Level Security di Supabase:
+
+- il DM può gestire tutte le schede;
+- un giocatore può accedere solamente al proprio allenatore;
+- i Pokémon sono visibili e modificabili in base al proprietario dell’allenatore;
+- i ritratti vengono conservati in un bucket privato e mostrati tramite URL firmati temporanei.
+
+## Stato del progetto
+
+Versione corrente: **0.5.0**
+
+Il progetto è attualmente destinato all’utilizzo privato della campagna ed è ancora in fase di sviluppo e collaudo.

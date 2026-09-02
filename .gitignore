@@ -1,0 +1,22 @@
+# Android / Gradle
+.gradle/
+.gradle-user-home/
+.android-user-home/
+.toolchains/
+**/build/
+android-app/local.properties
+android-app/.idea/
+android-app/*.iml
+
+# IDE / OS
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Release e firma Android
+*.apk
+*.aab
+*.jks
+*.keystore
+key.properties
