@@ -10,53 +10,54 @@ import kotlinx.serialization.json.jsonObject
 
 object SheetStats {
     val attributes = linkedMapOf(
-        "attributes.strength" to "Forza",
-        "attributes.dexterity" to "Destrezza",
-        "attributes.vitality" to "Vitalità",
-        "attributes.special" to "Speciale",
-        "attributes.insight" to "Intuito",
+        "attributes.strength" to "Strength",
+        "attributes.dexterity" to "Dexterity",
+        "attributes.vitality" to "Vitality",
+        "attributes.special" to "Special",
+        "attributes.insight" to "Insight",
     )
 
     val socialAttributes = linkedMapOf(
-        "social_attributes.tough" to "Tenacia",
-        "social_attributes.cool" to "Carisma",
-        "social_attributes.beauty" to "Bellezza",
-        "social_attributes.cute" to "Grazia",
-        "social_attributes.clever" to "Astuzia",
+        "social_attributes.tough" to "Tough",
+        "social_attributes.cool" to "Cool",
+        "social_attributes.beauty" to "Beauty",
+        "social_attributes.cute" to "Cute",
+        "social_attributes.clever" to "Clever",
     )
 
     val skillGroups = linkedMapOf(
-        "Lotta" to linkedMapOf(
-            "skills.fight.brawl" to "Rissa",
-            "skills.fight.channel" to "Canalizzare",
-            "skills.fight.clash" to "Scontro",
-            "skills.fight.evasion" to "Evasione",
-            "skills.fight.throw" to "Lancio",
-            "skills.fight.weapons" to "Armi",
+        "Fight" to linkedMapOf(
+            "skills.fight.brawl" to "Brawl",
+            "skills.fight.channel" to "Channel",
+            "skills.fight.clash" to "Clash",
+            "skills.fight.evasion" to "Evasion",
+            "skills.fight.throw" to "Throw",
+            "skills.fight.weapons" to "Weapons",
         ),
-        "Sopravvivenza" to linkedMapOf(
-            "skills.survival.alert" to "Allerta",
-            "skills.survival.athletic" to "Atletica",
-            "skills.survival.nature" to "Natura",
-            "skills.survival.stealth" to "Furtività",
+        "Survival" to linkedMapOf(
+            "skills.survival.alert" to "Alert",
+            "skills.survival.athletic" to "Athletic",
+            "skills.survival.nature" to "Nature",
+            "skills.survival.stealth" to "Stealth",
         ),
-        "Sociale" to linkedMapOf(
-            "skills.social.charm" to "Fascino",
-            "skills.social.empathy" to "Empatia",
-            "skills.social.etiquette" to "Etichetta",
-            "skills.social.intimidate" to "Intimidire",
-            "skills.social.perform" to "Esibizione",
+        "Social" to linkedMapOf(
+            "skills.social.charm" to "Charm",
+            "skills.social.empathy" to "Empathy",
+            "skills.social.etiquette" to "Etiquette",
+            "skills.social.intimidate" to "Intimidate",
+            "skills.social.perform" to "Perform",
         ),
-        "Conoscenza" to linkedMapOf(
-            "skills.knowledge.crafts" to "Artigianato",
-            "skills.knowledge.lore" to "Cultura",
-            "skills.knowledge.medicine" to "Medicina",
-            "skills.knowledge.science" to "Scienza",
+        "Knowledge" to linkedMapOf(
+            "skills.knowledge.crafts" to "Crafts",
+            "skills.knowledge.lore" to "Lore",
+            "skills.knowledge.medicine" to "Medicine",
+            "skills.knowledge.science" to "Science",
         ),
     )
 
     val allDotKeys: List<String> = (attributes.keys + socialAttributes.keys +
         skillGroups.values.flatMap { it.keys }).toList()
+
 }
 
 data class EditableSheet(
@@ -220,7 +221,8 @@ data class EditableSheet(
 
     fun resetCurrentStats(): EditableSheet = copy(
         hpActual = hpTotal.ifBlank { hpActual },
-        defenseActual = defenseTotal.ifBlank { defenseActual },
+        // Both legacy defense fields are independent stats, not current/maximum.
+        // Leave them unchanged for trainers and Pokemon alike.
         willActual = willTotal.ifBlank { willActual },
     )
 
@@ -230,7 +232,15 @@ data class EditableSheet(
             value = JsonObject(emptyMap()),
             json = Json,
             forcedPokemon = isPokemon,
-        )
+        ).let { sheet ->
+            sheet.copy(
+                dotStats = sheet.dotStats + sheet.attributeFields().keys.associateWith {
+                    List(if (isPokemon) 12 else 5) { index -> index == 0 }
+                } + SheetStats.socialAttributes.keys.associateWith { List(5) { index -> index == 0 } },
+                hpActual = if (isPokemon) "" else "5", hpTotal = if (isPokemon) "" else "5",
+                willActual = "4", willTotal = "4",
+            )
+        }
 
         fun from(storageKey: String, value: JsonElement, json: Json): EditableSheet =
             from(storageKey, value, json, forcedPokemon = null)

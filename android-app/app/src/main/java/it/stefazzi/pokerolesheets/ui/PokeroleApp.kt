@@ -28,6 +28,8 @@ import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Restore
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -70,9 +72,25 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import it.stefazzi.pokerolesheets.data.EditableSheet
+import it.stefazzi.pokerolesheets.data.CorebookCatalog
+import it.stefazzi.pokerolesheets.data.CorebookSpecies
+import it.stefazzi.pokerolesheets.data.CatalogMove
+import it.stefazzi.pokerolesheets.data.evolve
+import it.stefazzi.pokerolesheets.data.readPortraitInput
+import it.stefazzi.pokerolesheets.data.matchesSearch
+import it.stefazzi.pokerolesheets.data.sortPokemonSheets
+import it.stefazzi.pokerolesheets.data.withCaptureTrainer
+import it.stefazzi.pokerolesheets.data.SheetRank
+import it.stefazzi.pokerolesheets.data.attributeFields
+import it.stefazzi.pokerolesheets.data.statRange
+import it.stefazzi.pokerolesheets.data.sheetRank
+import it.stefazzi.pokerolesheets.data.speciesForm
+import it.stefazzi.pokerolesheets.data.baseHpValue
+import it.stefazzi.pokerolesheets.data.baseHpText
+import it.stefazzi.pokerolesheets.data.withRuleValue
+import it.stefazzi.pokerolesheets.data.recalculateMaximums
 import it.stefazzi.pokerolesheets.data.SheetStats
 import it.stefazzi.pokerolesheets.data.normalizeMoveName
-import it.stefazzi.pokerolesheets.data.model.PokemonSpecies
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -82,7 +100,7 @@ import kotlin.math.roundToInt
 private enum class HomeTab(val label: String) {
     TRAINERS("Allenatori"),
     POKEMON("Pokémon"),
-    CATALOG("Catalogo"),
+    CATALOG("Pokédex"),
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -168,9 +186,16 @@ fun PokeroleApp() {
                 )
                 state.selectedSheet != null -> SheetEditor(
                     initial = state.selectedSheet!!,
+                    isDm = state.isDm,
+                    trainers = state.sheets.filterNot { it.isPokemon },
                     saving = state.saving,
                     uploadingPortrait = state.uploadingPortrait,
                     moveTypes = state.moveTypes,
+                    corebookSpecies = state.corebookSpecies,
+                    catalogMoves = state.catalogMoves,
+                    catalogStatus = state.catalogStatus,
+                    catalogLoading = state.catalogLoading,
+                    onRefreshCatalog = viewModel::refreshCatalog,
                     onUploadPortrait = viewModel::uploadTrainerPortrait,
                     onSave = viewModel::saveSheet,
                 )
@@ -179,6 +204,7 @@ fun PokeroleApp() {
                     onSelect = viewModel::selectSheet,
                     onCreate = viewModel::beginNewSheet,
                     onSetClaimCode = { claimCodeTrainer = it },
+                    onRefreshCatalog = viewModel::refreshCatalog,
                 )
             }
         }
@@ -344,8 +370,11 @@ private fun HomeContent(
     onSelect: (EditableSheet) -> Unit,
     onCreate: (Boolean) -> Unit,
     onSetClaimCode: (EditableSheet) -> Unit,
+    onRefreshCatalog: () -> Unit,
 ) {
     var tabIndex by rememberSaveable { mutableIntStateOf(0) }
+    var trainerSearch by rememberSaveable { mutableStateOf("") }
+    var pokemonSearch by rememberSaveable { mutableStateOf("") }
     Column(Modifier.fillMaxSize()) {
         TabRow(selectedTabIndex = tabIndex) {
             HomeTab.entries.forEachIndexed { index, tab ->
@@ -371,15 +400,24 @@ private fun HomeContent(
                 onCreate = { onCreate(false) },
                 onSelect = onSelect,
                 onSetClaimCode = if (state.isDm) onSetClaimCode else null,
+                searchQuery = if (state.isDm) trainerSearch else "",
+                onSearchChange = if (state.isDm) ({ trainerSearch = it }) else null,
+                searchLabel = "Cerca allenatore o squadra",
             )
             HomeTab.POKEMON -> SheetList(
-                sheets = state.sheets.filter { it.isPokemon },
+                sheets = sortPokemonSheets(state.sheets.filter { it.isPokemon }),
                 createLabel = "Cattura Pokémon",
                 onCreate = { onCreate(true) },
                 onSelect = onSelect,
                 onSetClaimCode = null,
+                searchQuery = if (state.isDm) pokemonSearch else "",
+                onSearchChange = if (state.isDm) ({ pokemonSearch = it }) else null,
+                searchLabel = "Cerca Pokémon, specie o allenatore",
             )
-            HomeTab.CATALOG -> PokemonCatalog(state.catalog)
+            HomeTab.CATALOG -> PokedexScreen(
+                species = state.corebookSpecies, moves = state.catalogMoves,
+                status = state.catalogStatus, loading = state.catalogLoading, onRefresh = onRefreshCatalog,
+            )
         }
     }
 }
@@ -391,8 +429,22 @@ private fun SheetList(
     onCreate: () -> Unit,
     onSelect: (EditableSheet) -> Unit,
     onSetClaimCode: ((EditableSheet) -> Unit)?,
+    searchQuery: String = "",
+    onSearchChange: ((String) -> Unit)? = null,
+    searchLabel: String = "Cerca scheda",
 ) {
+    val filtered = remember(sheets, searchQuery) { sheets.filter { it.matchesSearch(searchQuery) } }
+    Column(Modifier.fillMaxSize()) {
+        if (onSearchChange != null) {
+            OutlinedTextField(value = searchQuery, onValueChange = onSearchChange,
+                label = { Text(searchLabel) }, singleLine = true,
+                trailingIcon = { if (searchQuery.isNotEmpty()) TextButton(onClick = { onSearchChange("") }) { Text("Pulisci") } },
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp))
+            Text("${filtered.size} / ${sheets.size} schede", modifier = Modifier.padding(horizontal = 16.dp),
+                style = MaterialTheme.typography.bodySmall)
+        }
     LazyColumn(
+        modifier = Modifier.weight(1f),
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
@@ -403,16 +455,16 @@ private fun SheetList(
                 }
             }
         }
-        if (sheets.isEmpty()) {
+        if (filtered.isEmpty()) {
             item {
                 Text(
-                    "Nessuna scheda trovata",
+                    if (searchQuery.isBlank()) "Nessuna scheda trovata" else "Nessuna scheda corrisponde alla ricerca",
                     modifier = Modifier.fillMaxWidth().padding(vertical = 28.dp),
                     style = MaterialTheme.typography.bodyLarge,
                 )
             }
         }
-        items(sheets, key = { it.storageKey }) { sheet ->
+        items(filtered, key = { it.recordId.ifBlank { it.storageKey } }) { sheet ->
             Card(onClick = { onSelect(sheet) }, modifier = Modifier.fillMaxWidth()) {
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(12.dp),
@@ -445,59 +497,61 @@ private fun SheetList(
             }
         }
     }
-}
-
-@Composable
-private fun PokemonCatalog(pokemon: List<PokemonSpecies>) {
-    var query by rememberSaveable { mutableStateOf("") }
-    val filtered = remember(query, pokemon) {
-        pokemon.filter { it.pokemon.contains(query.trim(), ignoreCase = true) }.take(200)
-    }
-    Column(Modifier.fillMaxSize()) {
-        OutlinedTextField(
-            value = query,
-            onValueChange = { query = it },
-            label = { Text("Cerca Pokémon") },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
-        )
-        LazyColumn(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp)) {
-            items(filtered, key = { "${it.nr}-${it.pokemon}" }) { species ->
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    AsyncImage(
-                        model = pokemonSpriteUrl(species.nr),
-                        contentDescription = species.pokemon,
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier.size(52.dp),
-                    )
-                    Column(Modifier.weight(1f)) {
-                        Text("#${species.nr.padStart(3, '0')}  ${species.pokemon.replaceFirstChar { it.uppercase() }}")
-                        Text(
-                            listOf(species.tipo1, species.tipo2).filter(String::isNotBlank).joinToString(" / "),
-                            style = MaterialTheme.typography.bodySmall,
-                        )
-                    }
-                }
-                HorizontalDivider()
-            }
-        }
     }
 }
 
 @Composable
 private fun SheetEditor(
     initial: EditableSheet,
+    isDm: Boolean,
+    trainers: List<EditableSheet>,
     saving: Boolean,
     uploadingPortrait: Boolean,
     moveTypes: Map<String, String>,
+    corebookSpecies: List<CorebookSpecies>,
+    catalogMoves: Map<String, CatalogMove>,
+    catalogStatus: String,
+    catalogLoading: Boolean,
+    onRefreshCatalog: () -> Unit,
     onUploadPortrait: (EditableSheet, ByteArray) -> Unit,
     onSave: (EditableSheet) -> Unit,
 ) {
     var draft by remember(initial.storageKey, initial.raw) { mutableStateOf(initial) }
+    val dmCapture = isDm && draft.isPokemon && draft.recordId.isBlank()
+    val captureTrainerSelected = trainers.any { it.recordId == draft.trainerId && it.recordId.isNotBlank() }
+    var chooseTrainer by remember { mutableStateOf(false) }
+    if (chooseTrainer && dmCapture) CaptureTrainerPicker(trainers, onDismiss = { chooseTrainer = false }) {
+        draft = draft.withCaptureTrainer(it)
+        chooseTrainer = false
+    }
+    val reference = CorebookCatalog.find(corebookSpecies, draft)
+    var captureSpecies by remember { mutableStateOf<CorebookSpecies?>(null) }
+    var captureRank by remember { mutableStateOf(SheetRank.Starter) }
+    var confirmPrefill by remember { mutableStateOf(false) }
+    var chooseSpecies by remember { mutableStateOf(false) }
+    var showEvolution by remember(draft.recordId) { mutableStateOf(false) }
+    if (chooseSpecies) SpeciesPicker(corebookSpecies, onDismiss = { chooseSpecies = false }) {
+        captureSpecies = it
+        // The player's chosen rank is independent of the suggested species rank.
+        chooseSpecies = false
+    }
+    if (showEvolution && reference != null) EvolutionDialog(
+        sheet = draft, source = reference, catalog = corebookSpecies,
+        onDismiss = { showEvolution = false },
+        onEvolve = { draft = it; showEvolution = false },
+    )
+    if (confirmPrefill && captureSpecies != null) {
+        AlertDialog(
+            onDismissRequest = { confirmPrefill = false },
+            title = { Text("Precompilare ${captureSpecies!!.name}?") },
+            text = { Text("Sostituisce specie, tipi, dimensioni, Attributes, Social Attributes, HP, Will, Abilities, Happiness e Loyalty della nuova bozza. Svuota le mosse per consentirti di sceglierle. Conserva allenatore, soprannome e Skills. Nessuna scheda già salvata viene modificata.") },
+            confirmButton = { TextButton(onClick = {
+                draft = captureSpecies!!.prefill(draft, captureRank)
+                confirmPrefill = false
+            }) { Text("Precompila") } },
+            dismissButton = { TextButton(onClick = { confirmPrefill = false }) { Text("Annulla") } },
+        )
+    }
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var preparingPortrait by remember { mutableStateOf(false) }
@@ -530,16 +584,67 @@ private fun SheetEditor(
             )
         }
 
+        if (draft.isPokemon) {
+            item {
+                SheetSectionCard("Catalogo Pokérole 3.0") {
+                    Text(catalogStatus, style = MaterialTheme.typography.bodySmall)
+                    OutlinedButton(onClick = onRefreshCatalog, enabled = !catalogLoading && !saving) {
+                        Text(if (catalogLoading) "Download in corso…" else "Aggiorna catalogo")
+                    }
+                }
+            }
+        }
+
+        if (draft.isPokemon && draft.recordId.isBlank()) {
+            item {
+                SheetSectionCard("Cattura · Precompilazione") {
+                    if (dmCapture) {
+                        Text("Allenatore destinatario", fontWeight = FontWeight.SemiBold)
+                        OutlinedButton(onClick = { chooseTrainer = true }, enabled = trainers.isNotEmpty() && !saving) {
+                            Text(if (captureTrainerSelected) draft.trainerName else "Scegli allenatore da Supabase")
+                        }
+                        if (trainers.isEmpty()) Text("Nessun allenatore disponibile. Torna alla lista e aggiorna le schede, oppure crea prima un allenatore.")
+                        else if (!captureTrainerSelected) Text("Seleziona l'allenatore prima di salvare la cattura.")
+                    }
+                    Text("Cerca specie o forma nel catalogo. Il Rank resta una tua scelta; le mosse vengono scelte separatamente.")
+                    OutlinedButton(onClick = { chooseSpecies = true }) { Text(captureSpecies?.name ?: "Scegli specie / forma") }
+                    ChoiceField("Rank", captureRank.name, SheetRank.entries.map { it.name }) { captureRank = SheetRank.valueOf(it) }
+                    captureSpecies?.let { species ->
+                        Text("${species.types.joinToString(" / ")} · Base HP ${species.baseHp} · ${species.height} · ${species.weight}")
+                        Text("${species.abilities.joinToString(" & ")} · ${species.sourceLabel}")
+                        Text("I valori base sono di Starter Rank. Avrai ${captureRank.attributePoints} punti da distribuire in Attributes, altrettanti in Social Attributes e ${captureRank.skillPoints} in Skills.")
+                        Button(onClick = { confirmPrefill = true }, enabled = !saving) { Text("Precompila scheda") }
+                    }
+                }
+            }
+        }
+
         item {
             SheetSectionCard("Identità") {
                 SheetPortrait(
                     sheet = draft,
                     modifier = Modifier.size(144.dp).align(Alignment.CenterHorizontally),
                 )
-                SheetField("Allenatore", draft.trainerName) { draft = draft.copy(trainerName = it) }
+                if (dmCapture) {
+                    OutlinedTextField(value = draft.trainerName, onValueChange = {}, readOnly = true,
+                        label = { Text("Allenatore selezionato") }, modifier = Modifier.fillMaxWidth())
+                } else {
+                    SheetField("Allenatore", draft.trainerName) { draft = draft.copy(trainerName = it) }
+                }
                 if (draft.isPokemon) {
                     SheetField("Soprannome", draft.pokemonName) { draft = draft.copy(pokemonName = it) }
                     SheetField("Specie", draft.speciesName) { draft = draft.copy(speciesName = it) }
+                    OutlinedButton(onClick = { showEvolution = true },
+                        enabled = !saving && draft.recordId.isNotBlank() && reference != null && reference.evolutions.isNotEmpty()) {
+                        Text("Evolvi")
+                    }
+                    Text(when {
+                        draft.recordId.isBlank() -> "Salva il Pokémon prima di evolverlo."
+                        reference == null -> "Evoluzione non disponibile: aggiorna il catalogo e controlla specie, numero e forma."
+                        reference.evolutions.isEmpty() -> "Nessuna evoluzione successiva indicata nel catalogo."
+                        else -> "Scegli l'evoluzione e conferma con il DM. La modifica verrà registrata solo con Salva."
+                    }, style = MaterialTheme.typography.bodySmall)
+                    SheetField("Form", draft.speciesForm) { draft = draft.withRuleValue("form", it) }
                     FieldPair(
                         "Numero Pokédex", draft.pokedexNumber, { draft = draft.copy(pokedexNumber = it) },
                         "Tipo primario", draft.primaryType, { draft = draft.copy(primaryType = it) },
@@ -549,9 +654,8 @@ private fun SheetEditor(
                         "Taglia", draft.size, { draft = draft.copy(size = it) },
                     )
                     SheetField("Peso", draft.weight) { draft = draft.copy(weight = it) }
-                    DotRatingField("Felicità", draft.happiness) { draft = draft.copy(happiness = it) }
-                    DotRatingField("Lealtà", draft.loyalty) { draft = draft.copy(loyalty = it) }
-                    SheetField("Immagine rango", draft.rankImage) { draft = draft.copy(rankImage = it) }
+                    DotRatingField("Happiness", draft.happiness) { draft = draft.copy(happiness = it) }
+                    DotRatingField("Loyalty", draft.loyalty) { draft = draft.copy(loyalty = it) }
                 } else {
                     SheetField("Team", draft.team) { draft = draft.copy(team = it) }
                     FieldPair(
@@ -597,27 +701,56 @@ private fun SheetEditor(
         }
 
         item {
+            SheetSectionCard("Rank e riferimenti del manuale") {
+                ChoiceField("Rank", draft.sheetRank?.name ?: "Non impostato", SheetRank.entries.map { it.name }) {
+                    draft = draft.withRuleValue("rank", it)
+                }
+                draft.sheetRank?.let { rank ->
+                    Text("Attributes: +${rank.attributePoints} · Social Attributes: +${rank.attributePoints} · Skills: ${rank.skillPoints} punti, limite ${rank.skillLimit}.")
+                    if (!draft.isPokemon) Text("Per gli allenatori aggiungi anche i punti dell'età (manuale p. 41).")
+                    if (rank == SheetRank.Master || rank == SheetRank.Champion) {
+                        Text("Bonus Master: +3 HP/Will/Defense/Sp. Defense/Base Initiative e +2 dadi ai tiri con Skills. I bonus non sono punti Skill.")
+                    }
+                } ?: Text("Seleziona il Rank per applicare i limiti delle Skills; il vecchio riferimento non viene eliminato.")
+                if (draft.isPokemon) {
+                    if (reference == null) Text("Specie o forma senza dati verificati: Attributes in modalità manuale 1–12; consulta il Pokédex.")
+                    else Text("${reference.name} · ${reference.form} · ${reference.sourceLabel}. Base e limiti sono riferimenti, non modificano i valori salvati.")
+                }
+            }
+        }
+
+        item {
             SheetSectionCard("Riferimenti rapidi") {
+                SheetField("Base HP", draft.baseHpText ?: reference?.baseHp?.toString() ?: if (!draft.isPokemon) "4" else "") {
+                    draft = draft.withRuleValue("base_hp", it)
+                }
+                if (draft.baseHpText != null && draft.baseHpValue == null) {
+                    Text("Base HP non valido: inserisci un intero positivo (1–999). HP maximum non verrà ricalcolato.", color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
+                }
                 FieldPair(
-                    "PS attuali", draft.hpActual, { draft = draft.copy(hpActual = it) },
-                    "PS totali", draft.hpTotal, { draft = draft.copy(hpTotal = it) },
+                    "HP current", draft.hpActual, { draft = draft.copy(hpActual = it) },
+                    "HP maximum", draft.hpTotal, { draft = draft.copy(hpTotal = it) },
                 )
                 FieldPair(
-                    "Difesa attuale", draft.defenseActual, { draft = draft.copy(defenseActual = it) },
-                    "Difesa totale", draft.defenseTotal, { draft = draft.copy(defenseTotal = it) },
+                    "Physical Defense",
+                    draft.defenseActual, { draft = draft.copy(defenseActual = it) },
+                    "Special Defense",
+                    draft.defenseTotal, { draft = draft.copy(defenseTotal = it) },
                 )
                 FieldPair(
-                    "Volontà attuale", draft.willActual, { draft = draft.copy(willActual = it) },
-                    "Volontà totale", draft.willTotal, { draft = draft.copy(willTotal = it) },
+                    "Will current", draft.willActual, { draft = draft.copy(willActual = it) },
+                    "Will maximum", draft.willTotal, { draft = draft.copy(willTotal = it) },
                 )
                 FieldPair(
-                    "Iniziativa", draft.initiative, { draft = draft.copy(initiative = it) },
-                    "Evasione", draft.evasion, { draft = draft.copy(evasion = it) },
+                    "Initiative", draft.initiative, { draft = draft.copy(initiative = it) },
+                    "Evasion", draft.evasion, { draft = draft.copy(evasion = it) },
                 )
                 SheetField("Strumento equipaggiato", draft.heldItem) { draft = draft.copy(heldItem = it) }
                 SheetField("Effetto di stato", draft.statusEffect) { draft = draft.copy(statusEffect = it) }
-                DotRatingField("Fatica", draft.fatigue) { draft = draft.copy(fatigue = it) }
-                DotRatingField("Azioni utilizzate", draft.actionUsed) { draft = draft.copy(actionUsed = it) }
+                DotRatingField("Fatigue", draft.fatigue) { draft = draft.copy(fatigue = it) }
+                DotRatingField("Actions used", draft.actionUsed) { draft = draft.copy(actionUsed = it) }
+                OutlinedButton(onClick = { draft = draft.recalculateMaximums(reference) }) { Text("Calcola massimi HP / Will") }
+                Text("HP = Base HP + Vitality; Will = 3 + Insight, più eventuali bonus Rank. Cambia solo i massimi, senza curare. Le varianti HP/Defense del manuale p. 27 restano da gestire con il DM.", style = MaterialTheme.typography.bodySmall)
                 OutlinedButton(
                     onClick = { draft = draft.resetCurrentStats() },
                     modifier = Modifier.fillMaxWidth(),
@@ -627,7 +760,7 @@ private fun SheetEditor(
                     Text("Reset statistiche")
                 }
                 Text(
-                    "Riporta PS, Difesa e Volontà ai rispettivi valori massimi.",
+                    "Riporta HP e Will ai rispettivi valori massimi, senza modificare Physical Defense e Special Defense.",
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
@@ -635,7 +768,7 @@ private fun SheetEditor(
 
         if (draft.isPokemon) {
             item {
-                SheetSectionCard("Abilità") {
+                SheetSectionCard("Abilities") {
                     SheetField("Ricerca abilità", draft.abilitySearch) { draft = draft.copy(abilitySearch = it) }
                     SheetField("Nome", draft.abilityName) { draft = draft.copy(abilityName = it) }
                     SheetField("Effetto", draft.abilityEffect, minLines = 2) {
@@ -647,7 +780,7 @@ private fun SheetEditor(
                 }
             }
             item {
-                SheetSectionCard("Natura") {
+                SheetSectionCard("Nature") {
                     SheetField("Ricerca natura", draft.natureSearch) { draft = draft.copy(natureSearch = it) }
                     SheetField("Nome", draft.natureName) { draft = draft.copy(natureName = it) }
                     SheetField("Configurazione", draft.natureConfiguration) {
@@ -672,18 +805,41 @@ private fun SheetEditor(
         }
 
         item {
-            DotStatsCard("Attributi", SheetStats.attributes, draft.dotStats, updateDots)
+            DotStatsCard(
+                "Attributes", draft.attributeFields(), draft, reference, updateDots,
+                helpText = if (draft.isPokemon) "Valore attuale / limite; i valori base sono indicati separatamente."
+                    else "Gli allenatori non hanno Special. Limite 5, con l'eccezione del Rank Champion (+2).",
+            )
         }
         item {
-            DotStatsCard("Attributi sociali", SheetStats.socialAttributes, draft.dotStats, updateDots)
+            DotStatsCard("Social Attributes", SheetStats.socialAttributes, draft, reference, updateDots)
         }
         SheetStats.skillGroups.forEach { (group, fields) ->
             item {
-                DotStatsCard("Abilità · $group", fields, draft.dotStats, updateDots)
+                DotStatsCard("Skills · $group", fields, draft, reference, updateDots)
             }
         }
 
         if (draft.isPokemon) {
+            if (reference != null && draft.sheetRank != null) {
+                item {
+                    SheetSectionCard("Moves · Suggerimenti per Rank") {
+                        val known = draft.moves.filter(String::isNotBlank)
+                        val moveLimit = draft.dotStats["attributes.insight"].orEmpty().count { it } + 3
+                        Text("${known.size} / $moveLimit Moves · Insight + 3")
+                        Text("Scegli le mosse; non vengono assegnate automaticamente. TM, tutor e deroghe del DM rimangono inseribili manualmente.", style = MaterialTheme.typography.bodySmall)
+                        if (reference.anyMoveRank?.let { draft.sheetRank!!.ordinal >= it.ordinal } == true) {
+                            Text("Any Move: questa specie può scegliere altre mosse con il DM. Inseriscile nella sezione Mosse; il catalogo ne mostrerà i dettagli.")
+                        }
+                        reference.availableMoves(draft.sheetRank!!).forEach { move ->
+                            OutlinedButton(
+                                onClick = { draft = draft.copy(moves = known + move.name) },
+                                enabled = known.size < moveLimit && known.none { normalizeMoveName(it) == normalizeMoveName(move.name) },
+                            ) { Text("${move.name} · ${move.type} · Rank ${move.rank.ordinal + 1} (${move.rank.name})") }
+                        }
+                    }
+                }
+            }
             item {
                 SheetSectionCard("Mosse") {
                     val visibleMoves = draft.moves.ifEmpty { listOf("") }
@@ -692,6 +848,7 @@ private fun SheetEditor(
                             index = index,
                             value = value,
                             type = moveTypes[normalizeMoveName(value)].orEmpty(),
+                            details = catalogMoves[normalizeMoveName(value)],
                         ) {
                             draft = draft.copy(moves = draft.moves.updated(index, it, 1))
                         }
@@ -746,7 +903,7 @@ private fun SheetEditor(
         item {
             Button(
                 onClick = { onSave(draft) },
-                enabled = !saving && !uploadingPortrait,
+                enabled = !saving && !uploadingPortrait && (!dmCapture || captureTrainerSelected),
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 if (saving) CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
@@ -754,6 +911,107 @@ private fun SheetEditor(
             }
         }
     }
+}
+
+@Composable
+private fun CaptureTrainerPicker(
+    trainers: List<EditableSheet>, onDismiss: () -> Unit, onSelect: (EditableSheet) -> Unit,
+) {
+    var query by remember { mutableStateOf("") }
+    val rows = remember(trainers, query) {
+        trainers.filter { !it.isPokemon && it.recordId.isNotBlank() && it.matchesSearch(query) }
+            .sortedBy { it.trainerName.lowercase() }
+    }
+    AlertDialog(onDismissRequest = onDismiss, title = { Text("Allenatori da Supabase") },
+        text = {
+            Column {
+                SheetField("Cerca allenatore", query) { query = it }
+                LazyColumn(Modifier.height(300.dp)) {
+                    if (rows.isEmpty()) item { Text("Nessun allenatore corrisponde alla ricerca.") }
+                    items(rows, key = { it.recordId }) { trainer ->
+                        TextButton(onClick = { onSelect(trainer) }, modifier = Modifier.fillMaxWidth()) {
+                            Column(Modifier.fillMaxWidth()) {
+                                Text(trainer.trainerName, fontWeight = FontWeight.SemiBold)
+                                Text("${trainer.team.ifBlank { "Senza squadra" }} · ID ${trainer.recordId.take(8)}",
+                                    style = MaterialTheme.typography.bodySmall)
+                            }
+                        }
+                    }
+                }
+            }
+        }, confirmButton = { TextButton(onClick = onDismiss) { Text("Annulla") } })
+}
+
+@Composable
+private fun SpeciesPicker(
+    species: List<CorebookSpecies>, onDismiss: () -> Unit, onSelect: (CorebookSpecies) -> Unit,
+) {
+    var search by remember { mutableStateOf("") }
+    val filtered = remember(search, species) {
+        species.filter { it.name.contains(search.trim(), true) || it.number == search.trim().trimStart('#', '0') }
+    }
+    AlertDialog(onDismissRequest = onDismiss, title = { Text("Species / Form") },
+        text = {
+            Column {
+                SheetField("Nome o numero Pokédex", search) { search = it }
+                Text("${filtered.size} risultati", style = MaterialTheme.typography.bodySmall)
+                LazyColumn(Modifier.height(320.dp)) {
+                    items(filtered, key = { it.name }) { species ->
+                        TextButton(onClick = { onSelect(species) }) {
+                            Text("#${species.number} ${species.name} · ${species.types.joinToString(" / ")}")
+                        }
+                    }
+                }
+            }
+        }, confirmButton = { TextButton(onClick = onDismiss) { Text("Chiudi") } })
+}
+
+@Composable
+private fun EvolutionDialog(
+    sheet: EditableSheet, source: CorebookSpecies, catalog: List<CorebookSpecies>,
+    onDismiss: () -> Unit, onEvolve: (EditableSheet) -> Unit,
+) {
+    var selectedName by remember(source.name) { mutableStateOf("") }
+    var selectedAbility by remember(selectedName) { mutableStateOf("") }
+    val route = source.evolutions.firstOrNull { it.targetName == selectedName }
+    val target = catalog.firstOrNull { it.name.equals(selectedName, true) }
+    val ability = selectedAbility.ifBlank {
+        target?.abilities?.firstOrNull { it.equals(sheet.abilityName, true) }
+            ?: target?.abilities?.singleOrNull().orEmpty()
+    }
+    AlertDialog(onDismissRequest = onDismiss, title = { Text("Evolvi ${sheet.displayName}") },
+        text = {
+            LazyColumn(Modifier.height(420.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                item {
+                    ChoiceField("Evoluzione", selectedName.ifBlank { "Scegli evoluzione" },
+                        source.evolutions.map { it.targetName }.distinct()) { selectedName = it }
+                    route?.let { Text(it.condition.ifBlank { "Condizioni da confermare con il DM" }) }
+                    if (selectedName.isNotBlank() && target == null) Text("Questa destinazione non è disponibile nel catalogo. Nessuna modifica verrà eseguita.")
+                }
+                if (target != null) {
+                    item {
+                        Text("${source.name} → ${target.name} · ${target.types.joinToString(" / ")}")
+                        if (target.abilities.isNotEmpty()) {
+                            ChoiceField("Ability", ability.ifBlank { "Scegli abilità" }, target.abilities) { selectedAbility = it }
+                        }
+                        Text("Aggiorna specie, forma, tipi, dimensioni, Ability e Base HP. Ricalcola i massimi HP/Will senza curare; conserva Attributes attuali, Skills, Rank, mosse, soprannome, Nature, Happiness, Loyalty, note e immagine personalizzata.")
+                        Text("Controlla con il DM condizioni, punti e valori della nuova forma: non vengono assegnati punti automaticamente. Premi poi Salva nella scheda per registrare l'evoluzione.")
+                    }
+                    item {
+                        Text("Attributes attuali → base / massimo nuova specie", fontWeight = FontWeight.SemiBold)
+                        target.attributes.forEach { (key, reference) ->
+                            val current = sheet.dotStats["attributes.$key"].orEmpty().count { it }
+                            Text("${SheetStats.attributes["attributes.$key"]}: $current → ${reference.base} / ${reference.limit}")
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(enabled = target != null && (target.abilities.isEmpty() || ability in target.abilities), onClick = {
+                target?.let { onEvolve(source.evolve(sheet, it, ability)) }
+            }) { Text("Applica alla bozza") }
+        }, dismissButton = { TextButton(onClick = onDismiss) { Text("Annulla") } })
 }
 
 @Composable
@@ -795,7 +1053,7 @@ private fun SheetPortrait(sheet: EditableSheet, modifier: Modifier = Modifier) {
     }
 }
 
-private fun pokemonSpriteUrl(pokedexNumber: String): String? {
+internal fun pokemonSpriteUrl(pokedexNumber: String): String? {
     val number = pokedexNumber.filter(Char::isDigit).toIntOrNull() ?: return null
     return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$number.png"
 }
@@ -805,6 +1063,7 @@ private fun MoveFieldCard(
     index: Int,
     value: String,
     type: String,
+    details: CatalogMove? = null,
     onValueChange: (String) -> Unit,
 ) {
     val accent = moveTypeColor(type)
@@ -834,18 +1093,24 @@ private fun MoveFieldCard(
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
             )
+            details?.let { move ->
+                Text("${move.category} · Power ${move.power} · Target ${move.target}", style = MaterialTheme.typography.bodySmall)
+                Text("Accuracy: ${move.accuracy} · Damage: ${move.damage.ifBlank { "—" }}", style = MaterialTheme.typography.bodySmall)
+                if (move.effect.isNotBlank()) Text(move.effect, style = MaterialTheme.typography.bodySmall)
+                if (move.description.isNotBlank()) Text(move.description, style = MaterialTheme.typography.bodySmall)
+            }
         }
     }
 }
 
-private fun moveTypeColor(type: String): Color = when (type.lowercase()) {
+internal fun moveTypeColor(type: String): Color = when (type.lowercase()) {
     "normal" -> Color(0xFF6D6D4E)
     "fire" -> Color(0xFFC85216)
     "water" -> Color(0xFF3265C7)
     "electric" -> Color(0xFF9B7700)
     "grass" -> Color(0xFF3D7E27)
     "ice" -> Color(0xFF3C8585)
-    "fighting" -> Color(0xFF9B2520)
+    "fighting", "fight" -> Color(0xFF9B2520)
     "poison" -> Color(0xFF7A327A)
     "ground" -> Color(0xFF846A25)
     "flying" -> Color(0xFF6548A8)
@@ -878,33 +1143,58 @@ private fun SheetSectionCard(title: String, content: @Composable ColumnScope.() 
 private fun DotStatsCard(
     title: String,
     fields: Map<String, String>,
-    values: Map<String, List<Boolean>>,
+    sheet: EditableSheet,
+    reference: CorebookSpecies?,
     onChange: (String, List<Boolean>) -> Unit,
+    helpText: String? = null,
 ) {
     SheetSectionCard(title) {
+        if (helpText != null) {
+            Text(helpText, style = MaterialTheme.typography.bodySmall)
+        }
         fields.forEach { (key, label) ->
-            DotRatingField(label, values[key].orEmpty()) { onChange(key, it) }
+            val base = if (key in SheetStats.attributes) reference?.attributes?.get(key.substringAfter('.'))?.base else null
+            DotRatingField(if (base != null) "$label · Base $base" else label, sheet.dotStats[key].orEmpty(), sheet.statRange(key, reference)) { onChange(key, it) }
         }
     }
 }
 
 @Composable
-private fun DotRatingField(label: String, values: List<Boolean>, onValueChange: (List<Boolean>) -> Unit) {
+private fun DotRatingField(
+    label: String,
+    values: List<Boolean>,
+    range: IntRange = 0..5,
+    onValueChange: (List<Boolean>) -> Unit,
+) {
     val rating = values.count { it }
     Column(Modifier.fillMaxWidth()) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(label)
-            Text("$rating / 5", fontWeight = FontWeight.SemiBold)
+            Text("$rating / ${range.last}", fontWeight = FontWeight.SemiBold)
         }
+        if (rating !in range) Text("Valore salvato fuori intervallo (${range.first}–${range.last}): mantenuto finché non lo modifichi.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error)
         Slider(
-            value = rating.toFloat(),
+            value = rating.coerceIn(range).toFloat(),
             onValueChange = { raw ->
-                val selected = raw.roundToInt().coerceIn(0, 5)
-                onValueChange(List(5) { it < selected })
+                val selected = raw.roundToInt().coerceIn(range)
+                onValueChange(List(range.last) { it < selected })
             },
-            valueRange = 0f..5f,
-            steps = 4,
+            valueRange = range.first.toFloat()..range.last.toFloat(),
+            steps = range.last - range.first - 1,
         )
+    }
+}
+
+@Composable
+internal fun ChoiceField(label: String, value: String, options: List<String>, onSelect: (String) -> Unit) {
+    var expanded by remember { mutableStateOf(false) }
+    Box {
+        OutlinedButton(onClick = { expanded = true }) { Text("$label: $value") }
+        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            options.forEach { option ->
+                DropdownMenuItem(text = { Text(option) }, onClick = { onSelect(option); expanded = false })
+            }
+        }
     }
 }
 
@@ -942,8 +1232,11 @@ private fun SheetField(
 
 private fun compressPortrait(context: Context, uri: Uri): ByteArray {
     val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
-    context.contentResolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, bounds) }
-        ?: error("Impossibile leggere l'immagine")
+    // Bounds-only decoding intentionally returns null, even for a valid image.
+    // Check the stream separately, then validate the populated dimensions below.
+    readPortraitInput({ context.contentResolver.openInputStream(uri) }) {
+        BitmapFactory.decodeStream(it, null, bounds)
+    }
     require(bounds.outWidth > 0 && bounds.outHeight > 0) { "Formato immagine non supportato" }
 
     var sampleSize = 1
@@ -951,7 +1244,7 @@ private fun compressPortrait(context: Context, uri: Uri): ByteArray {
         sampleSize *= 2
     }
     val options = BitmapFactory.Options().apply { inSampleSize = sampleSize }
-    val decoded = context.contentResolver.openInputStream(uri)?.use {
+    val decoded = readPortraitInput({ context.contentResolver.openInputStream(uri) }) {
         BitmapFactory.decodeStream(it, null, options)
     } ?: error("Impossibile decodificare l'immagine")
 

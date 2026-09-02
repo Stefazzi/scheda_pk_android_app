@@ -83,7 +83,7 @@ class LegacySheetTest {
     }
 
     @Test
-    fun resetsCurrentStatsToTheirMaximumValues() {
+    fun trainerResetRestoresResourcesButPreservesBothDefenses() {
         val sheet = EditableSheet.blank(isPokemon = false).copy(
             hpActual = "1",
             hpTotal = "7",
@@ -96,7 +96,21 @@ class LegacySheetTest {
         val reset = sheet.resetCurrentStats()
 
         assertEquals("7", reset.hpActual)
-        assertEquals("4", reset.defenseActual)
+        assertEquals("0", reset.defenseActual)
+        assertEquals("4", reset.defenseTotal)
+        assertEquals("5", reset.willActual)
+    }
+
+    @Test
+    fun pokemonResetRestoresResourcesButPreservesBothDefenses() {
+        val sheet = EditableSheet.blank(isPokemon = true).copy(
+            defenseActual = "1", defenseTotal = "4", hpActual = "0", hpTotal = "7",
+            willActual = "1", willTotal = "5",
+        )
+        val reset = sheet.resetCurrentStats()
+        assertEquals("1", reset.defenseActual)
+        assertEquals("4", reset.defenseTotal)
+        assertEquals("7", reset.hpActual)
         assertEquals("5", reset.willActual)
     }
 }

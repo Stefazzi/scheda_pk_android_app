@@ -6,6 +6,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import io.github.jan.supabase.auth.status.SessionStatus
 import it.stefazzi.pokerolesheets.data.CatalogRepository
+import it.stefazzi.pokerolesheets.data.CorebookSpecies
+import it.stefazzi.pokerolesheets.data.CatalogMove
+import it.stefazzi.pokerolesheets.data.FullCatalog
+import it.stefazzi.pokerolesheets.data.normalizeMoveName
 import it.stefazzi.pokerolesheets.data.CharacterRepository
 import it.stefazzi.pokerolesheets.data.EditableSheet
 import it.stefazzi.pokerolesheets.data.SupabaseProvider
@@ -13,6 +17,9 @@ import it.stefazzi.pokerolesheets.data.model.ClaimableTrainer
 import it.stefazzi.pokerolesheets.data.model.PokemonSpecies
 import it.stefazzi.pokerolesheets.data.model.UserProfileRow
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -37,6 +44,10 @@ data class AppUiState(
     val sheets: List<EditableSheet> = emptyList(),
     val claimableTrainers: List<ClaimableTrainer> = emptyList(),
     val catalog: List<PokemonSpecies> = emptyList(),
+    val corebookSpecies: List<CorebookSpecies> = emptyList(),
+    val catalogMoves: Map<String, CatalogMove> = emptyMap(),
+    val catalogLoading: Boolean = false,
+    val catalogStatus: String = "Catalogo locale di emergenza",
     val moveTypes: Map<String, String> = emptyMap(),
     val selectedSheet: EditableSheet? = null,
     val message: String? = null,
@@ -53,6 +64,8 @@ class AppViewModel(
     private val _uiState = MutableStateFlow(AppUiState())
     val uiState: StateFlow<AppUiState> = _uiState.asStateFlow()
     private var pendingPortal: LoginPortal? = null
+    private val localCatalogReady = CompletableDeferred<Unit>()
+    private var catalogJob: Job? = null
 
     init {
         loadCatalog()
@@ -158,6 +171,12 @@ class AppViewModel(
 
     fun saveSheet(sheet: EditableSheet) {
         val repository = characterRepository ?: return
+        val state = _uiState.value
+        if (state.isDm && sheet.isPokemon && sheet.recordId.isBlank() &&
+            state.sheets.none { !it.isPokemon && it.recordId.isNotBlank() && it.recordId == sheet.trainerId }) {
+            _uiState.update { it.copy(message = "Seleziona un allenatore dall'elenco prima di salvare la cattura") }
+            return
+        }
         viewModelScope.launch {
             _uiState.update { it.copy(saving = true, message = null) }
             runCatching { repository.saveSheet(sheet) }
@@ -241,13 +260,18 @@ class AppViewModel(
                             )
                         }
                         pendingPortal?.let(::activatePortal)
+                        if (_uiState.value.catalogMoves.isEmpty()) startCatalogRefresh(force = false)
                     }
                     is SessionStatus.NotAuthenticated -> {
+                        catalogJob?.cancel()
                         pendingPortal = null
                         _uiState.update {
                             AppUiState(
                                 configured = it.configured,
                                 catalog = it.catalog,
+                                corebookSpecies = it.corebookSpecies,
+                                catalogMoves = it.catalogMoves,
+                                catalogStatus = it.catalogStatus,
                                 moveTypes = it.moveTypes,
                                 authLoading = false,
                             )
@@ -325,10 +349,55 @@ class AppViewModel(
 
     private fun loadCatalog() {
         viewModelScope.launch {
-            val (pokemon, moveTypes) = withContext(Dispatchers.IO) {
-                catalogRepository.loadPokemon() to catalogRepository.loadMoveTypes()
+            runCatching {
+                withContext(Dispatchers.IO) {
+                    Triple(catalogRepository.loadPokemon(), catalogRepository.loadMoveTypes(), catalogRepository.loadCorebookSpecies())
+                }
+            }.onSuccess { (pokemon, moveTypes, species) ->
+                val verifiedTypes = species.flatMap { it.moves }.associate { normalizeMoveName(it.name) to it.type }
+                _uiState.update { it.copy(catalog = pokemon, moveTypes = moveTypes + verifiedTypes, corebookSpecies = species) }
+            }.onFailure {
+                _uiState.update { it.copy(message = "Catalogo locale non disponibile: puoi compilare le schede manualmente") }
             }
-            _uiState.update { it.copy(catalog = pokemon, moveTypes = moveTypes) }
+            val cached = withContext(Dispatchers.IO) { catalogRepository.loadCachedCatalog() }
+            if (cached != null) publishCatalog(cached, "Catalogo 3.0 salvato sul dispositivo")
+            localCatalogReady.complete(Unit)
+        }
+    }
+
+    fun refreshCatalog() = startCatalogRefresh(force = true)
+
+    private fun startCatalogRefresh(force: Boolean) {
+        if (!_uiState.value.authenticated || catalogJob?.isActive == true) return
+        catalogJob = viewModelScope.launch {
+            localCatalogReady.await()
+            if (!force && _uiState.value.catalogMoves.isNotEmpty()) return@launch
+            _uiState.update { it.copy(catalogLoading = true, catalogStatus = "Download catalogo 3.0…") }
+            try {
+                val catalog = catalogRepository.downloadCatalog { progress ->
+                    _uiState.update { it.copy(catalogStatus = progress) }
+                }
+                publishCatalog(catalog, "Catalogo 3.0 aggiornato da Supabase")
+            } catch (error: CancellationException) {
+                throw error
+            } catch (error: Exception) {
+                _uiState.update {
+                    it.copy(catalogStatus = "Download non riuscito. Uso i dati locali (${it.corebookSpecies.size} specie/forme). Riprova con Aggiorna catalogo.")
+                }
+            } finally {
+                _uiState.update { it.copy(catalogLoading = false) }
+            }
+        }
+    }
+
+    private fun publishCatalog(catalog: FullCatalog, status: String) {
+        _uiState.update {
+            it.copy(corebookSpecies = catalog.species, catalogMoves = catalog.moves,
+                catalog = catalog.species.map { species ->
+                    PokemonSpecies(species.name, species.number, species.types.first(), species.types.getOrElse(1) { "" })
+                },
+                moveTypes = it.moveTypes + catalog.moves.mapValues { (_, move) -> move.type },
+                catalogStatus = "$status · ${catalog.species.size} specie/forme · ${catalog.moves.size} mosse")
         }
     }
 
@@ -339,7 +408,8 @@ class AppViewModel(
                 val repository = if (SupabaseProvider.isConfigured) SupabaseProvider.repository() else null
                 return AppViewModel(
                     characterRepository = repository,
-                    catalogRepository = CatalogRepository(context.applicationContext, SupabaseProvider.json),
+                    catalogRepository = CatalogRepository(context.applicationContext, SupabaseProvider.json,
+                        if (SupabaseProvider.isConfigured) SupabaseProvider.client else null),
                 ) as T
             }
         }

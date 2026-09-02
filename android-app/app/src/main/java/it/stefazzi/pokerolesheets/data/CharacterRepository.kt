@@ -137,7 +137,7 @@ class CharacterRepository(
         }
         val trainer = resolveTrainer(sheet)
         val storageKey = sheet.storageKey.ifBlank {
-            listOf(sheet.trainerName, sheet.pokemonName.ifBlank { sheet.speciesName })
+            listOf(trainer.trainerName, sheet.pokemonName.ifBlank { sheet.speciesName })
                 .map(String::trim)
                 .filter(String::isNotBlank)
                 .joinToString("_")
@@ -164,10 +164,11 @@ class CharacterRepository(
 
     private suspend fun resolveTrainer(sheet: EditableSheet): TrainerRow {
         sheet.trainerId?.takeIf(String::isNotBlank)?.let { trainerId ->
-            client.from(TRAINERS_TABLE).select {
+            return client.from(TRAINERS_TABLE).select {
                 filter { eq("id", trainerId) }
                 limit(1)
-            }.decodeSingleOrNull<TrainerRow>()?.let { return it }
+            }.decodeSingleOrNull<TrainerRow>()
+                ?: error("Allenatore selezionato non trovato o non accessibile. Aggiorna l'elenco e riprova.")
         }
 
         return client.from(TRAINERS_TABLE).select {
@@ -206,6 +207,7 @@ class CharacterRepository(
     private fun TrainerRow.toEditableSheet(): EditableSheet = EditableSheet
         .from(legacyName ?: id, sheetData, json)
         .copy(
+            isPokemon = false,
             recordId = id,
             trainerId = id,
             ownerId = ownerId,
@@ -219,6 +221,7 @@ class CharacterRepository(
     private fun PokemonRow.toEditableSheet(parentTrainerName: String): EditableSheet = EditableSheet
         .from(legacyName ?: id, sheetData, json)
         .copy(
+            isPokemon = true,
             recordId = id,
             trainerId = trainerId,
             teamSlot = teamSlot,

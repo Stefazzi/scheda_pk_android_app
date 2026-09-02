@@ -12,9 +12,16 @@ Il repository deriva dal progetto web originale [Pagliaa/schedapk](https://githu
 - Ogni giocatore può accedere solamente al proprio allenatore e ai relativi Pokémon.
 - Associazione iniziale del giocatore tramite codice fornito dal DM.
 - Creazione e cattura di nuovi Pokémon.
+- Catalogo community Pokérole 3.0 da Supabase, con cache locale: specie/forme, valori base, limiti e mosse per Rank.
+- Pokédex consultabile con ricerca, filtro per tipo e dettagli di specie, evoluzioni e mosse.
+- Ricerca delle schede per il DM e Pokémon ordinati per allenatore, poi per nome.
+- Cattura con ricerca della specie, Rank manuale (predefinito Starter) e scelta delle mosse.
+- Per le catture del DM, selezione dell'allenatore dalle schede Supabase; per i player, associazione automatica al proprio allenatore.
+- Evoluzione guidata dalla scheda Pokémon, con scelta della destinazione e conservazione dei dati individuali.
+- Caratteristiche in inglese e limiti distinti per allenatori, Pokémon, Social Attributes e Skills.
 - Gestione della squadra e degli slot disponibili.
 - Modifica delle schede direttamente dall’app.
-- Reset rapido di PS, Difesa e Volontà ai rispettivi valori massimi.
+- Reset rapido di HP e Will ai rispettivi valori massimi; Physical Defense e Special Defense restano indipendenti e invariate.
 - Conservazione dei dati completi in formato JSONB.
 - Backup delle versioni precedenti delle schede.
 - Sprite automatici dei Pokémon.
@@ -78,6 +85,12 @@ Gli script SQL necessari si trovano in `supabase/migrations`:
 
 Gli script creano le tabelle dell’app Android, configurano autenticazione e permessi, importano le schede selezionate e preparano il bucket privato `pokerole-media`.
 
+Per il catalogo della versione Android 0.7.0 devono essere già importate anche le tabelle
+`catalog_sources`, `catalog_ranks`, `catalog_pokemon`, `catalog_moves`, `catalog_learnsets`
+del pacchetto SQL Pokérole 3.0 preparato separatamente. Il catalogo completo non è incorporato
+nel repository: l'app lo scarica dopo il login e conserva l'ultima copia valida sul dispositivo.
+Vedere `android-app/README.md` per utilizzo, limiti ed evoluzioni.
+
 Prima di eseguire gli script in un nuovo progetto Supabase è consigliato controllarne il contenuto e creare un backup dei dati esistenti.
 
 ## Struttura del repository
@@ -101,6 +114,6 @@ L’accesso ai dati è controllato tramite le policy Row Level Security di Supab
 
 ## Stato del progetto
 
-Versione corrente: **0.5.0**
+Versione corrente: **0.6.0**
 
 Il progetto è attualmente destinato all’utilizzo privato della campagna ed è ancora in fase di sviluppo e collaudo.

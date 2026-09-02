@@ -1,0 +1,30 @@
+[
+  {
+    "name":"Hatenna", "number":"856", "form":"Standard", "source_page":385,
+    "types":["Psychic"], "height":"0.4 m", "weight":"3 kg", "base_hp":3,
+    "suggested_rank":"Rookie", "abilities":["Healer","Anticipation"],
+    "attributes":{"strength":[1,3],"dexterity":[1,3],"vitality":[2,4],"special":[2,4],"insight":[2,4]},
+    "moves":[["Confusion","Starter","Psychic"],["Play Nice","Starter","Normal"],["Aromatic Mist","Rookie","Fairy"],["Nuzzle","Rookie","Electric"],["Life Dew","Standard","Water"],["Disarming Voice","Standard","Fairy"],["Aromatherapy","Standard","Grass"],["Psybeam","Standard","Psychic"],["After You","Standard","Normal"],["Quash","Standard","Dark"],["Heal Pulse","Advanced","Psychic"],["Dazzling Gleam","Advanced","Fairy"],["Calm Mind","Advanced","Psychic"],["Psychic","Advanced","Psychic"],["Healing Wish","Expert","Psychic"],["Mystical Fire","Ace","Fire"],["Safeguard","Ace","Normal"],["Dark Pulse","Ace","Dark"]]
+  },
+  {
+    "name":"Shinx", "number":"403", "form":"Standard", "source_page":257,
+    "types":["Electric"], "height":"0.5 m", "weight":"9 kg", "base_hp":3,
+    "suggested_rank":"Rookie", "abilities":["Rivalry","Intimidate"],
+    "attributes":{"strength":[2,4],"dexterity":[2,4],"vitality":[1,3],"special":[1,3],"insight":[1,3]},
+    "moves":[["Tackle","Starter","Normal"],["Leer","Starter","Normal"],["Thunder Shock","Rookie","Electric"],["Baby-Doll Eyes","Rookie","Fairy"],["Spark","Standard","Electric"],["Charge","Standard","Electric"],["Bite","Standard","Dark"],["Roar","Standard","Normal"],["Volt Switch","Standard","Electric"],["Scary Face","Standard","Normal"],["Thunder Fang","Advanced","Electric"],["Thunder Wave","Advanced","Electric"],["Crunch","Advanced","Dark"],["Swagger","Advanced","Normal"],["Discharge","Advanced","Electric"],["Wild Charge","Expert","Electric"],["Ice Fang","Ace","Ice"],["Fire Fang","Ace","Fire"],["Fake Tears","Ace","Dark"]]
+  },
+  {
+    "name":"Wimpod", "number":"767", "form":"Standard", "source_page":361,
+    "types":["Bug","Water"], "height":"0.5 m", "weight":"12 kg", "base_hp":3,
+    "suggested_rank":"Starter", "abilities":["Wimp Out"],
+    "attributes":{"strength":[1,3],"dexterity":[2,5],"vitality":[1,3],"special":[1,3],"insight":[1,3]},
+    "moves":[["Struggle Bug","Starter","Bug"],["Sand Attack","Starter","Ground"],["Defense Curl","Rookie","Normal"],["Mud Shot","Standard","Ground"],["Spikes","Advanced","Ground"],["Aqua Jet","Ace","Water"]]
+  },
+  {
+    "name":"Poliwhirl", "number":"61", "form":"Standard", "source_page":154,
+    "types":["Water"], "height":"1 m", "weight":"20 kg", "base_hp":4,
+    "suggested_rank":"Standard", "abilities":["Water Absorb","Damp"],
+    "attributes":{"strength":[2,4],"dexterity":[2,5],"vitality":[2,4],"special":[2,4],"insight":[2,4]},
+    "moves":[["Water Sport","Starter","Water"],["Water Gun","Starter","Water"],["Hypnosis","Rookie","Psychic"],["Bubble","Rookie","Water"],["Double Slap","Standard","Normal"],["Rain Dance","Standard","Water"],["Body Slam","Standard","Normal"],["Earth Power","Advanced","Ground"],["Mud Shot","Advanced","Ground"],["Bubble Beam","Advanced","Water"],["Wake-Up Slap","Advanced","Fight"],["Belly Drum","Expert","Normal"],["Mud Bomb","Expert","Ground"],["Hydro Pump","Expert","Water"],["Double-Edge","Expert","Normal"],["Ice Punch","Ace","Ice"],["Mind Reader","Ace","Normal"],["Refresh","Ace","Normal"]]
+  }
+]
