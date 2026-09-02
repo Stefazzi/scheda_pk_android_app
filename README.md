@@ -28,6 +28,12 @@ Il repository deriva dal progetto web originale [Pagliaa/schedapk](https://githu
 - Colori delle mosse basati sul relativo tipo.
 - Ritratto personalizzato dell’allenatore caricato dalla galleria.
 - Immagini private protette tramite Supabase Storage.
+- Calcoli automatici di HP/Will, difese, Initiative ed Evasion con le formule della campagna.
+- Ricerca Ability/Nature, flag Shiny/Alpha, sprite regionali e mega e sezioni richiudibili.
+- Menu Azioni e rilascio Pokémon con conferma, storico e aggiornamento della squadra.
+- Catalogo oggetti con ricerca, sprite disponibili e regole modificabili dal DM.
+- Creazione di oggetti custom del DM e personalizzazione dei singoli slot della borsa.
+- Inventario separato per allenatore, con quantità e note, senza conversioni automatiche dei testi legacy.
 
 ## Tecnologie
 
@@ -82,6 +88,19 @@ Gli script SQL necessari si trovano in `supabase/migrations`:
 2. `02_prepare_legacy_import.sql`
 3. `03_populate_selected_sheets.sql`
 4. `04_configure_portrait_storage.sql`
+5. `05_sheet_actions.sql` (v0.9.0: Libera Pokémon e immagini alternative Pokémon)
+6. `06_item_catalog_inventory.sql` (v0.10.0: oggetti, inventario, permessi e funzioni DM/player)
+7. `07_seed_item_catalog.sql` (v0.10.0: 236 oggetti community con sprite disponibili)
+8. `08_add_item_sprites.sql` (v0.10.2: 8 immagini mancanti, senza modificare gli effetti)
+9. `09_configure_item_image_storage.sql` (bucket pubblico dedicato e campo `custom_image_path`)
+10. `10_edit_custom_item_images.sql` (v0.10.3: caricamento immagini DM, cambio sprite degli oggetti custom e revisioni)
+
+Per aggiornare dalla v0.9.0, eseguire nel SQL Editor solo **06, poi 07**.
+Se non è ancora installato lo script 05, installarlo per le precedenti azioni Pokémon.
+Non ripetere gli import legacy. Gli script 06/07 non modificano le schede o lo storico
+esistenti; ripetere 07 non sovrascrive gli oggetti o le personalizzazioni già presenti.
+L'inventario nuovo è separato dai JSONB e **non è incluso in `sheet_versions`**:
+un ripristino della scheda non ripristina gli slot nuovi. Dettagli in `android-app/README.md`.
 
 Gli script creano le tabelle dell’app Android, configurano autenticazione e permessi, importano le schede selezionate e preparano il bucket privato `pokerole-media`.
 
@@ -114,6 +133,6 @@ L’accesso ai dati è controllato tramite le policy Row Level Security di Supab
 
 ## Stato del progetto
 
-Versione corrente: **0.6.0**
+Versione del codice: **0.10.3** (generare e collaudare il nuovo APK prima della distribuzione).
 
 Il progetto è attualmente destinato all’utilizzo privato della campagna ed è ancora in fase di sviluppo e collaudo.

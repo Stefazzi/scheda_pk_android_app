@@ -21,6 +21,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import kotlin.time.Duration.Companion.hours
 
 class CharacterRepository(
@@ -99,12 +101,11 @@ class CharacterRepository(
     }
 
     suspend fun uploadTrainerPortrait(sheet: EditableSheet, imageData: ByteArray): EditableSheet {
-        require(!sheet.isPokemon) { "Il ritratto personalizzato è disponibile per gli allenatori" }
         require(sheet.recordId.isNotBlank()) { "Salva la scheda prima di aggiungere l'immagine" }
         require(imageData.isNotEmpty()) { "Immagine non valida" }
         require(imageData.size <= MAX_PORTRAIT_BYTES) { "L'immagine supera il limite di 2 MB" }
 
-        val objectPath = "trainers/${sheet.recordId}/portrait.webp"
+        val objectPath = "${if (sheet.isPokemon) "pokemon" else "trainers"}/${sheet.recordId}/portrait.webp"
         client.storage.from(MEDIA_BUCKET).upload(objectPath, imageData) {
             upsert = true
             contentType = ContentType("image", "webp")
@@ -112,8 +113,17 @@ class CharacterRepository(
         val reference = "$STORAGE_PREFIX$objectPath"
         val signedUrl = client.storage.from(MEDIA_BUCKET)
             .createSignedUrl(objectPath, SIGNED_URL_DURATION)
-        return saveTrainer(sheet.copy(profilePicture = reference))
+        return saveSheet(sheet.copy(profilePicture = reference))
             .copy(resolvedProfilePicture = signedUrl)
+    }
+
+    suspend fun releasePokemon(sheet: EditableSheet) {
+        val (pokemonId, trainerId) = sheet.releaseIdentifiers()
+        // One database transaction deletes exactly this row and updates its trainer team.
+        client.postgrest.rpc("release_pokemon", buildJsonObject {
+            put("p_pokemon_id", pokemonId)
+            put("p_trainer_id", trainerId)
+        })
     }
 
     private suspend fun saveTrainer(sheet: EditableSheet): EditableSheet {

@@ -4,6 +4,316 @@ App Android nativa per gestire le schede Pokerole nel nuovo progetto Supabase.
 
 ## Funzioni
 
+### Immagini oggetti dall'app — v0.10.3
+
+Eseguire **10_edit_custom_item_images.sql**, dopo lo script 09 già installato, quindi
+generare l'APK 0.10.3 (versionCode 17) con la stessa firma. La lettura di `custom_image_path`
+funziona per tutti gli oggetti: immagine personalizzata dal bucket pubblico,
+poi sprite GitHub, infine segnaposto se anche quello non è disponibile. Percorsi
+esterni, traversal e protocolli non HTTPS vengono ignorati. Non caricare dati riservati.
+
+Dal catalogo **Oggetti**, il DM apre un oggetto e usa:
+
+- **Carica immagine** (tutti gli oggetti): galleria, anteprima e conferma. Il file
+  viene ridimensionato a massimo 1024 px, convertito in WebP e limitato a 2 MiB.
+- **Cambia sprite dal catalogo** (solo oggetti custom): riusa l'immagine di un altro
+  oggetto, compreso il suo eventuale percorso custom, senza copiarne gli effetti.
+- **Ripristina sprite originale** (oggetti standard): rimuove il percorso custom.
+- **Ripristina immagine iniziale** (oggetti custom): torna all'immagine registrata
+  alla creazione, che può anche essere una foto custom o nessuna immagine.
+
+Queste azioni sono mostrate fuori dalla modalità di modifica dei testi, per evitare
+di perdere modifiche non salvate a nome/effetti. Per un nuovo oggetto custom, crearlo
+prima, poi aprirne i dettagli per caricare una foto. La scelta iniziale dell'icona dal
+catalogo conserva ora anche le immagini custom della sorgente.
+
+La conferma salva immediatamente sul catalogo, senza Salva scheda; si riflette in
+catalogo, borsa, equipaggiamento e accessori collegati. Gli altri dispositivi ricevono
+le modifiche con **Aggiorna oggetti e borsa**. Non vengono modificati quantità, effetti
+o statistiche. Solo il DM è autorizzato: il controllo è nel database, non solo nei pulsanti.
+Le revisioni intercettano modifiche concorrenti, comprese quelle ai percorsi fatte dal dashboard.
+
+Ogni caricamento usa un nome nuovo `oggetti/<uuid>.webp` per evitare cache obsolete.
+I file precedenti non vengono cancellati perché possono essere condivisi con altri
+oggetti o servire per il ripristino. In caso di upload riuscito ma associazione fallita
+o incerta, viene mostrato il percorso caricato: aggiornare il catalogo prima di riprovare.
+Un file non associato può restare nel bucket; nessuna cancellazione automatica dopo
+un errore di rete. Un amministratore può ripulire manualmente solo file non referenziati
+né da `custom_image_path` né da `original_data.CustomImagePath` di altri oggetti.
+
+Compilazione Kotlin e test locali non sostituiscono il collaudo su telefono: verificare
+con account DM/player caricamento, lettura dall'altro account, cambio sprite e fallback
+per URL inesistente dopo l'installazione degli script. L'agente non ha modificato il DB online.
+
+### Preparazione Supabase per le immagini custom degli oggetti
+
+Eseguire `supabase/migrations/09_configure_item_image_storage.sql` nel SQL Editor del
+progetto Android, dopo 06 già installato. Non rieseguire importazioni legacy.
+Lo script crea/configura il bucket **pubblico** `pokerole-items` (PNG, JPEG e WebP,
+massimo 2 MiB per file) e aggiunge `catalog_items.custom_image_path`, nullable.
+Non modifica `pokerole-media`, schede, inventario, effetti, icone originali o percorsi
+custom già compilati. Se il bucket omonimo contiene già file privati, l'operazione
+viene interrotta: verificare quei file prima di esporli pubblicamente.
+
+Dal dashboard Supabase:
+
+1. Aprire **Storage → pokerole-items** e creare la cartella `oggetti`.
+2. Caricare, per esempio, `amuleto-v1.png`.
+3. Nel **Table Editor → catalog_items**, trovare l'oggetto e inserire
+   `oggetti/amuleto-v1.png` in `custom_image_path`. Non incollare un URL, il nome del
+   bucket o un'immagine Base64. Usare nomi senza spazi, con lettere, numeri, trattini
+   e underscore; estensioni `.png`, `.jpg`, `.jpeg`, `.webp`.
+4. Per togliere la personalizzazione impostare `NULL`, non una stringa vuota.
+
+Le immagini sono accessibili a chiunque ne conosca l'URL: non usare questo bucket
+per materiale riservato. Dal client autenticato solo il DM può caricare, elencare,
+modificare o cancellare file. Policy restrittive proteggono questo bucket anche in
+presenza di policy permissive generiche, senza cambiare l'accesso agli altri bucket.
+I membri amministratori del progetto Supabase possono gestirlo dal dashboard.
+Le autorizzazioni di scrittura diretta su `catalog_items` restano invariate: per ora
+il percorso si modifica dal Table/SQL Editor, non dal client Android.
+
+**L'APK 0.10.2 non usa `custom_image_path`; il supporto è disponibile dalla 0.10.3.**
+Lo script 09 prepara solo bucket, tabella e permessi; vedere sopra per lo script 10
+e la gestione dall'app. Per sostituire manualmente un file,
+preferire un nome nuovo (`amuleto-v2.png`) e aggiornare il percorso per evitare cache
+obsolete. Non sono state eseguite modifiche sul database remoto dall'agente.
+
+Il test `supabase/tests/item_image_storage.test.mjs` verifica schema, ripetibilità,
+permessi e percorsi su PostgreSQL locale. Non simula l'HTTP Storage/CDN: download
+pubblico e limiti MIME/dimensione vanno verificati sul servizio Supabase dopo l'installazione.
+
+### Equipaggiamento Pokémon — v0.10.2
+
+Due spazi separati nella scheda Pokémon:
+
+- **Held Item**: un solo strumento. Scelta dal catalogo con sprite e descrizione,
+  sostituzione, rimozione o nome manuale. Il precedente testo `quick_references.held_item`
+  viene conservato e non viene associato automaticamente a un oggetto omonimo.
+- **Accessories & Ribbons**: elenco indipendente per accessori, costumi e fiocchi,
+  ciascuno con nome e note; collegamento facoltativo al catalogo, modifica e rimozione.
+
+**Salva scheda** salva entrambi nel JSONB del Pokémon, con il normale storico della
+scheda (diversamente dagli slot borsa). Nessuna nuova tabella. Il collegamento al
+catalogo mostra gli effetti correnti del DM; gli accessori possono conservare un nome
+individuale, come il nome di una gara. Nessun bonus, consumo o trasferimento dalla
+borsa è automatico: equipaggiare/rimuovere modifica solo la scheda Pokémon.
+Le categorie non sono bloccanti, così sono selezionabili anche gli oggetti custom;
+la corretta classificazione degli accessori rimane al gruppo.
+
+Per le immagini eseguire **08_add_item_sprites.sql** dopo 06/07, poi aggiornare gli
+oggetti in app. Aggiunge 8 collegamenti della [community Pokérole](https://github.com/Pokerole-Software-Development/Pokerole-Data/tree/abbe22a7e42853c95d6602b97bb0034833b7c7bc/images/ItemSprites):
+big/small camping tent, leek, mountain bike, pokedex, regional map, pokemon repel,
+umbrella. I due tipi di tenda condividono un disegno; per l'ombrello si riutilizza la
+grafica Utility Umbrella, NON le sue regole dei videogiochi. Sono immagini/sprite di
+stili diversi, non tutte pixel art. Il totale del catalogo iniziale passa a **206/236**;
+per i 30 restanti resta il segnaposto. La fonte segnala che alcune categorie e oggetti
+esclusivi del gioco non hanno una grafica assegnata.
+
+Lo script è ripetibile, riempie solo `sprite_path` mancanti e lascia invariati effetti,
+personalizzazioni e immagini già configurate. I nuovi URL sono vincolati al repository
+community e a un commit preciso. Non serve caricare immagini nel bucket Supabase.
+Per usare immagini nuove e nuovi riquadri generare APK **0.10.2**, versionCode **16**.
+
+### Borsa compatta — v0.10.1
+
+- Ogni oggetto è una riga cliccabile con sprite, nome e quantità, senza tendina.
+  Il tocco apre descrizione, effetto, note e azioni; modifica/personalizzazione
+  rimangono disponibili nel dettaglio.
+- Potion, Super Potion e Hyper Potion hanno lo stesso aspetto, ereditano descrizioni
+  ed effetti del catalogo (anche modificati dal DM) e mantengono le quantità dei tre
+  contatori già presenti. Senza catalogo vengono mostrati nome/sprite di base e un
+  avviso; non si inventano effetti. **Applica quantità**, poi **Salva scheda**.
+- **Usa** nel dettaglio di uno slot consuma una unità e salva subito su Supabase,
+  mantenendo le personalizzazioni sulle unità rimaste. Consumare l'ultima unità
+  registra uno slot vuoto, senza far riapparire il testo legacy sottostante.
+  Per un vecchio testo non ancora verificato, modificare e salvare prima lo slot.
+  Nell'editor, **Usa** modifica invece la bozza e richiede **Salva slot**.
+  Sulle tre pozioni, **Usa** scala la quantità e richiede **Salva scheda**; a zero
+  questi tre riquadri fissi restano visibili. Nessuna cura viene applicata automaticamente.
+- **Rimuovi vecchi oggetti**, con conferma, svuota SOLO i testi legacy A/B della
+  scheda aperta, anche quelli coperti da nuovi slot. Non tocca i tre contatori,
+  `trainer_inventory`, catalogo o altre schede. Serve **Salva scheda** per confermare
+  la pulizia sul database. Prima è annullabile uscendo senza salvare; dopo il salvataggio
+  il precedente JSON è soggetto alla normale conservazione dello storico allenatore.
+
+Nessuna nuova migrazione SQL rispetto a 0.10.0: devono essere già installati 06/07.
+Generare l'APK 0.10.1, versionCode 15, con la stessa firma. I contatori rapidi e gli
+slot rimangono indipendenti e non vengono sommati automaticamente.
+
+### Oggetti e borsa — v0.10.0
+
+Su un database Android già configurato eseguire, nell'ordine, nel SQL Editor:
+
+1. `supabase/migrations/06_item_catalog_inventory.sql`
+2. `supabase/migrations/07_seed_item_catalog.sql`
+
+Non ripetere gli import delle schede legacy. Il primo script crea `catalog_items`,
+`trainer_inventory`, policy e funzioni; il secondo inserisce 236 oggetti mancanti
+senza sovrascrivere righe esistenti. Le tabelle preesistenti e i JSON delle schede
+non vengono modificati. Rigenerare poi l'APK 0.10.0, versionCode 14, con la stessa firma.
+
+#### Catalogo condiviso e oggetti custom
+
+- Scheda **Oggetti** nella home: ricerca per nome/categoria, descrizione, effetto,
+  prezzo e icona. I nomi e i riferimenti del catalogo rimangono in inglese.
+- Il DM può usare **Modifica nel catalogo** e **Salva per tutti** per cambiare nome,
+  descrizione, effetto e prezzo: le borse collegate ereditano i nuovi valori.
+- **Ripristina originale** rimuove queste modifiche, conservando i dati di partenza.
+- **Crea oggetto custom**, solo DM: nome, categoria, descrizione, effetto, prezzo
+  facoltativo e icona riutilizzata da un oggetto del catalogo. La scelta dell'icona
+  non copia statistiche o effetti. Nessuna immagine viene caricata per questa funzione.
+  Il nuovo oggetto è condiviso e selezionabile nelle borse come gli altri; per un
+  oggetto custom il ripristino ritorna ai dati inseriti alla creazione.
+- Gli aggiornamenti arrivano agli altri dispositivi al caricamento o con
+  **Aggiorna oggetti e borsa**, non in tempo reale. Le modifiche richiedono internet;
+  non è prevista una coda offline per l'inventario.
+
+#### Slot e personalizzazione di un esemplare
+
+Nella **Borsa** dell'allenatore, **Aggiungi oggetto** usa il primo dei 30 slot liberi.
+**Cerca nel catalogo** collega l'oggetto scelto allo slot; quantità (0–9999) e note
+sono modificabili dal proprietario o dal DM. **Salva slot** salva subito SOLO lo
+slot, indipendentemente da **Salva scheda** e dalle altre modifiche non salvate.
+Salvare prima una nuova scheda allenatore. I dati legacy non vengono interpretati
+automaticamente: il testo originale resta visibile e la quantità iniziale 1 va verificata.
+Se il testo legacy contiene quantità nel nome, correggerle esplicitamente.
+
+**Personalizza questo esemplare**, solo DM, conserva nome, descrizione ed effetto
+personalizzati sullo slot. Questi tre campi hanno precedenza sul catalogo anche dopo
+aggiornamenti globali. Togliere la spunta e salvare ripristina l'ereditarietà dal
+catalogo corrente. Una modifica di quantità/note da parte del player conserva le
+personalizzazioni DM; scegliere un oggetto differente le rimuove.
+
+La personalizzazione vale per **tutte le unità dello slot**: per un solo esemplare
+speciale, usare uno slot separato con quantità 1. Gli oggetti a testo libero non
+hanno uno sprite automatico. Gli effetti sono consultabili, ma non curano né
+modificano automaticamente le statistiche.
+
+Da 0.10.1 **Usa** sostituisce il pulsante Svuota: consumando l'ultima unità registra uno slot
+vuoto senza cancellare il vecchio testo nei JSON. Il nuovo
+record ha precedenza, quindi il vecchio oggetto non ricompare. I contatori rapidi
+Pozioni/Super Pozioni/Iper Pozioni restano indipendenti e vengono salvati con la
+scheda: non vengono sommati o convertiti automaticamente negli slot.
+
+#### Permessi, conflitti e storico
+
+Il catalogo è leggibile dagli utenti autenticati. Solo il DM crea oggetti o ne
+modifica gli effetti. La borsa è leggibile/modificabile dal proprietario del trainer
+o dal DM. Le scritture dirette alle due tabelle sono negate ai client: le funzioni
+`create_catalog_item`, `update_catalog_item` e `save_inventory_slot` verificano
+autenticazione, ruolo, proprietario e input sul server. Le revisioni impediscono
+di sovrascrivere silenziosamente modifiche simultanee: in caso di conflitto chiudere
+l'editor, aggiornare e riaprire. Una ripetizione identica della richiesta di creazione
+non genera un secondo oggetto.
+
+**Limite importante:** `sheet_versions` continua a salvare le schede, non il nuovo
+catalogo o inventario. Ripristinare una vecchia scheda lascia invariati gli slot nuovi.
+Per conservarne una copia esportare separatamente `catalog_items` e `trainer_inventory`.
+Il ripristino dell'originale del catalogo non è uno storico delle modifiche.
+
+#### Fonti e sprite
+
+236 oggetti da [Pokérole Data community](https://github.com/Pokerole-Software-Development/Pokerole-Data)
+3.0, commit `abbe22a7e42853c95d6602b97bb0034833b7c7bc`. Non è una trascrizione
+verificata di ogni oggetto del manuale: descrizioni e metadati degli effetti sono
+riportati dalla fonte e restano controllabili/modificabili dal DM. `original_data`
+conserva il JSON completo della fonte.
+
+198 oggetti hanno un collegamento verificato agli [sprite PokéAPI](https://github.com/PokeAPI/sprites/tree/master/sprites/items);
+per gli altri 38 o in caso di errore di caricamento compare un segnaposto. Gli sprite
+vengono scaricati dal repository pubblico e non occupano spazio su Supabase Storage.
+Gli oggetti custom possono riutilizzare queste icone; non vengono inventati URL per
+gli oggetti senza corrispondenza.
+
+#### Verifiche per lo sviluppo
+
+I test Kotlin includono `ItemInventoryTest` (precedenza personalizzazioni, conversione
+non distruttiva degli slot legacy, input, serializzazione e URL sprite).
+In `supabase/tests`, eseguire `npm install` e `npm test` per i test SQL isolati con
+PostgreSQL locale PGlite: non leggono credenziali e non si collegano al database reale.
+Verificano permessi DM/player/anon, isolamento tra allenatori, creazione custom,
+retry senza duplicati, conflitti di revisione, reset e conservazione dei dati legacy.
+Il collaudo su dispositivo deve includere due account, scelta oggetti, salvataggio
+slot, aggiornamento dall'altro account e creazione/personalizzazione DM.
+
+### Schede compatte e azioni — v0.9.0
+
+**Prima di usare Libera e le immagini Pokémon**, eseguire nel SQL Editor del progetto
+Android `supabase/migrations/05_sheet_actions.sql`, dopo gli script 01 e 04 già installati.
+Lo script aggiunge una funzione e policy Storage: all'installazione non elimina o
+modifica schede, snapshot o dati del catalogo. Non rieseguire l'importazione legacy.
+
+#### Calcoli confermati per la campagna
+
+Opzione 2 del Corebook 3.0, pp. 26–28, 31, 56, 70:
+
+| Campo | Valore base |
+|---|---|
+| HP maximum | Base HP + Vitality (+2 se Pokémon Alpha) |
+| Will maximum | Insight + 3 |
+| Physical Defense | Vitality |
+| Special Defense | Insight |
+| Initiative | Dexterity + Alert, senza il tiro 1d6 della battaglia |
+| Evasion | Dexterity + skill Evasion, numero di dadi del tiro |
+
+Gli allenatori hanno Base HP 4. Master/Champion applicano +3 a HP, Will, alle due
+difese e Initiative; il bonus +2 dadi ai tiri con una Skill viene incluso in Evasion.
+I bonus non aumentano i punti nelle Skills e non si sommano nuovamente a ogni calcolo.
+La variante HP basata su Insight non è attiva per questa campagna.
+
+I valori si ricalcolano quando si cambiano Attributes, Alert, Evasion, Rank, Base HP
+o Alpha, durante precompilazione/evoluzione oppure con **Azioni → Calcola massimali e
+valori base**. La sola apertura della scheda non cambia i dati precedenti. Il calcolo
+non modifica HP current o Will current, neppure quando superano il nuovo massimo:
+controllare eventuali valori fuori scala con il DM. Per curare usare **Reset HP / Will**.
+Modificatori di combattimento, strumenti e Abilities non sono applicati automaticamente;
+i campi restano modificabili manualmente e il ricalcolo ripristina i valori base.
+
+Attributes e Social Attributes delle nuove schede manuali partono da 0, che è anche
+il minimo selezionabile. I massimi continuano a dipendere da specie e Rank. La
+precompilazione delle catture conserva invece gli Attributes base reali della specie;
+non azzera i valori del catalogo. Non vengono azzerate le schede già salvate.
+
+#### Interfaccia e riferimenti
+
+- Menu **Azioni** sempre sopra la scheda: Salva, Calcola, Reset, Evolvi, Aggiorna catalogo, Carica immagine alternativa e Libera Pokémon. I comandi non applicabili sono disabilitati.
+- Ricerca compatta a 13 sp (etichette a 12 sp), senza ridurre i controlli tattili sotto le dimensioni Material; rispetta l'ingrandimento testo del dispositivo.
+- Ability: ricerca locale per nome, prima le abilità della specie; una sola scelta con effetto e descrizione. Nature: selezione ricercabile con descrizione, parole chiave e configurazione. I dati legacy sconosciuti restano visibili, senza sostituzione automatica.
+- Nature, note/appunti, borsa, suggerimenti mosse, informazioni del catalogo e spiegazione delle formule si possono espandere/collassare.
+- **Shiny** cambia solo lo sprite automatico; **Alpha** aggiunge +2 HP maximum. Entrambi persistono in `sheet_data.pokerole` e restano dopo l'evoluzione. Nessuna nuova colonna necessaria.
+- Sprite regionali e mega risolti attraverso gli ID delle forme, non il solo numero nazionale. Si provano esclusivamente immagini verificate della stessa forma e colorazione; se non disponibili, appare un segnaposto. Le immagini personalizzate hanno precedenza su Shiny e sulle evoluzioni.
+- L'immagine alternativa dalla galleria funziona anche per i Pokémon già salvati. Viene compressa WebP (massimo 2 MB), salvata nel bucket privato esistente e autorizzata per DM/proprietario. Prima della galleria una conferma avvisa che l'upload salva anche le modifiche alla scheda e sovrascrive il ritratto precedente. **Usa sprite automatico** cambia la bozza e richiede Salva; non cancella il file Storage.
+
+I 305 riferimenti Ability e le 25 Nature sono inclusi nell'APK dalla stessa fonte
+community [Pokérole Data v3.0](https://github.com/Pokerole-Software-Development/Pokerole-Data),
+commit `abbe22a7e42853c95d6602b97bb0034833b7c7bc`; non sono descrizioni generate.
+Non richiedono nuove tabelle Supabase. Gli indici degli sprite derivano da
+[PokéAPI](https://github.com/PokeAPI/pokeapi/blob/master/data/v2/csv/pokemon.csv) e dal
+[repository sprite](https://github.com/PokeAPI/sprites). Il file `sprites.json`
+registra l'albero verificato. L'indice non risolve le due forme di Poltchageist,
+le due di Sinistcha e Rotom Dex: per queste non viene mostrata un'altra forma.
+
+#### Libera Pokémon
+
+Richiede conferma esplicita con nome e allenatore. La funzione `release_pokemon`
+controlla ID Pokémon, ID allenatore e autorizzazione DM/proprietario, elimina solo
+quella riga e aggiorna gli slot nel JSON dell'allenatore nella stessa transazione.
+Un errore annulla entrambe le modifiche. Le altre schede restano invariate.
+Il trigger di storico già installato conserva lo snapshot di cancellazione,
+soggetto al limite esistente di 2 versioni Pokémon e 5 allenatore. Non è un cestino
+illimitato e il ripristino resta manuale. L'eventuale file immagine non viene eliminato
+dal bucket: rimuoverlo potrà essere una successiva pulizia amministrativa.
+
+#### Verifica manuale prima di distribuire
+
+1. Installare lo script 05 e generare l'APK aggiornato da Android Studio.
+2. Aprire una scheda vecchia: deve conservare i valori; usare Calcola e poi Salva.
+3. Cambiare Vitality/Insight/Dexterity/Alert/Evasion, Rank e Alpha: verificare le formule senza cura automatica. Attivare/disattivare Alpha più volte non deve accumulare HP.
+4. Cercare Ability/Nature, salvare e riaprire; provare Shiny e una forma regionale/mega.
+5. Su un Pokémon di prova, annullare Libera e verificare che rimanga; confermare poi con DM/proprietario e verificare lista, squadra e snapshot. Non provare su una scheda importante senza copia di sicurezza.
+6. Caricare un ritratto Pokémon come proprietario e DM; un player diverso non deve poter leggere o modificare la scheda/immagine.
+
 ### Pokédex, ricerca e catture DM — v0.8.0
 
 - La pagina **Pokédex** consulta il catalogo già importato su Supabase: ricerca per nome, numero, forma e tipo, filtro Type e tutte le specie/forme scaricate, senza il precedente limite di 200 risultati.

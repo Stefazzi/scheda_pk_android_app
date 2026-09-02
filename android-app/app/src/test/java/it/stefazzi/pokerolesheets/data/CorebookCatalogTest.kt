@@ -44,7 +44,7 @@ class CorebookCatalogTest {
         assertEquals("Standard", filled.speciesForm)
         assertEquals(2, filled.happiness.count { it })
         assertEquals(2, filled.loyalty.count { it })
-        SheetStats.socialAttributes.keys.forEach { assertEquals(1, filled.dotStats.getValue(it).count { it }) }
+        SheetStats.socialAttributes.keys.forEach { assertEquals(0, filled.dotStats.getValue(it).count { it }) }
     }
 
     @Test(expected = IllegalArgumentException::class)
@@ -60,16 +60,16 @@ class CorebookCatalogTest {
     @Test fun rangesDistinguishSpeciesTrainerSocialsAndSkills() {
         val trainer = EditableSheet.blank(false).withRuleValue("rank", "Rookie")
         assertFalse(trainer.attributeFields().containsKey("attributes.special"))
-        assertEquals(1..5, trainer.statRange("attributes.strength", null))
-        assertEquals(1..5, trainer.statRange("social_attributes.cool", null))
+        assertEquals(0..5, trainer.statRange("attributes.strength", null))
+        assertEquals(0..5, trainer.statRange("social_attributes.cool", null))
         assertEquals(0..2, trainer.statRange("skills.fight.brawl", null))
         val hatenna = catalog.first { it.name == "Hatenna" }
         val pokemon = hatenna.prefill(EditableSheet.blank(true), SheetRank.Standard)
-        assertEquals(1..3, pokemon.statRange("attributes.dexterity", hatenna))
-        assertEquals(1..12, pokemon.statRange("attributes.dexterity", null))
+        assertEquals(0..3, pokemon.statRange("attributes.dexterity", hatenna))
+        assertEquals(0..12, pokemon.statRange("attributes.dexterity", null))
         assertTrue(pokemon.attributeFields().containsKey("attributes.special"))
-        assertEquals(1..7, trainer.withRuleValue("rank", "Champion").statRange("attributes.strength", null))
-        assertEquals(1..5, pokemon.withRuleValue("rank", "Champion").statRange("attributes.dexterity", hatenna))
+        assertEquals(0..7, trainer.withRuleValue("rank", "Champion").statRange("attributes.strength", null))
+        assertEquals(0..5, pokemon.withRuleValue("rank", "Champion").statRange("attributes.dexterity", hatenna))
         assertEquals(0..5, pokemon.withRuleValue("rank", "Master").statRange("skills.fight.brawl", hatenna))
     }
 
@@ -116,7 +116,7 @@ class CorebookCatalogTest {
         assertNull(CorebookCatalog.find(catalog, sheet.copy(pokedexNumber = "# 856").withRuleValue("form", "Custom")))
     }
 
-    @Test fun maximumCalculationDoesNotHealOrChangeDefense() {
+    @Test fun maximumCalculationDoesNotHealAndRecalculatesBaselineDefenses() {
         val reference = catalog.first { it.name == "Hatenna" }
         val draft = reference.prefill(EditableSheet.blank(true), SheetRank.Master)
             .copy(hpActual = "1", willActual = "0", defenseActual = "2", defenseTotal = "7")
@@ -125,8 +125,8 @@ class CorebookCatalogTest {
         assertEquals("8", updated.willTotal)
         assertEquals("1", updated.hpActual)
         assertEquals("0", updated.willActual)
-        assertEquals("2", updated.defenseActual)
-        assertEquals("7", updated.defenseTotal)
+        assertEquals("5", updated.defenseActual)
+        assertEquals("5", updated.defenseTotal)
         assertEquals("99", EditableSheet.blank(true).copy(hpTotal = "99").recalculateMaximums(null).hpTotal)
     }
 
@@ -137,9 +137,9 @@ class CorebookCatalogTest {
         assertTrue(wimpod.availableMoves(SheetRank.Ace).any { it.name == "Aqua Jet" })
     }
 
-    @Test fun newTrainersStartAtOneAndAttributesUseEnglishLabels() {
+    @Test fun newTrainersStartAtZeroAndAttributesUseEnglishLabels() {
         val trainer = EditableSheet.blank(false)
-        trainer.attributeFields().keys.forEach { assertEquals(1, trainer.dotStats.getValue(it).count { it }) }
+        trainer.attributeFields().keys.forEach { assertEquals(0, trainer.dotStats.getValue(it).count { it }) }
         assertEquals(listOf("Strength", "Dexterity", "Vitality", "Special", "Insight"), SheetStats.attributes.values.toList())
         assertEquals(listOf("Tough", "Cool", "Beauty", "Cute", "Clever"), SheetStats.socialAttributes.values.toList())
     }

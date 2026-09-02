@@ -79,6 +79,11 @@ class CatalogRepository(
     fun loadCorebookSpecies(): List<CorebookSpecies> = context.assets
         .open("pokerole/species-v3.json").bufferedReader().use { CorebookCatalog.parse(it.readText()) }
 
+    fun loadSheetReferences(): SheetReferences {
+        fun asset(name: String) = context.assets.open("pokerole/$name").bufferedReader().use { it.readText() }
+        return SheetReferences.parse(asset("abilities-v3.json"), asset("natures-v3.json"), asset("sprites.json"))
+    }
+
     fun loadPokemon(): List<PokemonSpecies> = context.assets
         .open("legacy/json/poke_list.json")
         .bufferedReader()

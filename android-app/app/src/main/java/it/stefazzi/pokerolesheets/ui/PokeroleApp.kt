@@ -28,6 +28,7 @@ import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Restore
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Card
@@ -51,6 +52,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -72,6 +74,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import it.stefazzi.pokerolesheets.data.EditableSheet
+import it.stefazzi.pokerolesheets.data.isAlpha
+import it.stefazzi.pokerolesheets.data.isShiny
+import it.stefazzi.pokerolesheets.data.selectAbility
+import it.stefazzi.pokerolesheets.data.selectNature
 import it.stefazzi.pokerolesheets.data.CorebookCatalog
 import it.stefazzi.pokerolesheets.data.CorebookSpecies
 import it.stefazzi.pokerolesheets.data.CatalogMove
@@ -101,6 +107,7 @@ private enum class HomeTab(val label: String) {
     TRAINERS("Allenatori"),
     POKEMON("Pokémon"),
     CATALOG("Pokédex"),
+    ITEMS("Oggetti"),
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -165,6 +172,9 @@ fun PokeroleApp() {
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { padding ->
         Box(Modifier.fillMaxSize().padding(padding)) {
+            CompositionLocalProvider(LocalSheetReferences provides state.sheetReferences,
+                LocalItems provides ItemUiContext(state, viewModel::refreshItems, viewModel::saveInventory,
+                    viewModel::saveCatalogItem, viewModel::createCatalogItem, viewModel::changeItemImage)) {
             when {
                 !state.configured -> ConfigurationMissing()
                 state.authLoading -> LoadingScreen()
@@ -198,6 +208,7 @@ fun PokeroleApp() {
                     onRefreshCatalog = viewModel::refreshCatalog,
                     onUploadPortrait = viewModel::uploadTrainerPortrait,
                     onSave = viewModel::saveSheet,
+                    onRelease = viewModel::releasePokemon,
                 )
                 else -> HomeContent(
                     state = state,
@@ -206,6 +217,7 @@ fun PokeroleApp() {
                     onSetClaimCode = { claimCodeTrainer = it },
                     onRefreshCatalog = viewModel::refreshCatalog,
                 )
+            }
             }
         }
     }
@@ -381,7 +393,7 @@ private fun HomeContent(
                 Tab(
                     selected = tabIndex == index,
                     onClick = { tabIndex = index },
-                    text = { Text(tab.label) },
+                    text = { Text(tab.label, style = MaterialTheme.typography.labelSmall, maxLines = 1) },
                 )
             }
         }
@@ -414,6 +426,7 @@ private fun HomeContent(
                 onSearchChange = if (state.isDm) ({ pokemonSearch = it }) else null,
                 searchLabel = "Cerca Pokémon, specie o allenatore",
             )
+            HomeTab.ITEMS -> ItemCatalogScreen()
             HomeTab.CATALOG -> PokedexScreen(
                 species = state.corebookSpecies, moves = state.catalogMoves,
                 status = state.catalogStatus, loading = state.catalogLoading, onRefresh = onRefreshCatalog,
@@ -436,10 +449,8 @@ private fun SheetList(
     val filtered = remember(sheets, searchQuery) { sheets.filter { it.matchesSearch(searchQuery) } }
     Column(Modifier.fillMaxSize()) {
         if (onSearchChange != null) {
-            OutlinedTextField(value = searchQuery, onValueChange = onSearchChange,
-                label = { Text(searchLabel) }, singleLine = true,
-                trailingIcon = { if (searchQuery.isNotEmpty()) TextButton(onClick = { onSearchChange("") }) { Text("Pulisci") } },
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp))
+            CompactSearch(searchLabel, searchQuery, onSearchChange,
+                Modifier.padding(horizontal = 16.dp, vertical = 4.dp))
             Text("${filtered.size} / ${sheets.size} schede", modifier = Modifier.padding(horizontal = 16.dp),
                 style = MaterialTheme.typography.bodySmall)
         }
@@ -515,6 +526,7 @@ private fun SheetEditor(
     onRefreshCatalog: () -> Unit,
     onUploadPortrait: (EditableSheet, ByteArray) -> Unit,
     onSave: (EditableSheet) -> Unit,
+    onRelease: (EditableSheet) -> Unit,
 ) {
     var draft by remember(initial.storageKey, initial.raw) { mutableStateOf(initial) }
     val dmCapture = isDm && draft.isPokemon && draft.recordId.isBlank()
@@ -525,6 +537,21 @@ private fun SheetEditor(
         chooseTrainer = false
     }
     val reference = CorebookCatalog.find(corebookSpecies, draft)
+    val references = LocalSheetReferences.current
+    var selectAbility by remember { mutableStateOf(false) }
+    var selectNature by remember { mutableStateOf(false) }
+    var confirmRelease by remember { mutableStateOf(false) }
+    var actionsOpen by remember { mutableStateOf(false) }
+    var calculationNotice by remember { mutableStateOf(false) }
+    if (selectAbility) ReferencePicker("Ability", references.abilities, reference?.abilities.orEmpty(),
+        onDismiss = { selectAbility = false }) { draft = draft.selectAbility(it); selectAbility = false }
+    if (selectNature) ReferencePicker("Nature", references.natures,
+        onDismiss = { selectNature = false }) { draft = draft.selectNature(it); selectNature = false }
+    if (confirmRelease) AlertDialog(onDismissRequest = { if (!saving) confirmRelease = false },
+        title = { Text("Liberare ${initial.displayName}?") },
+        text = { Text("Elimina dal database questo Pokémon di ${initial.trainerName} e libera il suo slot. Le modifiche non salvate andranno perse. Lo storico conserva solo le versioni previste dai limiti; il ripristino non è disponibile in app.") },
+        confirmButton = { TextButton(enabled = !saving, onClick = { confirmRelease = false; onRelease(initial) }) { Text("Libera definitivamente", color = MaterialTheme.colorScheme.error) } },
+        dismissButton = { TextButton(enabled = !saving, onClick = { confirmRelease = false }) { Text("Annulla") } })
     var captureSpecies by remember { mutableStateOf<CorebookSpecies?>(null) }
     var captureRank by remember { mutableStateOf(SheetRank.Starter) }
     var confirmPrefill by remember { mutableStateOf(false) }
@@ -556,6 +583,7 @@ private fun SheetEditor(
     val scope = rememberCoroutineScope()
     var preparingPortrait by remember { mutableStateOf(false) }
     var portraitError by remember { mutableStateOf<String?>(null) }
+    var confirmPortrait by remember { mutableStateOf(false) }
     val portraitPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
     ) { uri ->
@@ -569,28 +597,59 @@ private fun SheetEditor(
             preparingPortrait = false
         }
     }
+    if (confirmPortrait) AlertDialog(onDismissRequest = { confirmPortrait = false },
+        title = { Text("Carica immagine alternativa") },
+        text = { Text("Scegli un'immagine dalla galleria. Il caricamento salva anche le modifiche attuali della scheda e sostituisce il ritratto precedente. Il flag Shiny non modifica le immagini personalizzate.") },
+        confirmButton = { TextButton(onClick = {
+            confirmPortrait = false
+            portraitPicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }) { Text("Scegli immagine") } },
+        dismissButton = { TextButton(onClick = { confirmPortrait = false }) { Text("Annulla") } })
     val updateDots: (String, List<Boolean>) -> Unit = { key, values ->
-        draft = draft.copy(dotStats = draft.dotStats + (key to values))
+        val edited = draft.copy(dotStats = draft.dotStats + (key to values))
+        draft = if (key.startsWith("attributes.") || key in listOf("skills.fight.evasion", "skills.survival.alert"))
+            edited.recalculateMaximums(reference) else edited
     }
 
+    Column(Modifier.fillMaxSize()) {
+        Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween) {
+            Text(if (draft.isPokemon) "Scheda Pokémon" else "Scheda allenatore", modifier = Modifier.weight(1f), style = MaterialTheme.typography.titleMedium)
+            Box {
+                OutlinedButton(onClick = { actionsOpen = true }, enabled = !saving && !uploadingPortrait && !preparingPortrait) { Text("Azioni ▾") }
+                DropdownMenu(expanded = actionsOpen, onDismissRequest = { actionsOpen = false }) {
+                    DropdownMenuItem(text = { Text("Salva scheda") }, enabled = !dmCapture || captureTrainerSelected,
+                        onClick = { actionsOpen = false; onSave(draft) })
+                    DropdownMenuItem(text = { Text("Calcola massimali e valori base") },
+                        onClick = { draft = draft.recalculateMaximums(reference); calculationNotice = true; actionsOpen = false })
+                    DropdownMenuItem(text = { Text("Reset HP / Will") },
+                        onClick = { draft = draft.resetCurrentStats(); actionsOpen = false })
+                    if (draft.isPokemon) DropdownMenuItem(text = { Text("Evolvi") },
+                        enabled = draft.recordId.isNotBlank() && reference?.evolutions?.isNotEmpty() == true,
+                        onClick = { showEvolution = true; actionsOpen = false })
+                    DropdownMenuItem(text = { Text("Aggiorna catalogo") }, enabled = !catalogLoading,
+                        onClick = { onRefreshCatalog(); actionsOpen = false })
+                    DropdownMenuItem(text = { Text("Carica immagine alternativa") }, enabled = draft.recordId.isNotBlank(),
+                        onClick = { actionsOpen = false; confirmPortrait = true })
+                    if (draft.isPokemon && draft.profilePicture.isNotBlank()) DropdownMenuItem(text = { Text("Usa sprite automatico") },
+                        onClick = { draft = draft.copy(profilePicture = "", resolvedProfilePicture = ""); actionsOpen = false })
+                    if (draft.isPokemon) DropdownMenuItem(text = { Text("Libera Pokémon", color = MaterialTheme.colorScheme.error) },
+                        enabled = draft.recordId.isNotBlank() && !draft.trainerId.isNullOrBlank(),
+                        onClick = { confirmRelease = true; actionsOpen = false })
+                }
+            }
+        }
+        if (saving || uploadingPortrait || preparingPortrait) Text("Operazione in corso…", Modifier.padding(horizontal = 16.dp))
+        if (calculationNotice) Text("Valori base ricalcolati; HP e Will attuali invariati. Salva per confermare.", Modifier.padding(horizontal = 16.dp), style = MaterialTheme.typography.bodySmall)
     LazyColumn(
+        modifier = Modifier.weight(1f),
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        item {
-            Text(
-                if (draft.isPokemon) "Scheda Pokémon" else "Scheda allenatore",
-                style = MaterialTheme.typography.titleLarge,
-            )
-        }
-
         if (draft.isPokemon) {
             item {
-                SheetSectionCard("Catalogo Pokérole 3.0") {
+                CollapsibleCard("Catalogo Pokérole 3.0") {
                     Text(catalogStatus, style = MaterialTheme.typography.bodySmall)
-                    OutlinedButton(onClick = onRefreshCatalog, enabled = !catalogLoading && !saving) {
-                        Text(if (catalogLoading) "Download in corso…" else "Aggiorna catalogo")
-                    }
                 }
             }
         }
@@ -625,6 +684,16 @@ private fun SheetEditor(
                     sheet = draft,
                     modifier = Modifier.size(144.dp).align(Alignment.CenterHorizontally),
                 )
+                if (draft.isPokemon) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Checkbox(checked = draft.isShiny, onCheckedChange = { draft = draft.withRuleValue("shiny", it.toString()) })
+                        Text("Shiny")
+                        Checkbox(checked = draft.isAlpha, onCheckedChange = {
+                            draft = draft.withRuleValue("alpha", it.toString()).recalculateMaximums(reference)
+                        })
+                        Text("Alpha (+2 HP)")
+                    }
+                }
                 if (dmCapture) {
                     OutlinedTextField(value = draft.trainerName, onValueChange = {}, readOnly = true,
                         label = { Text("Allenatore selezionato") }, modifier = Modifier.fillMaxWidth())
@@ -634,10 +703,6 @@ private fun SheetEditor(
                 if (draft.isPokemon) {
                     SheetField("Soprannome", draft.pokemonName) { draft = draft.copy(pokemonName = it) }
                     SheetField("Specie", draft.speciesName) { draft = draft.copy(speciesName = it) }
-                    OutlinedButton(onClick = { showEvolution = true },
-                        enabled = !saving && draft.recordId.isNotBlank() && reference != null && reference.evolutions.isNotEmpty()) {
-                        Text("Evolvi")
-                    }
                     Text(when {
                         draft.recordId.isBlank() -> "Salva il Pokémon prima di evolverlo."
                         reference == null -> "Evoluzione non disponibile: aggiorna il catalogo e controlla specie, numero e forma."
@@ -664,46 +729,15 @@ private fun SheetEditor(
                     )
                     SheetField("Reputazione", draft.reputation) { draft = draft.copy(reputation = it) }
                 }
-                if (draft.isPokemon) {
-                    SheetField("URL immagine alternativa", draft.profilePicture) {
-                        draft = draft.copy(profilePicture = it)
-                    }
-                } else {
-                    OutlinedButton(
-                        onClick = {
-                            portraitPicker.launch(
-                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly),
-                            )
-                        },
-                        enabled = draft.recordId.isNotBlank() && !preparingPortrait && !uploadingPortrait,
-                        modifier = Modifier.fillMaxWidth(),
-                    ) {
-                        if (preparingPortrait || uploadingPortrait) {
-                            CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.dp)
-                        } else {
-                            Text(
-                                if (draft.profilePicture.isBlank()) "Scegli immagine dalla galleria"
-                                else "Cambia immagine allenatore",
-                            )
-                        }
-                    }
-                    if (draft.recordId.isBlank()) {
-                        Text(
-                            "Salva prima la nuova scheda, poi potrai aggiungere l'immagine.",
-                            style = MaterialTheme.typography.bodySmall,
-                        )
-                    }
-                    portraitError?.let {
-                        Text(it, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
-                    }
-                }
+                if (draft.recordId.isBlank()) Text("Salva prima la scheda per caricare un'immagine dal menu Azioni.", style = MaterialTheme.typography.bodySmall)
+                portraitError?.let { Text(it, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall) }
             }
         }
 
         item {
             SheetSectionCard("Rank e riferimenti del manuale") {
                 ChoiceField("Rank", draft.sheetRank?.name ?: "Non impostato", SheetRank.entries.map { it.name }) {
-                    draft = draft.withRuleValue("rank", it)
+                    draft = draft.withRuleValue("rank", it).recalculateMaximums(reference)
                 }
                 draft.sheetRank?.let { rank ->
                     Text("Attributes: +${rank.attributePoints} · Social Attributes: +${rank.attributePoints} · Skills: ${rank.skillPoints} punti, limite ${rank.skillLimit}.")
@@ -713,7 +747,7 @@ private fun SheetEditor(
                     }
                 } ?: Text("Seleziona il Rank per applicare i limiti delle Skills; il vecchio riferimento non viene eliminato.")
                 if (draft.isPokemon) {
-                    if (reference == null) Text("Specie o forma senza dati verificati: Attributes in modalità manuale 1–12; consulta il Pokédex.")
+                    if (reference == null) Text("Specie o forma senza dati verificati: Attributes in modalità manuale 0–12; consulta il Pokédex.")
                     else Text("${reference.name} · ${reference.form} · ${reference.sourceLabel}. Base e limiti sono riferimenti, non modificano i valori salvati.")
                 }
             }
@@ -722,7 +756,7 @@ private fun SheetEditor(
         item {
             SheetSectionCard("Riferimenti rapidi") {
                 SheetField("Base HP", draft.baseHpText ?: reference?.baseHp?.toString() ?: if (!draft.isPokemon) "4" else "") {
-                    draft = draft.withRuleValue("base_hp", it)
+                    draft = draft.withRuleValue("base_hp", it).recalculateMaximums(reference)
                 }
                 if (draft.baseHpText != null && draft.baseHpValue == null) {
                     Text("Base HP non valido: inserisci un intero positivo (1–999). HP maximum non verrà ricalcolato.", color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
@@ -745,51 +779,38 @@ private fun SheetEditor(
                     "Initiative", draft.initiative, { draft = draft.copy(initiative = it) },
                     "Evasion", draft.evasion, { draft = draft.copy(evasion = it) },
                 )
-                SheetField("Strumento equipaggiato", draft.heldItem) { draft = draft.copy(heldItem = it) }
+                if (!draft.isPokemon) SheetField("Strumento equipaggiato", draft.heldItem) { draft = draft.copy(heldItem = it) }
                 SheetField("Effetto di stato", draft.statusEffect) { draft = draft.copy(statusEffect = it) }
                 DotRatingField("Fatigue", draft.fatigue) { draft = draft.copy(fatigue = it) }
                 DotRatingField("Actions used", draft.actionUsed) { draft = draft.copy(actionUsed = it) }
-                OutlinedButton(onClick = { draft = draft.recalculateMaximums(reference) }) { Text("Calcola massimi HP / Will") }
-                Text("HP = Base HP + Vitality; Will = 3 + Insight, più eventuali bonus Rank. Cambia solo i massimi, senza curare. Le varianti HP/Defense del manuale p. 27 restano da gestire con il DM.", style = MaterialTheme.typography.bodySmall)
-                OutlinedButton(
-                    onClick = { draft = draft.resetCurrentStats() },
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    Icon(Icons.Default.Restore, contentDescription = null)
-                    Spacer(Modifier.size(8.dp))
-                    Text("Reset statistiche")
+                CollapsibleCard("Formule e calcoli automatici") {
+                    Text("Calcolo automatico al cambio di Attributes, Alert, Evasion, Rank e Alpha. HP = Base HP + Vitality (+2 Alpha); Will = Insight + 3; Physical Defense = Vitality; Special Defense = Insight; Initiative = Dexterity + Alert; Evasion = Dexterity + Evasion Skill. A Master/Champion: +3 ai tratti, +2 dadi a Evasion. Initiative non include 1d6. HP/Will attuali non vengono curati.", style = MaterialTheme.typography.bodySmall)
+                    Text("Modificatori temporanei e abilità restano manuali. Azioni → Calcola ripristina i valori base; Azioni → Reset ripristina HP e Will.", style = MaterialTheme.typography.bodySmall)
                 }
-                Text(
-                    "Riporta HP e Will ai rispettivi valori massimi, senza modificare Physical Defense e Special Defense.",
-                    style = MaterialTheme.typography.bodySmall,
-                )
             }
         }
 
         if (draft.isPokemon) {
             item {
-                SheetSectionCard("Abilities") {
-                    SheetField("Ricerca abilità", draft.abilitySearch) { draft = draft.copy(abilitySearch = it) }
-                    SheetField("Nome", draft.abilityName) { draft = draft.copy(abilityName = it) }
-                    SheetField("Effetto", draft.abilityEffect, minLines = 2) {
-                        draft = draft.copy(abilityEffect = it)
-                    }
-                    SheetField("Descrizione", draft.abilityDescription, minLines = 3) {
-                        draft = draft.copy(abilityDescription = it)
-                    }
+                PokemonEquipment(draft, onChange = { draft = it })
+            }
+            item {
+                SheetSectionCard("Ability") {
+                    val ability = references.ability(draft.abilityName)
+                    Text(draft.abilityName.ifBlank { "Nessuna abilità selezionata" }, fontWeight = FontWeight.SemiBold)
+                    Text(ability?.effect ?: draft.abilityEffect)
+                    Text(ability?.description ?: draft.abilityDescription)
+                    TextButton(onClick = { selectAbility = true }, enabled = !saving) { Text("Scegli / cambia abilità") }
+                    if (ability == null && draft.abilityName.isNotBlank()) Text("Abilità legacy o personalizzata: seleziona una singola voce per usare la descrizione del catalogo.", style = MaterialTheme.typography.bodySmall)
                 }
             }
             item {
-                SheetSectionCard("Nature") {
-                    SheetField("Ricerca natura", draft.natureSearch) { draft = draft.copy(natureSearch = it) }
-                    SheetField("Nome", draft.natureName) { draft = draft.copy(natureName = it) }
-                    SheetField("Configurazione", draft.natureConfiguration) {
-                        draft = draft.copy(natureConfiguration = it)
-                    }
-                    SheetField("Parole chiave", draft.natureKeywords) { draft = draft.copy(natureKeywords = it) }
-                    SheetField("Descrizione", draft.natureDescription, minLines = 3) {
-                        draft = draft.copy(natureDescription = it)
-                    }
+                CollapsibleCard("Nature · ${draft.natureName.ifBlank { "Non selezionata" }}") {
+                    val nature = references.nature(draft.natureName)
+                    Text(nature?.configuration ?: draft.natureConfiguration)
+                    Text(nature?.keywords ?: draft.natureKeywords)
+                    Text(nature?.description ?: draft.natureDescription)
+                    TextButton(onClick = { selectNature = true }, enabled = !saving) { Text("Scegli / cambia natura") }
                 }
             }
         } else {
@@ -823,7 +844,7 @@ private fun SheetEditor(
         if (draft.isPokemon) {
             if (reference != null && draft.sheetRank != null) {
                 item {
-                    SheetSectionCard("Moves · Suggerimenti per Rank") {
+                    CollapsibleCard("Moves · Suggerimenti per Rank") {
                         val known = draft.moves.filter(String::isNotBlank)
                         val moveLimit = draft.dotStats["attributes.insight"].orEmpty().count { it } + 3
                         Text("${known.size} / $moveLimit Moves · Insight + 3")
@@ -871,26 +892,14 @@ private fun SheetEditor(
             }
         } else {
             item {
-                SheetSectionCard("Borsa") {
-                    FieldPair(
-                        "Pozioni", draft.potion, { draft = draft.copy(potion = it) },
-                        "Super Pozioni", draft.superPotion, { draft = draft.copy(superPotion = it) },
-                    )
-                    SheetField("Iper Pozioni", draft.hyperPotion) { draft = draft.copy(hyperPotion = it) }
-                    repeat(15) { index ->
-                        FieldPair(
-                            "Oggetto ${index + 1} A", draft.bagItemsLeft.getOrElse(index) { "" },
-                            { draft = draft.copy(bagItemsLeft = draft.bagItemsLeft.updated(index, it, 15)) },
-                            "Oggetto ${index + 1} B", draft.bagItemsRight.getOrElse(index) { "" },
-                            { draft = draft.copy(bagItemsRight = draft.bagItemsRight.updated(index, it, 15)) },
-                        )
-                    }
+                CollapsibleCard("Borsa") {
+                    InventoryBag(draft, onSheetChange = { draft = it })
                 }
             }
         }
 
         item {
-            SheetSectionCard("Note") {
+            CollapsibleCard("Note e appunti") {
                 SheetField("Background", draft.background, minLines = 4) {
                     draft = draft.copy(background = it)
                 }
@@ -900,16 +909,7 @@ private fun SheetEditor(
             }
         }
 
-        item {
-            Button(
-                onClick = { onSave(draft) },
-                enabled = !saving && !uploadingPortrait && (!dmCapture || captureTrainerSelected),
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                if (saving) CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
-                else Text("Salva su Supabase")
-            }
-        }
+    }
     }
 }
 
@@ -925,7 +925,7 @@ private fun CaptureTrainerPicker(
     AlertDialog(onDismissRequest = onDismiss, title = { Text("Allenatori da Supabase") },
         text = {
             Column {
-                SheetField("Cerca allenatore", query) { query = it }
+                CompactSearch("Cerca allenatore", query, { query = it })
                 LazyColumn(Modifier.height(300.dp)) {
                     if (rows.isEmpty()) item { Text("Nessun allenatore corrisponde alla ricerca.") }
                     items(rows, key = { it.recordId }) { trainer ->
@@ -953,7 +953,7 @@ private fun SpeciesPicker(
     AlertDialog(onDismissRequest = onDismiss, title = { Text("Species / Form") },
         text = {
             Column {
-                SheetField("Nome o numero Pokédex", search) { search = it }
+                CompactSearch("Nome o numero Pokédex", search, { search = it })
                 Text("${filtered.size} risultati", style = MaterialTheme.typography.bodySmall)
                 LazyColumn(Modifier.height(320.dp)) {
                     items(filtered, key = { it.name }) { species ->
@@ -1022,20 +1022,16 @@ private fun SheetPortrait(sheet: EditableSheet, modifier: Modifier = Modifier) {
         ?: sheet.profilePicture
         .trim()
         .takeIf { it.startsWith("https://") || it.startsWith("http://") }
-        ?: sheet.takeIf { it.isPokemon }?.let { pokemonSpriteUrl(it.pokedexNumber) }
+    val urls = imageUrl?.let { listOf(it) } ?: if (sheet.isPokemon)
+        LocalSheetReferences.current.spritePaths(sheet.pokedexNumber, sheet.speciesName, sheet.speciesForm, sheet.isShiny) else emptyList()
 
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(18.dp)),
         contentAlignment = Alignment.Center,
     ) {
-        if (imageUrl != null) {
-            AsyncImage(
-                model = imageUrl,
-                contentDescription = "Immagine di ${sheet.displayName}",
-                contentScale = ContentScale.Fit,
-                modifier = Modifier.fillMaxSize().padding(4.dp),
-            )
+        if (urls.isNotEmpty()) {
+            PortraitUrls(urls, "Immagine di ${sheet.displayName}", Modifier.fillMaxSize().padding(4.dp))
         } else {
             Card(
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
@@ -1051,11 +1047,6 @@ private fun SheetPortrait(sheet: EditableSheet, modifier: Modifier = Modifier) {
             }
         }
     }
-}
-
-internal fun pokemonSpriteUrl(pokedexNumber: String): String? {
-    val number = pokedexNumber.filter(Char::isDigit).toIntOrNull() ?: return null
-    return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$number.png"
 }
 
 @Composable
@@ -1230,7 +1221,7 @@ private fun SheetField(
     )
 }
 
-private fun compressPortrait(context: Context, uri: Uri): ByteArray {
+internal fun compressPortrait(context: Context, uri: Uri): ByteArray {
     val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
     // Bounds-only decoding intentionally returns null, even for a valid image.
     // Check the stream separately, then validate the populated dimensions below.

@@ -116,6 +116,8 @@ data class EditableSheet(
     val teamSlot: Int? = null,
     val ownerId: String? = null,
     val resolvedProfilePicture: String = "",
+    val heldItemCatalogId: String = "",
+    val accessories: List<EquipmentAccessory> = emptyList(),
 ) {
     val displayName: String
         get() = if (isPokemon) pokemonName.ifBlank { speciesName.ifBlank { storageKey } }
@@ -141,6 +143,10 @@ data class EditableSheet(
             putString("reputation", reputation)
         }
         put("header", header)
+        if (isPokemon) put("equipment", objectAt("equipment").patch {
+            putString("held_item_catalog_id", heldItemCatalogId)
+            put("accessories", JsonArray(accessories.map { it.toJson() }))
+        })
 
         put("quick_references", objectAt("quick_references").patch {
             put("hp", objectAt("hp").patch {
@@ -235,11 +241,11 @@ data class EditableSheet(
         ).let { sheet ->
             sheet.copy(
                 dotStats = sheet.dotStats + sheet.attributeFields().keys.associateWith {
-                    List(if (isPokemon) 12 else 5) { index -> index == 0 }
-                } + SheetStats.socialAttributes.keys.associateWith { List(5) { index -> index == 0 } },
-                hpActual = if (isPokemon) "" else "5", hpTotal = if (isPokemon) "" else "5",
-                willActual = "4", willTotal = "4",
-            )
+                    List(if (isPokemon) 12 else 5) { false }
+                } + SheetStats.socialAttributes.keys.associateWith { List(5) { false } },
+                hpActual = if (isPokemon) "" else "4", hpTotal = if (isPokemon) "" else "4",
+                willActual = "3", willTotal = "3",
+            ).recalculateMaximums(null)
         }
 
         fun from(storageKey: String, value: JsonElement, json: Json): EditableSheet =
@@ -331,6 +337,9 @@ data class EditableSheet(
                 background = raw.stringAt("background"),
                 personalKnowledge = raw.stringAt("conoscenze_personali"),
                 raw = raw,
+                heldItemCatalogId = raw.objectAt("equipment").stringAt("held_item_catalog_id"),
+                accessories = (raw.objectAt("equipment")["accessories"] as? JsonArray).orEmpty()
+                    .mapIndexedNotNull { index, entry -> (entry as? JsonObject)?.let { EquipmentAccessory.fromJson(it,index) } },
             )
         }
     }

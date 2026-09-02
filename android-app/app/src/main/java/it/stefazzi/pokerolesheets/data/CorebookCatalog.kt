@@ -46,8 +46,8 @@ data class CorebookSpecies(
         require(sheet.isPokemon && sheet.recordId.isBlank()) { "La precompilazione è riservata ai nuovi Pokémon" }
         val stats = sheet.dotStats + attributes.map { (key, ref) ->
             "attributes.$key" to List(12) { it < ref.base }
-        } + SheetStats.socialAttributes.keys.associateWith { List(5) { index -> index == 0 } }
-        val hp = baseHp + attributes.getValue("vitality").base + rank.traitBonus
+        } + SheetStats.socialAttributes.keys.associateWith { List(5) { false } }
+        val hp = baseHp + attributes.getValue("vitality").base + rank.traitBonus + if (sheet.isAlpha) 2 else 0
         val will = 3 + attributes.getValue("insight").base + rank.traitBonus
         return sheet.copy(
             speciesName = name, pokedexNumber = number,
@@ -55,12 +55,12 @@ data class CorebookSpecies(
             size = height, weight = weight, dotStats = stats,
             hpActual = hp.toString(), hpTotal = hp.toString(),
             willActual = will.toString(), willTotal = will.toString(),
-            abilityName = abilities.joinToString(" & "), abilitySearch = abilities.joinToString(" & "),
+            abilityName = abilities.singleOrNull().orEmpty(), abilitySearch = abilities.singleOrNull().orEmpty(),
             abilityEffect = "", abilityDescription = "", moves = emptyList(),
             happiness = List(5) { it < 2 }, loyalty = List(5) { it < 2 },
         ).withRuleValue("rank", rank.name).withRuleValue("form", form)
             .withRuleValue("base_hp", baseHp.toString())
-            .withRuleValue("catalog_id", catalogId)
+            .withRuleValue("catalog_id", catalogId).recalculateMaximums(this)
     }
 }
 
@@ -140,6 +140,8 @@ val EditableSheet.sheetRank: SheetRank? get() = SheetRank.parse(ruleValue("rank"
 val EditableSheet.baseHpText: String? get() =
     ((raw["pokerole"] as? JsonObject)?.get("base_hp") as? JsonPrimitive)?.contentOrNull
 val EditableSheet.baseHpValue: Int? get() = baseHpText?.toIntOrNull()?.takeIf { it in 1..999 }
+val EditableSheet.isShiny: Boolean get() = isPokemon && ruleValue("shiny").equals("true", true)
+val EditableSheet.isAlpha: Boolean get() = isPokemon && ruleValue("alpha").equals("true", true)
 
 fun EditableSheet.attributeFields(): Map<String, String> = SheetStats.attributes.filterKeys {
     isPokemon || it != "attributes.special"
@@ -148,20 +150,28 @@ fun EditableSheet.attributeFields(): Map<String, String> = SheetStats.attributes
 fun EditableSheet.statRange(key: String, reference: CorebookSpecies?): IntRange = when {
     key in SheetStats.attributes -> {
         val limit = if (isPokemon) reference?.attributes?.get(key.substringAfter('.'))?.limit ?: 12 else 5
-        1..(limit + if (sheetRank == SheetRank.Champion) 2 else 0).coerceAtMost(12)
+        0..(limit + if (sheetRank == SheetRank.Champion) 2 else 0).coerceAtMost(12)
     }
-    key in SheetStats.socialAttributes -> 1..5
+    key in SheetStats.socialAttributes -> 0..5
     else -> 0..(sheetRank?.skillLimit ?: 5)
 }
 
-// Explicit action: recalculate maximums only; never heal or alter a saved/current resource value.
+// Campaign option 2 (Corebook pp. 26-28, 31, 56, 70). Recalculate baseline
+// traits; never heal HP/Will. Temporary combat/Ability modifiers stay manual.
 fun EditableSheet.recalculateMaximums(reference: CorebookSpecies?): EditableSheet {
     val baseHp = if (baseHpText != null) baseHpValue else reference?.baseHp ?: if (!isPokemon) 4 else null
     val vitality = dotStats["attributes.vitality"].orEmpty().count { it }
     val insight = dotStats["attributes.insight"].orEmpty().count { it }
+    val dexterity = dotStats["attributes.dexterity"].orEmpty().count { it }
+    val alert = dotStats["skills.survival.alert"].orEmpty().count { it }
+    val evade = dotStats["skills.fight.evasion"].orEmpty().count { it }
     val bonus = sheetRank?.traitBonus ?: 0
     return copy(
-        hpTotal = baseHp?.let { (it + vitality + bonus).toString() } ?: hpTotal,
+        hpTotal = baseHp?.let { (it + vitality + bonus + if (isAlpha) 2 else 0).toString() } ?: hpTotal,
         willTotal = (3 + insight + bonus).toString(),
+        defenseActual = (vitality + bonus).toString(),
+        defenseTotal = (insight + bonus).toString(),
+        initiative = (dexterity + alert + bonus).toString(),
+        evasion = (dexterity + evade + if (bonus > 0) 2 else 0).toString(),
     )
 }

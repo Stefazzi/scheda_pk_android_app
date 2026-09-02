@@ -41,10 +41,8 @@ internal fun PokedexScreen(
         OutlinedButton(onClick = onRefresh, enabled = !loading, modifier = Modifier.padding(horizontal = 16.dp)) {
             Text(if (loading) "Download in corso…" else "Aggiorna catalogo")
         }
-        OutlinedTextField(value = query, onValueChange = { query = it },
-            label = { Text("Cerca nome, numero, forma o tipo") }, singleLine = true,
-            trailingIcon = { if (query.isNotEmpty()) TextButton(onClick = { query = "" }) { Text("Pulisci") } },
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp))
+        CompactSearch("Cerca nome, numero, forma o tipo", query, { query = it },
+            Modifier.padding(horizontal = 16.dp, vertical = 4.dp))
         Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically) {
             ChoiceField("Type", type, types) { type = it }
             Spacer(Modifier.width(12.dp))
@@ -57,8 +55,7 @@ internal fun PokedexScreen(
                 Card(onClick = { history = listOf(entry.name) }, modifier = Modifier.fillMaxWidth()) {
                     Row(Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                        AsyncImage(model = pokemonSpriteUrl(entry.number), contentDescription = entry.name,
-                            contentScale = ContentScale.Fit, modifier = Modifier.size(64.dp))
+                        ReferenceSprite(entry, Modifier.size(64.dp))
                         Column(Modifier.weight(1f)) {
                             Text("#${entry.number.padStart(3, '0')} ${entry.name}", fontWeight = FontWeight.SemiBold)
                             Text(entry.types.joinToString(" / "), style = MaterialTheme.typography.bodySmall)
@@ -89,11 +86,9 @@ private fun PokedexEntry(
         }
         item {
             DexCard("Species") {
-                AsyncImage(model = pokemonSpriteUrl(entry.number), contentDescription = entry.name,
-                    contentScale = ContentScale.Fit, modifier = Modifier.size(144.dp).align(Alignment.CenterHorizontally))
+                ReferenceSprite(entry, Modifier.size(144.dp).align(Alignment.CenterHorizontally))
                 Text("Type: ${entry.types.joinToString(" / ")}")
                 Text("Form: ${entry.form}")
-                if (entry.form != "Standard") Text("Sprite nazionale di base; l'immagine può non rappresentare questa forma.", style = MaterialTheme.typography.bodySmall)
                 if (entry.dexCategory.isNotBlank()) Text("Category: ${entry.dexCategory}")
                 Text("Height: ${entry.height.ifBlank { "—" }} · Weight: ${entry.weight.ifBlank { "—" }}")
                 if (entry.dexDescription.isNotBlank()) Text(entry.dexDescription)

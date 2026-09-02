@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node item_inventory.test.mjs && node item_image_storage.test.mjs" },
+  "devDependencies": { "@electric-sql/pglite": "0.3.14" }
+}
