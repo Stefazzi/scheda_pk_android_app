@@ -44,6 +44,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Tab
@@ -81,6 +83,8 @@ import it.stefazzi.pokerolesheets.data.selectNature
 import it.stefazzi.pokerolesheets.data.CorebookCatalog
 import it.stefazzi.pokerolesheets.data.CorebookSpecies
 import it.stefazzi.pokerolesheets.data.CatalogMove
+import it.stefazzi.pokerolesheets.data.equipmentInfluences
+import it.stefazzi.pokerolesheets.data.EquipmentParameters
 import it.stefazzi.pokerolesheets.data.evolve
 import it.stefazzi.pokerolesheets.data.readPortraitInput
 import it.stefazzi.pokerolesheets.data.matchesSearch
@@ -611,6 +615,7 @@ private fun SheetEditor(
             edited.recalculateMaximums(reference) else edited
     }
 
+    CompositionLocalProvider(LocalEquipmentInfluences provides draft.equipmentInfluences(LocalItems.current.state.items)) {
     Column(Modifier.fillMaxSize()) {
         Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween) {
@@ -765,6 +770,7 @@ private fun SheetEditor(
                     "HP current", draft.hpActual, { draft = draft.copy(hpActual = it) },
                     "HP maximum", draft.hpTotal, { draft = draft.copy(hpTotal = it) },
                 )
+                PainHint(draft)
                 FieldPair(
                     "Physical Defense",
                     draft.defenseActual, { draft = draft.copy(defenseActual = it) },
@@ -835,7 +841,7 @@ private fun SheetEditor(
         item {
             DotStatsCard("Social Attributes", SheetStats.socialAttributes, draft, reference, updateDots)
         }
-        SheetStats.skillGroups.forEach { (group, fields) ->
+        SheetStats.skillGroupsFor(draft.isPokemon).forEach { (group, fields) ->
             item {
                 DotStatsCard("Skills · $group", fields, draft, reference, updateDots)
             }
@@ -870,6 +876,7 @@ private fun SheetEditor(
                             value = value,
                             type = moveTypes[normalizeMoveName(value)].orEmpty(),
                             details = catalogMoves[normalizeMoveName(value)],
+                            sheet = draft,
                         ) {
                             draft = draft.copy(moves = draft.moves.updated(index, it, 1))
                         }
@@ -911,6 +918,8 @@ private fun SheetEditor(
 
     }
     }
+}
+
 }
 
 @Composable
@@ -1055,10 +1064,14 @@ private fun MoveFieldCard(
     value: String,
     type: String,
     details: CatalogMove? = null,
+    sheet: EditableSheet,
     onValueChange: (String) -> Unit,
 ) {
     val accent = moveTypeColor(type)
+    var showRolls by remember(value) { mutableStateOf(false) }
+    if (showRolls) MoveRollDialog(details, value, sheet, onDismiss = { showRolls = false })
     Card(
+        onClick = { showRolls = true },
         colors = CardDefaults.cardColors(containerColor = accent.copy(alpha = 0.18f)),
         modifier = Modifier.fillMaxWidth(),
     ) {
@@ -1090,6 +1103,7 @@ private fun MoveFieldCard(
                 if (move.effect.isNotBlank()) Text(move.effect, style = MaterialTheme.typography.bodySmall)
                 if (move.description.isNotBlank()) Text(move.description, style = MaterialTheme.typography.bodySmall)
             }
+            TextButton(onClick = { showRolls = true }, enabled = value.isNotBlank()) { Text("Dadi · Accuracy / Damage / Clash") }
         }
     }
 }
@@ -1145,7 +1159,7 @@ private fun DotStatsCard(
         }
         fields.forEach { (key, label) ->
             val base = if (key in SheetStats.attributes) reference?.attributes?.get(key.substringAfter('.'))?.base else null
-            DotRatingField(if (base != null) "$label · Base $base" else label, sheet.dotStats[key].orEmpty(), sheet.statRange(key, reference)) { onChange(key, it) }
+            DotRatingField(if (base != null) "$label · Base $base" else label, sheet.dotStats[key].orEmpty(), sheet.statRange(key, reference), parameterKey = key) { onChange(key, it) }
         }
     }
 }
@@ -1155,14 +1169,18 @@ private fun DotRatingField(
     label: String,
     values: List<Boolean>,
     range: IntRange = 0..5,
+    parameterKey: String = "",
     onValueChange: (List<Boolean>) -> Unit,
 ) {
     val rating = values.count { it }
+    val affected = LocalEquipmentInfluences.current.containsKey(parameterKey)
+    val accent = if (affected) EquipmentAccent else MaterialTheme.colorScheme.onSurface
     Column(Modifier.fillMaxWidth()) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Text(label)
-            Text("$rating / ${range.last}", fontWeight = FontWeight.SemiBold)
+            Text(label, color = accent)
+            Text("$rating / ${range.last}", fontWeight = FontWeight.SemiBold, color = accent)
         }
+        EquipmentHint(parameterKey)
         if (rating !in range) Text("Valore salvato fuori intervallo (${range.first}–${range.last}): mantenuto finché non lo modifichi.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error)
         Slider(
             value = rating.coerceIn(range).toFloat(),
@@ -1172,6 +1190,7 @@ private fun DotRatingField(
             },
             valueRange = range.first.toFloat()..range.last.toFloat(),
             steps = range.last - range.first - 1,
+            colors = if (affected) SliderDefaults.colors(thumbColor = EquipmentAccent, activeTrackColor = EquipmentAccent) else SliderDefaults.colors(),
         )
     }
 }
@@ -1212,13 +1231,23 @@ private fun SheetField(
     minLines: Int = 1,
     onValueChange: (String) -> Unit,
 ) {
+    val parameterKey = EquipmentParameters.groups.getValue("Riferimenti rapidi").entries.firstOrNull { it.value == label }?.key.orEmpty()
+    val affected = LocalEquipmentInfluences.current.containsKey(parameterKey)
+    Column(modifier) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(label) },
         minLines = minLines,
-        modifier = modifier,
+        modifier = Modifier.fillMaxWidth(),
+        colors = if (affected) OutlinedTextFieldDefaults.colors(
+            focusedTextColor = EquipmentAccent, unfocusedTextColor = EquipmentAccent,
+            focusedBorderColor = EquipmentAccent, unfocusedBorderColor = EquipmentAccent,
+            focusedLabelColor = EquipmentAccent, unfocusedLabelColor = EquipmentAccent,
+        ) else OutlinedTextFieldDefaults.colors(),
     )
+    EquipmentHint(parameterKey)
+    }
 }
 
 internal fun compressPortrait(context: Context, uri: Uri): ByteArray {

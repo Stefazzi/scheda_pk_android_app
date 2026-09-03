@@ -93,11 +93,12 @@ private fun ItemDetail(item: CatalogItem,onDismiss: () -> Unit) {
     var description by remember { mutableStateOf(item.displayDescription) }
     var effect by remember { mutableStateOf(item.displayEffect) }
     var price by remember { mutableStateOf(item.displayPrice) }
+    var parameters by remember { mutableStateOf(item.displayAffectedParameters) }
     var confirm by remember { mutableStateOf<Boolean?>(null) }
     if(confirm != null) AlertDialog(onDismissRequest={if(!ui.state.itemSaving)confirm=null},
         title={Text(if(confirm==true) "Ripristinare l'originale?" else "Modificare il catalogo condiviso?")},
         text={Text("La modifica vale per tutte le borse collegate a questo oggetto. I campi personalizzati dei singoli esemplari avranno ancora precedenza. Gli altri dispositivi la riceveranno aggiornando il catalogo.")},
-        confirmButton={TextButton(enabled=!ui.state.itemSaving,onClick={ui.saveItem(item,ItemEdits(name,description,effect,price),confirm==true,onDismiss)}) {Text("Conferma")}},
+        confirmButton={TextButton(enabled=!ui.state.itemSaving,onClick={ui.saveItem(item,ItemEdits(name,description,effect,price,parameters),confirm==true,onDismiss)}) {Text("Conferma")}},
         dismissButton={TextButton(enabled=!ui.state.itemSaving,onClick={confirm=null}){Text("Annulla")}})
     AlertDialog(onDismissRequest={if(!ui.state.itemSaving)onDismiss()},title={Text(item.displayName)},
         text={Column(Modifier.heightIn(max=460.dp).verticalScroll(rememberScrollState()),verticalArrangement=Arrangement.spacedBy(8.dp)) {
@@ -106,9 +107,11 @@ private fun ItemDetail(item: CatalogItem,onDismiss: () -> Unit) {
             if(editing) {
                 ItemText("Nome",name,{name=it}); ItemText("Descrizione",description,{description=it},3)
                 ItemText("Effetto",effect,{effect=it},3); ItemText("Prezzo",price,{price=it})
+                ParameterPicker(parameters) { parameters = it }
             } else {
                 Text(item.displayDescription); if(item.displayEffect!=item.displayDescription) Text(item.displayEffect)
                 Text("Prezzo: ${item.displayPrice.ifBlank{"—"}}")
+                if (item.displayAffectedParameters.isNotEmpty()) Text("Parametri influenzati: " + item.displayAffectedParameters.mapNotNull { EquipmentParameters.labels[it] }.joinToString())
             }
             CollapsibleCard(if(item.isCustom) "Dati alla creazione" else "Dati originali Pokérole") {
                 Text(item.name); Text(item.description); if(item.effect!=item.description)Text(item.effect);Text("Prezzo: ${item.price}")
@@ -297,6 +300,7 @@ private fun NewItemDialog(onDismiss:()->Unit) {
     var description by rememberSaveable { mutableStateOf("") }
     var effect by rememberSaveable { mutableStateOf("") }
     var price by rememberSaveable { mutableStateOf("") }
+    var parameters by rememberSaveable { mutableStateOf(emptyList<String>()) }
     var icon by remember { mutableStateOf<CatalogItem?>(null) }
     var picking by remember { mutableStateOf(false) }
     if(picking) ItemPicker(ui.state.items.filter{it.imageUrls(BuildConfig.SUPABASE_URL).isNotEmpty()},onDismiss={picking=false}) { icon=it;picking=false }
@@ -306,13 +310,14 @@ private fun NewItemDialog(onDismiss:()->Unit) {
             Text("Visibile a tutti nel catalogo. Potrai modificarne gli effetti anche dopo la creazione.",style=MaterialTheme.typography.bodySmall)
             ItemText("Nome",name,{name=it});ItemText("Categoria",category,{category=it})
             ItemText("Descrizione",description,{description=it},2);ItemText("Effetto",effect,{effect=it},3);ItemText("Prezzo (facoltativo)",price,{price=it})
+            ParameterPicker(parameters) { parameters = it }
             ItemSprite(icon,Modifier.size(64.dp).align(Alignment.CenterHorizontally))
             OutlinedButton(onClick={picking=true},enabled=!ui.state.itemSaving){Text("Scegli icona dal catalogo")}
             if(icon!=null)TextButton(onClick={icon=null},enabled=!ui.state.itemSaving){Text("Nessuna icona")}
             Text("L'icona non copia gli effetti dell'oggetto originale. Senza icona viene mostrato un simbolo generico.",style=MaterialTheme.typography.bodySmall)
         }},
         confirmButton={TextButton(enabled=valid && ui.state.itemsReady && !ui.state.itemSaving,onClick={
-            ui.createItem(NewItem(requestId,ItemEdits(name,description,effect,price),category,icon?.id),onDismiss)
+            ui.createItem(NewItem(requestId,ItemEdits(name,description,effect,price,parameters),category,icon?.id),onDismiss)
         }){Text(if(ui.state.itemSaving)"Creazione…" else "Crea oggetto")}},
         dismissButton={TextButton(enabled=!ui.state.itemSaving,onClick=onDismiss){Text("Annulla")}})
 }

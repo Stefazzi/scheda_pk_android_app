@@ -23,12 +23,15 @@ data class CatalogItem(
     val revision: Int = 1,
     @SerialName("is_custom") val isCustom: Boolean = false,
     @SerialName("custom_image_path") val customImagePath: String? = null,
+    @SerialName("affected_parameters") val affectedParameters: List<String> = emptyList(),
+    @SerialName("custom_affected_parameters") val customAffectedParameters: List<String>? = null,
 ) {
     val displayName get() = customName ?: name
     val displayDescription get() = customDescription ?: description
     val displayEffect get() = customEffect ?: effect
     val displayPrice get() = customPrice ?: price
-    val customized get() = listOf(customName,customDescription,customEffect,customPrice).any { it != null }
+    val displayAffectedParameters get() = customAffectedParameters ?: affectedParameters
+    val customized get() = customAffectedParameters != null || listOf(customName,customDescription,customEffect,customPrice).any { it != null }
     fun imageUrls(supabaseUrl: String): List<String> {
         val base=supabaseUrl.trimEnd('/')
         val uri=runCatching { java.net.URI(base) }.getOrNull()
@@ -90,7 +93,7 @@ fun legacyInventorySlot(sheet: EditableSheet, slotKey: String): InventorySlot {
     return InventorySlot(sheet.recordId,slotKey,freeText=text,quantity=if(text.isBlank()) 0 else 1)
 }
 
-data class ItemEdits(val name: String, val description: String, val effect: String, val price: String)
+data class ItemEdits(val name: String, val description: String, val effect: String, val price: String, val affectedParameters: List<String> = emptyList())
 data class NewItem(val id: String, val edits: ItemEdits, val category: String, val iconItemId: String?)
 
 data class EquipmentAccessory(val id: String, val name: String, val catalogId: String = "", val notes: String = "") {
@@ -159,10 +162,11 @@ class ItemRepository(private val client: SupabaseClient) {
             throw IllegalStateException("File caricato ($path), ma associazione non confermata. Aggiorna il catalogo prima di riprovare. ${error.message.orEmpty()}",error)
         }
     }
-    suspend fun createItem(item: NewItem): CatalogItem = client.postgrest.rpc("create_catalog_item", buildJsonObject {
+    suspend fun createItem(item: NewItem): CatalogItem = client.postgrest.rpc("create_catalog_item_with_parameters", buildJsonObject {
         put("p_id",item.id); put("p_name",item.edits.name); put("p_category",item.category)
         put("p_description",item.edits.description); put("p_effect",item.edits.effect); put("p_price",item.edits.price)
         put("p_icon_item_id",item.iconItemId?.let(::JsonPrimitive) ?: JsonNull)
+        put("p_affected_parameters", JsonArray(item.edits.affectedParameters.distinct().sorted().map(::JsonPrimitive)))
     }).decodeSingle<CatalogItem>()
     suspend fun loadCatalog(): List<CatalogItem> {
         val result=mutableListOf<CatalogItem>()
@@ -184,8 +188,9 @@ class ItemRepository(private val client: SupabaseClient) {
     }
     suspend fun saveSlot(slot: InventorySlot,isDm: Boolean): InventorySlot = client.postgrest
         .rpc("save_inventory_slot",slot.parameters(isDm)).decodeSingle<InventorySlot>()
-    suspend fun saveItem(item: CatalogItem,edits: ItemEdits,restore: Boolean): CatalogItem = client.postgrest.rpc("update_catalog_item",buildJsonObject {
+    suspend fun saveItem(item: CatalogItem,edits: ItemEdits,restore: Boolean): CatalogItem = client.postgrest.rpc("update_catalog_item_with_parameters",buildJsonObject {
         put("p_id",item.id); put("p_expected_revision",item.revision); put("p_name",edits.name)
         put("p_description",edits.description); put("p_effect",edits.effect); put("p_price",edits.price); put("p_restore",restore)
+        put("p_affected_parameters", JsonArray(edits.affectedParameters.distinct().sorted().map(::JsonPrimitive)))
     }).decodeSingle<CatalogItem>()
 }

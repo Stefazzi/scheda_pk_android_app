@@ -55,6 +55,31 @@ object SheetStats {
         ),
     )
 
+    // Display-only subset: keep the complete legacy schema for reading/writing saved sheets.
+    val pokemonSkillGroups: Map<String, Map<String, String>> = linkedMapOf(
+        "Fight" to skillGroups.getValue("Fight").filterKeys {
+            it in setOf("skills.fight.brawl", "skills.fight.channel", "skills.fight.clash", "skills.fight.evasion")
+        },
+        "Survival" to skillGroups.getValue("Survival"),
+        "Social" to skillGroups.getValue("Social").filterKeys {
+            it in setOf("skills.social.charm", "skills.social.etiquette", "skills.social.intimidate", "skills.social.perform")
+        },
+    )
+
+    val trainerSkillGroups: Map<String, Map<String, String>> = linkedMapOf(
+        "Fight" to listOf("skills.fight.brawl", "skills.fight.throw", "skills.fight.evasion", "skills.fight.weapons")
+            .associateWith { key ->
+                // Rename only the label: existing JSONB and equipment links keep the weapons key.
+                if (key == "skills.fight.weapons") "Weapon" else skillGroups.getValue("Fight").getValue(key)
+            },
+        "Survival" to skillGroups.getValue("Survival"),
+        "Social" to skillGroups.getValue("Social").filterKeys { it != "skills.social.charm" },
+        "Knowledge" to skillGroups.getValue("Knowledge"),
+    )
+
+    fun skillGroupsFor(isPokemon: Boolean): Map<String, Map<String, String>> =
+        if (isPokemon) pokemonSkillGroups else trainerSkillGroups
+
     val allDotKeys: List<String> = (attributes.keys + socialAttributes.keys +
         skillGroups.values.flatMap { it.keys }).toList()
 

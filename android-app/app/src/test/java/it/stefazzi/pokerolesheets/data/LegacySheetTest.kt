@@ -11,6 +11,68 @@ class LegacySheetTest {
     private val json = Json { ignoreUnknownKeys = true }
 
     @Test
+    fun pokemonShowsOnlyTheTwelveRequestedSkillsInOrder() {
+        val groups = SheetStats.skillGroupsFor(isPokemon = true)
+        assertEquals(listOf("Fight", "Survival", "Social"), groups.keys.toList())
+        assertEquals(listOf("Brawl", "Channel", "Clash", "Evasion"), groups.getValue("Fight").values.toList())
+        assertEquals(listOf("Alert", "Athletic", "Nature", "Stealth"), groups.getValue("Survival").values.toList())
+        assertEquals(listOf("Charm", "Etiquette", "Intimidate", "Perform"), groups.getValue("Social").values.toList())
+        assertEquals(12, groups.values.sumOf { it.size })
+    }
+
+    @Test
+    fun trainerShowsOnlyTheSixteenRequestedSkillsInOrder() {
+        val groups = SheetStats.skillGroupsFor(isPokemon = false)
+        assertEquals(listOf("Fight", "Survival", "Social", "Knowledge"), groups.keys.toList())
+        assertEquals(listOf("Brawl", "Throw", "Evasion", "Weapon"), groups.getValue("Fight").values.toList())
+        assertEquals(listOf("Alert", "Athletic", "Nature", "Stealth"), groups.getValue("Survival").values.toList())
+        assertEquals(listOf("Empathy", "Etiquette", "Intimidate", "Perform"), groups.getValue("Social").values.toList())
+        assertEquals(listOf("Crafts", "Lore", "Medicine", "Science"), groups.getValue("Knowledge").values.toList())
+        assertEquals(16, groups.values.sumOf { it.size })
+    }
+
+    @Test
+    fun editingTrainerPreservesHiddenSkillsAndOtherStats() {
+        val original = EditableSheet.blank(false).copy(
+            hpActual = "3", hpTotal = "7", money = "200",
+            dotStats = SheetStats.allDotKeys.associateWith { List(5) { index -> index < 3 } },
+        )
+        val loaded = EditableSheet.from("Test_Trainer", original.updatedJson(), json)
+        val edited = loaded.copy(dotStats = loaded.dotStats + ("skills.fight.throw" to List(5) { it < 2 }))
+        val reloaded = EditableSheet.from("Test_Trainer", edited.updatedJson(), json)
+        for (key in SheetStats.allDotKeys.filter { it != "skills.fight.throw" }) {
+            assertEquals(key, original.dotStats[key], reloaded.dotStats[key])
+        }
+        assertEquals(2, reloaded.dotStats.getValue("skills.fight.throw").count { it })
+        assertEquals(original.hpActual, reloaded.hpActual)
+        assertEquals(original.hpTotal, reloaded.hpTotal)
+        assertEquals(original.money, reloaded.money)
+    }
+
+    @Test
+    fun weaponUsesExistingWeaponsStorageKey() {
+        val key = SheetStats.skillGroupsFor(false).getValue("Fight").entries.single { it.value == "Weapon" }.key
+        assertEquals("skills.fight.weapons", key)
+        val original = EditableSheet.blank(false).copy(dotStats = mapOf(key to List(5) { it < 4 }))
+        val saved = original.updatedJson()
+        assertEquals(false, saved["skills"]!!.jsonObject["fight"]!!.jsonObject.containsKey("weapon"))
+        val reloaded = EditableSheet.from("Trainer", saved, json)
+        assertEquals(4, reloaded.dotStats.getValue(key).count { it })
+    }
+
+    @Test
+    fun editingPokemonPreservesHiddenLegacySkillValues() {
+        val visible = SheetStats.skillGroupsFor(true).values.flatMap { it.keys }.toSet()
+        val hidden = SheetStats.skillGroups.values.flatMap { it.keys }.filter { it !in visible }
+        val original = EditableSheet.blank(true).copy(dotStats = SheetStats.allDotKeys.associateWith { List(5) { index -> index < 3 } })
+        val loaded = EditableSheet.from("Test_Pokemon", original.updatedJson(), json)
+        val edited = loaded.copy(dotStats = loaded.dotStats + ("skills.fight.brawl" to List(5) { it < 2 }))
+        val reloaded = EditableSheet.from("Test_Pokemon", edited.updatedJson(), json)
+        hidden.forEach { key -> assertEquals(key, original.dotStats[key], reloaded.dotStats[key]) }
+        assertEquals(2, reloaded.dotStats.getValue("skills.fight.brawl").count { it })
+    }
+
+    @Test
     fun updatesKnownFieldsWithoutRemovingLegacyData() {
         val source = json.parseToJsonElement(
             """{

@@ -4,6 +4,131 @@ App Android nativa per gestire le schede Pokerole nel nuovo progetto Supabase.
 
 ## Funzioni
 
+### Skills Trainer — v0.11.2
+
+Corretto solo il riquadro Skills degli allenatori, con queste 16 voci nell'ordine:
+
+- Fight: Brawl, Throw, Evasion, Weapon.
+- Survival: Alert, Athletic, Nature, Stealth.
+- Social: Empathy, Etiquette, Intimidate, Perform.
+- Knowledge: Crafts, Lore, Medicine, Science.
+
+Channel, Clash e Charm non sono visibili negli allenatori, ma gli eventuali valori
+legacy restano nei JSONB. Weapon mantiene la chiave `skills.fight.weapons`: nessuna
+conversione o perdita dei dati salvati. Skills Pokémon, attributi, strumenti,
+formule e tutte le altre sezioni rimangono invariati. Nessuna query Supabase nuova
+per questa correzione; generare APK **0.11.2**, versionCode **20**, con la stessa firma.
+
+### Associazioni degli strumenti standard — query 12
+
+Eseguire `supabase/migrations/12_seed_standard_item_parameters.sql` **dopo la query 11**,
+poi premere **Aggiorna oggetti e borsa** nell'app su ciascun dispositivo.
+Non occorre rigenerare l'APK se è già installata la versione 0.11.0 o successiva.
+Lo strumento deve essere equipaggiato tramite catalogo, non come testo libero.
+
+Sono stati verificati i 236 oggetti del seed community già presente nel repository.
+Queste sono le 10 associazioni esplicite ai parametri attualmente evidenziabili:
+
+| Strumento | Parametri | Condizione / limite |
+| --- | --- | --- |
+| Choice Scarf | Initiative | Reaction e Power delle mosse restano separati |
+| Eviolite | Physical Defense, Special Defense | Stadio evolutivo richiesto dall'effetto |
+| Iron Ball | Dexterity | È una riduzione, non un aumento |
+| Light Ball | Strength, Special | Pikachu |
+| Lucky Punch | Strength | Chansey; High Critical resta separato |
+| Power Increasers | Dexterity | Solo la riduzione certa: il DM deve aggiungere il parametro scelto per +2 |
+| Quick Claw | Initiative | Come da effetto |
+| Thick Club | Strength | Cubone / Marowak, secondo l'effetto |
+| Throat Spray | Special | Dopo una mossa Sound-Based |
+| Weakness Policy | Strength, Special | Dopo un colpo Super-Effective subito |
+
+L'azzurro resta un promemoria del parametro interessato, sia per bonus sia per malus:
+non significa che la condizione sia stata verificata, né modifica valori o dadi.
+I bonus a Damage/Accuracy/Power delle mosse non diventano bonus a Strength/Special:
+ad esempio Twisted Spoon, Choice Band, Choice Specs e Wide Lens non ricevono una
+falsa associazione a un attributo. Cura degli HP attuali non significa aumento di
+HP maximum. Consumabili, protezioni, effetti generici o a scelta non ricevono
+associazioni permanenti arbitrarie. Nel seed attuale non ci sono associazioni
+standard esplicite a Social Attributes o Skills: il DM può sempre aggiungerle.
+
+La query non crea oggetti e non tocca schede, borse, immagini o formule. Compila solo
+gli array originali vuoti degli strumenti standard con testi ancora uguali al seed.
+Preserva associazioni preesistenti e ogni override DM, anche la lista vuota;
+salta gli effetti/descrizioni personalizzati per evitare promemoria incoerenti.
+Il risultato indica per ogni strumento se è disponibile o richiede una verifica DM.
+Incrementa la revisione solo sulle righe aggiornate ed è ripetibile senza altri
+incrementi. **Ripristina originale** del DM torna alle associazioni standard importate.
+
+### Skills Pokémon — v0.11.1
+
+La scheda Pokémon mostra soltanto:
+
+- Fight: Brawl, Channel, Clash, Evasion.
+- Survival: Alert, Athletic, Nature, Stealth.
+- Social: Charm, Etiquette, Intimidate, Perform.
+
+Throw, Weapons, Empathy e il gruppo Knowledge non sono più visibili nei Pokémon.
+Le Skills degli allenatori restano invariate. I vecchi valori delle Skills nascoste
+sono conservati nei JSONB durante il salvataggio. Nessuna nuova query Supabase è
+necessaria per questa correzione; generare APK **0.11.1**, versionCode **19**.
+
+### Dadi, ferite e parametri degli strumenti — v0.11.0
+
+Prima di distribuire l'APK, eseguire **11_item_affected_parameters.sql** nel SQL Editor
+del progetto Android, dopo le migrazioni 06–10 già installate. Non serve reimportare
+il catalogo. Lo script aggiunge due piccoli array a `catalog_items` e due RPC;
+non modifica schede, immagini, borse, storico o tabelle della web app originale.
+Poi generare l'APK **0.11.0**, versionCode **18**, con la firma usata finora.
+
+- Toccare una mossa (o **Dadi · Accuracy / Damage / Clash**) nella scheda Pokémon.
+  Il box usa i valori correnti della bozza, comprese le modifiche non ancora salvate.
+- Accuracy: formula del catalogo, non sempre Dexterity. Le alternative separate da
+  `/` sono mostrate distintamente: scegliere quella prevista dalla mossa.
+- Damage ordinario: attributo indicato + Power + 1 STAB se il tipo coincide.
+  Inserire Physical/Special Defense del bersaglio per vedere il pool dopo la difesa
+  (minimo 1 dado). L'opzione **Questo tiro ignora le difese** è manuale: alcuni
+  effetti ignorano solo le difese del contraccolpo/danno secondario, non dell'attacco.
+- Clash: Strength + Clash per Physical, Special + Clash per Special; nessun pool
+  per Support. Il box ricorda le restrizioni, ma non conosce la mossa avversaria.
+- Master/Champion: +2 dadi quando il tiro comprende una Skill, non su Damage.
+- Formule variabili, mosse copiate e danni speciali non risolti mostrano un avviso di
+  calcolo manuale e l'effetto originale, senza inventare un valore.
+- Promemoria 1 Will per Basic/Minor/Complete Heal e gli altri effetti curativi che
+  specificano quel costo. Non spende Will né cura automaticamente; effetti come
+  Pollen Puff dipendono dal bersaglio scelto. Non tutte le cure richiedono Will.
+- Ferite, su allenatori e Pokémon: HP <= metà del massimo arrotondata per difetto,
+  -1 successo; a 1 HP, -2 successi senza sommare le penalità. A 0 HP, Fainted.
+  Un personaggio a HP pieni non riceve penalità. Le prove con Vitality/Will sono esenti.
+  L'avviso si aggiorna anche prima del salvataggio e sparisce recuperando abbastanza HP.
+
+Riferimenti: Corebook 3.0, pp. 31 (Master), 54–61 (Accuracy, STAB e Damage),
+62 (ferite), 70–71 (Clash), 78 (cure). Critical Hit, effetti condizionali, Ability,
+strumenti e altri modificatori non già inseriti nelle statistiche restano manuali.
+Low Accuracy e ferite rimuovono successi, non modificano i dadi mostrati.
+
+Il DM trova **Parametri influenzati** sia in **Crea oggetto custom**, sia in
+**Modifica nel catalogo**. Può selezionare più Attributes, Social Attributes, Skills
+e riferimenti rapidi (HP/Will massimi, difese, Initiative, Evasion).
+Le selezioni evidenziano in azzurro i parametri del Pokémon che ha equipaggiato
+l'oggetto come Held Item o come accessorio; viene mostrato anche il nome della fonte.
+Più oggetti possono evidenziare lo stesso parametro. Togliendo l'oggetto, la sua
+evidenziazione scompare. Le condizioni di attivazione dell'effetto restano manuali.
+
+Si tratta solo di promemoria visivi: nessun bonus/malus viene applicato ai valori.
+Gli oggetti soltanto in borsa e i vecchi strumenti scritti come testo libero non
+attivano evidenziazioni. Per questi ultimi scegliere la voce del catalogo nella
+sezione equipaggiamento. Le vecchie voci del catalogo partono senza parametri:
+il DM deve selezionarli, poiché i testi degli effetti non vengono interpretati automaticamente.
+La personalizzazione dell'effetto del singolo esemplare in borsa non modifica questi
+metadati condivisi. Aggiornare il catalogo oggetti sugli altri dispositivi per ricevere
+le scelte del DM. **Ripristina originale** ripristina anche i parametri iniziali.
+
+Verifiche locali: compilazione Kotlin/Compose, suite JUnit e test PostgreSQL PGlite
+`supabase/tests/item_parameters.test.mjs`. Non sostituiscono il collaudo sull'emulatore.
+Checklist: Confusion su Hatenna; Tackle con attributi alternativi; Recover/Life Dew;
+HP 9→4→1→0; equipaggiare/rimuovere un oggetto che influenza Strength e Cool;
+accessorio che influenza lo stesso Cool; aggiornamento del catalogo da un player.
+
 ### Immagini oggetti dall'app — v0.10.3
 
 Eseguire **10_edit_custom_item_images.sql**, dopo lo script 09 già installato, quindi

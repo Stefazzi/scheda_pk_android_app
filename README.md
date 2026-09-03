@@ -26,6 +26,9 @@ Il repository deriva dal progetto web originale [Pagliaa/schedapk](https://githu
 - Backup delle versioni precedenti delle schede.
 - Sprite automatici dei Pokémon.
 - Colori delle mosse basati sul relativo tipo.
+- Box dei dadi Accuracy / Damage / Clash dalla scheda Pokémon e promemoria Will per gli effetti curativi previsti.
+- Avvisi ferite a metà HP e a 1 HP: penalità ai successi, non ai dadi.
+- Parametri influenzati dagli strumenti/accessori selezionabili dal DM, evidenziati in azzurro sulla scheda.
 - Ritratto personalizzato dell’allenatore caricato dalla galleria.
 - Immagini private protette tramite Supabase Storage.
 - Calcoli automatici di HP/Will, difese, Initiative ed Evasion con le formule della campagna.
@@ -94,6 +97,8 @@ Gli script SQL necessari si trovano in `supabase/migrations`:
 8. `08_add_item_sprites.sql` (v0.10.2: 8 immagini mancanti, senza modificare gli effetti)
 9. `09_configure_item_image_storage.sql` (bucket pubblico dedicato e campo `custom_image_path`)
 10. `10_edit_custom_item_images.sql` (v0.10.3: caricamento immagini DM, cambio sprite degli oggetti custom e revisioni)
+11. `11_item_affected_parameters.sql` (v0.11.0: parametri influenzati dagli oggetti, modificabili solo dal DM)
+12. `12_seed_standard_item_parameters.sql` (associazioni iniziali per 10 strumenti standard; nessun nuovo APK richiesto dalla v0.11.0)
 
 Per aggiornare dalla v0.9.0, eseguire nel SQL Editor solo **06, poi 07**.
 Se non è ancora installato lo script 05, installarlo per le precedenti azioni Pokémon.
@@ -133,6 +138,6 @@ L’accesso ai dati è controllato tramite le policy Row Level Security di Supab
 
 ## Stato del progetto
 
-Versione del codice: **0.10.3** (generare e collaudare il nuovo APK prima della distribuzione).
+Versione del codice: **0.11.2**, versionCode **20** (generare e collaudare il nuovo APK prima della distribuzione).
 
 Il progetto è attualmente destinato all’utilizzo privato della campagna ed è ancora in fase di sviluppo e collaudo.
