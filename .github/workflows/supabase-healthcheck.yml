@@ -15,6 +15,7 @@ concurrency:
 
 jobs:
   healthcheck:
+    environment: Pokerole_Supabase_DB
     runs-on: ubuntu-24.04
     timeout-minutes: 3
     steps:
