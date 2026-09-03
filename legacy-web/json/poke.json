@@ -1,0 +1,6554 @@
+[
+    {
+        "pokemon": "Bulbasaur",
+        "nr": "1",
+        "tipo1": "Erba",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Ivysaur",
+        "nr": "2",
+        "tipo1": "Erba",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Venusaur",
+        "nr": "3",
+        "tipo1": "Erba",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Charmander",
+        "nr": "4",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Charmeleon",
+        "nr": "5",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Charizard",
+        "nr": "6",
+        "tipo1": "Fuoco",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Squirtle",
+        "nr": "7",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Wartortle",
+        "nr": "8",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Blastoise",
+        "nr": "9",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Caterpie",
+        "nr": "10",
+        "tipo1": "Coleottero",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Metapod",
+        "nr": "11",
+        "tipo1": "Coleottero",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Butterfree",
+        "nr": "12",
+        "tipo1": "Coleottero",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Weedle",
+        "nr": "13",
+        "tipo1": "Coleottero",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Kakuna",
+        "nr": "14",
+        "tipo1": "Coleottero",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Beedrill",
+        "nr": "15",
+        "tipo1": "Coleottero",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Pidgey",
+        "nr": "16",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Pidgeotto",
+        "nr": "17",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Pidgeot",
+        "nr": "18",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Rattata",
+        "nr": "19",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Raticate",
+        "nr": "20",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Spearow",
+        "nr": "21",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Fearow",
+        "nr": "22",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Ekans",
+        "nr": "23",
+        "tipo1": "Veleno",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Arbok",
+        "nr": "24",
+        "tipo1": "Veleno",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Pikachu",
+        "nr": "25",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Raichu",
+        "nr": "26",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Sandshrew",
+        "nr": "27",
+        "tipo1": "Terra",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Sandslash",
+        "nr": "28",
+        "tipo1": "Terra",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Nidoran-F",
+        "nr": "29",
+        "tipo1": "Veleno",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Nidorina",
+        "nr": "30",
+        "tipo1": "Veleno",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Nidoqueen",
+        "nr": "31",
+        "tipo1": "Veleno",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Nidoran-M",
+        "nr": "32",
+        "tipo1": "Veleno",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Nidorino",
+        "nr": "33",
+        "tipo1": "Veleno",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Nidoking",
+        "nr": "34",
+        "tipo1": "Veleno",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Clefairy",
+        "nr": "35",
+        "tipo1": "Folletto",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Clefable",
+        "nr": "36",
+        "tipo1": "Folletto",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Vulpix",
+        "nr": "37",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Ninetales",
+        "nr": "38",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Jigglypuff",
+        "nr": "39",
+        "tipo1": "Normale",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Wigglytuff",
+        "nr": "40",
+        "tipo1": "Normale",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Zubat",
+        "nr": "41",
+        "tipo1": "Veleno",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Golbat",
+        "nr": "42",
+        "tipo1": "Veleno",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Oddish",
+        "nr": "43",
+        "tipo1": "Erba",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Gloom",
+        "nr": "44",
+        "tipo1": "Erba",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Vileplume",
+        "nr": "45",
+        "tipo1": "Erba",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Paras",
+        "nr": "46",
+        "tipo1": "Coleottero",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Parasect",
+        "nr": "47",
+        "tipo1": "Coleottero",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Venonat",
+        "nr": "48",
+        "tipo1": "Coleottero",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Venomoth",
+        "nr": "49",
+        "tipo1": "Coleottero",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Diglett",
+        "nr": "50",
+        "tipo1": "Terra",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Dugtrio",
+        "nr": "51",
+        "tipo1": "Terra",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Meowth",
+        "nr": "52",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Persian",
+        "nr": "53",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Psyduck",
+        "nr": "54",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Golduck",
+        "nr": "55",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Mankey",
+        "nr": "56",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Primeape",
+        "nr": "57",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Growlithe",
+        "nr": "58",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Arcanine",
+        "nr": "59",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Poliwag",
+        "nr": "60",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Poliwhirl",
+        "nr": "61",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Poliwrath",
+        "nr": "62",
+        "tipo1": "Acqua",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Abra",
+        "nr": "63",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Kadabra",
+        "nr": "64",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Alakazam",
+        "nr": "65",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Machop",
+        "nr": "66",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Machoke",
+        "nr": "67",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Machamp",
+        "nr": "68",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Bellsprout",
+        "nr": "69",
+        "tipo1": "Erba",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Weepinbell",
+        "nr": "70",
+        "tipo1": "Erba",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Victreebel",
+        "nr": "71",
+        "tipo1": "Erba",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Tentacool",
+        "nr": "72",
+        "tipo1": "Acqua",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Tentacruel",
+        "nr": "73",
+        "tipo1": "Acqua",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Geodude",
+        "nr": "74",
+        "tipo1": "Roccia",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Graveler",
+        "nr": "75",
+        "tipo1": "Roccia",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Golem",
+        "nr": "76",
+        "tipo1": "Roccia",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Ponyta",
+        "nr": "77",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Rapidash",
+        "nr": "78",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Slowpoke",
+        "nr": "79",
+        "tipo1": "Acqua",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Slowbro",
+        "nr": "80",
+        "tipo1": "Acqua",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Magnemite",
+        "nr": "81",
+        "tipo1": "Elettro",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Magneton",
+        "nr": "82",
+        "tipo1": "Elettro",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Farfetchd",
+        "nr": "83",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Doduo",
+        "nr": "84",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Dodrio",
+        "nr": "85",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Seel",
+        "nr": "86",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Dewgong",
+        "nr": "87",
+        "tipo1": "Acqua",
+        "tipo2": "Ghiaccio"
+    },
+    {
+        "pokemon": "Grimer",
+        "nr": "88",
+        "tipo1": "Veleno",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Muk",
+        "nr": "89",
+        "tipo1": "Veleno",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Shellder",
+        "nr": "90",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Cloyster",
+        "nr": "91",
+        "tipo1": "Acqua",
+        "tipo2": "Ghiaccio"
+    },
+    {
+        "pokemon": "Gastly",
+        "nr": "92",
+        "tipo1": "Spettro",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Haunter",
+        "nr": "93",
+        "tipo1": "Spettro",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Gengar",
+        "nr": "94",
+        "tipo1": "Spettro",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Onix",
+        "nr": "95",
+        "tipo1": "Roccia",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Drowzee",
+        "nr": "96",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Hypno",
+        "nr": "97",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Krabby",
+        "nr": "98",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Kingler",
+        "nr": "99",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Voltorb",
+        "nr": "100",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Electrode",
+        "nr": "101",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Exeggcute",
+        "nr": "102",
+        "tipo1": "Erba",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Exeggutor",
+        "nr": "103",
+        "tipo1": "Erba",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Cubone",
+        "nr": "104",
+        "tipo1": "Terra",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Marowak",
+        "nr": "105",
+        "tipo1": "Terra",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Hitmonlee",
+        "nr": "106",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Hitmonchan",
+        "nr": "107",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Lickitung",
+        "nr": "108",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Koffing",
+        "nr": "109",
+        "tipo1": "Veleno",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Weezing",
+        "nr": "110",
+        "tipo1": "Veleno",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Rhyhorn",
+        "nr": "111",
+        "tipo1": "Terra",
+        "tipo2": "Roccia"
+    },
+    {
+        "pokemon": "Rhydon",
+        "nr": "112",
+        "tipo1": "Terra",
+        "tipo2": "Roccia"
+    },
+    {
+        "pokemon": "Chansey",
+        "nr": "113",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Tangela",
+        "nr": "114",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Kangaskhan",
+        "nr": "115",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Horsea",
+        "nr": "116",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Seadra",
+        "nr": "117",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Goldeen",
+        "nr": "118",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Seaking",
+        "nr": "119",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Staryu",
+        "nr": "120",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Starmie",
+        "nr": "121",
+        "tipo1": "Acqua",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Mr-Mime",
+        "nr": "122",
+        "tipo1": "Psico",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Scyther",
+        "nr": "123",
+        "tipo1": "Coleottero",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Jynx",
+        "nr": "124",
+        "tipo1": "Ghiaccio",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Electabuzz",
+        "nr": "125",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Magmar",
+        "nr": "126",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Pinsir",
+        "nr": "127",
+        "tipo1": "Coleottero",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Tauros",
+        "nr": "128",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Magikarp",
+        "nr": "129",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Gyarados",
+        "nr": "130",
+        "tipo1": "Acqua",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Lapras",
+        "nr": "131",
+        "tipo1": "Acqua",
+        "tipo2": "Ghiaccio"
+    },
+    {
+        "pokemon": "Ditto",
+        "nr": "132",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Eevee",
+        "nr": "133",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Vaporeon",
+        "nr": "134",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Jolteon",
+        "nr": "135",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Flareon",
+        "nr": "136",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Porygon",
+        "nr": "137",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Omanyte",
+        "nr": "138",
+        "tipo1": "Roccia",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Omastar",
+        "nr": "139",
+        "tipo1": "Roccia",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Kabuto",
+        "nr": "140",
+        "tipo1": "Roccia",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Kabutops",
+        "nr": "141",
+        "tipo1": "Roccia",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Aerodactyl",
+        "nr": "142",
+        "tipo1": "Roccia",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Snorlax",
+        "nr": "143",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Articuno",
+        "nr": "144",
+        "tipo1": "Ghiaccio",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Zapdos",
+        "nr": "145",
+        "tipo1": "Elettro",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Moltres",
+        "nr": "146",
+        "tipo1": "Fuoco",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Dratini",
+        "nr": "147",
+        "tipo1": "Drago",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Dragonair",
+        "nr": "148",
+        "tipo1": "Drago",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Dragonite",
+        "nr": "149",
+        "tipo1": "Drago",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Mewtwo",
+        "nr": "150",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Mew",
+        "nr": "151",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Chikorita",
+        "nr": "152",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Bayleef",
+        "nr": "153",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Meganium",
+        "nr": "154",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Cyndaquil",
+        "nr": "155",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Quilava",
+        "nr": "156",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Typhlosion",
+        "nr": "157",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Totodile",
+        "nr": "158",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Croconaw",
+        "nr": "159",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Feraligatr",
+        "nr": "160",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Sentret",
+        "nr": "161",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Furret",
+        "nr": "162",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Hoothoot",
+        "nr": "163",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Noctowl",
+        "nr": "164",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Ledyba",
+        "nr": "165",
+        "tipo1": "Coleottero",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Ledian",
+        "nr": "166",
+        "tipo1": "Coleottero",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Spinarak",
+        "nr": "167",
+        "tipo1": "Coleottero",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Ariados",
+        "nr": "168",
+        "tipo1": "Coleottero",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Crobat",
+        "nr": "169",
+        "tipo1": "Veleno",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Chinchou",
+        "nr": "170",
+        "tipo1": "Acqua",
+        "tipo2": "Elettro"
+    },
+    {
+        "pokemon": "Lanturn",
+        "nr": "171",
+        "tipo1": "Acqua",
+        "tipo2": "Elettro"
+    },
+    {
+        "pokemon": "Pichu",
+        "nr": "172",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Cleffa",
+        "nr": "173",
+        "tipo1": "Folletto",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Igglybuff",
+        "nr": "174",
+        "tipo1": "Normale",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Togepi",
+        "nr": "175",
+        "tipo1": "Folletto",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Togetic",
+        "nr": "176",
+        "tipo1": "Folletto",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Natu",
+        "nr": "177",
+        "tipo1": "Psico",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Xatu",
+        "nr": "178",
+        "tipo1": "Psico",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Mareep",
+        "nr": "179",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Flaaffy",
+        "nr": "180",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Ampharos",
+        "nr": "181",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Bellossom",
+        "nr": "182",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Marill",
+        "nr": "183",
+        "tipo1": "Acqua",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Azumarill",
+        "nr": "184",
+        "tipo1": "Acqua",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Sudowoodo",
+        "nr": "185",
+        "tipo1": "Roccia",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Politoed",
+        "nr": "186",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Hoppip",
+        "nr": "187",
+        "tipo1": "Erba",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Skiploom",
+        "nr": "188",
+        "tipo1": "Erba",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Jumpluff",
+        "nr": "189",
+        "tipo1": "Erba",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Aipom",
+        "nr": "190",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Sunkern",
+        "nr": "191",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Sunflora",
+        "nr": "192",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Yanma",
+        "nr": "193",
+        "tipo1": "Coleottero",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Wooper",
+        "nr": "194",
+        "tipo1": "Acqua",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Quagsire",
+        "nr": "195",
+        "tipo1": "Acqua",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Espeon",
+        "nr": "196",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Umbreon",
+        "nr": "197",
+        "tipo1": "Buio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Murkrow",
+        "nr": "198",
+        "tipo1": "Buio",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Slowking",
+        "nr": "199",
+        "tipo1": "Acqua",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Misdreavus",
+        "nr": "200",
+        "tipo1": "Spettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Unown",
+        "nr": "201",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Wobbuffet",
+        "nr": "202",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Girafarig",
+        "nr": "203",
+        "tipo1": "Normale",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Pineco",
+        "nr": "204",
+        "tipo1": "Coleottero",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Forretress",
+        "nr": "205",
+        "tipo1": "Coleottero",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Dunsparce",
+        "nr": "206",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Gligar",
+        "nr": "207",
+        "tipo1": "Terra",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Steelix",
+        "nr": "208",
+        "tipo1": "Acciaio",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Snubbull",
+        "nr": "209",
+        "tipo1": "Folletto",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Granbull",
+        "nr": "210",
+        "tipo1": "Folletto",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Qwilfish",
+        "nr": "211",
+        "tipo1": "Acqua",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Scizor",
+        "nr": "212",
+        "tipo1": "Coleottero",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Shuckle",
+        "nr": "213",
+        "tipo1": "Coleottero",
+        "tipo2": "Roccia"
+    },
+    {
+        "pokemon": "Heracross",
+        "nr": "214",
+        "tipo1": "Coleottero",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Sneasel",
+        "nr": "215",
+        "tipo1": "Buio",
+        "tipo2": "Ghiaccio"
+    },
+    {
+        "pokemon": "Teddiursa",
+        "nr": "216",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Ursaring",
+        "nr": "217",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Slugma",
+        "nr": "218",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Magcargo",
+        "nr": "219",
+        "tipo1": "Fuoco",
+        "tipo2": "Roccia"
+    },
+    {
+        "pokemon": "Swinub",
+        "nr": "220",
+        "tipo1": "Ghiaccio",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Piloswine",
+        "nr": "221",
+        "tipo1": "Ghiaccio",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Corsola",
+        "nr": "222",
+        "tipo1": "Acqua",
+        "tipo2": "Roccia"
+    },
+    {
+        "pokemon": "Remoraid",
+        "nr": "223",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Octillery",
+        "nr": "224",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Delibird",
+        "nr": "225",
+        "tipo1": "Ghiaccio",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Mantine",
+        "nr": "226",
+        "tipo1": "Acqua",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Skarmory",
+        "nr": "227",
+        "tipo1": "Acciaio",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Houndour",
+        "nr": "228",
+        "tipo1": "Buio",
+        "tipo2": "Fuoco"
+    },
+    {
+        "pokemon": "Houndoom",
+        "nr": "229",
+        "tipo1": "Buio",
+        "tipo2": "Fuoco"
+    },
+    {
+        "pokemon": "Kingdra",
+        "nr": "230",
+        "tipo1": "Acqua",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Phanpy",
+        "nr": "231",
+        "tipo1": "Terra",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Donphan",
+        "nr": "232",
+        "tipo1": "Terra",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Porygon2",
+        "nr": "233",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Stantler",
+        "nr": "234",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Smeargle",
+        "nr": "235",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Tyrogue",
+        "nr": "236",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Hitmontop",
+        "nr": "237",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Smoochum",
+        "nr": "238",
+        "tipo1": "Ghiaccio",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Elekid",
+        "nr": "239",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Magby",
+        "nr": "240",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Miltank",
+        "nr": "241",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Blissey",
+        "nr": "242",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Raikou",
+        "nr": "243",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Entei",
+        "nr": "244",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Suicune",
+        "nr": "245",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Larvitar",
+        "nr": "246",
+        "tipo1": "Roccia",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Pupitar",
+        "nr": "247",
+        "tipo1": "Roccia",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Tyranitar",
+        "nr": "248",
+        "tipo1": "Roccia",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Lugia",
+        "nr": "249",
+        "tipo1": "Psico",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Ho-Oh",
+        "nr": "250",
+        "tipo1": "Fuoco",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Celebi",
+        "nr": "251",
+        "tipo1": "Psico",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Treecko",
+        "nr": "252",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Grovyle",
+        "nr": "253",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Sceptile",
+        "nr": "254",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Torchic",
+        "nr": "255",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Combusken",
+        "nr": "256",
+        "tipo1": "Fuoco",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Blaziken",
+        "nr": "257",
+        "tipo1": "Fuoco",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Mudkip",
+        "nr": "258",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Marshtomp",
+        "nr": "259",
+        "tipo1": "Acqua",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Swampert",
+        "nr": "260",
+        "tipo1": "Acqua",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Poochyena",
+        "nr": "261",
+        "tipo1": "Buio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Mightyena",
+        "nr": "262",
+        "tipo1": "Buio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Zigzagoon",
+        "nr": "263",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Linoone",
+        "nr": "264",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Wurmple",
+        "nr": "265",
+        "tipo1": "Coleottero",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Silcoon",
+        "nr": "266",
+        "tipo1": "Coleottero",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Beautifly",
+        "nr": "267",
+        "tipo1": "Coleottero",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Cascoon",
+        "nr": "268",
+        "tipo1": "Coleottero",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Dustox",
+        "nr": "269",
+        "tipo1": "Coleottero",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Lotad",
+        "nr": "270",
+        "tipo1": "Acqua",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Lombre",
+        "nr": "271",
+        "tipo1": "Acqua",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Ludicolo",
+        "nr": "272",
+        "tipo1": "Acqua",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Seedot",
+        "nr": "273",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Nuzleaf",
+        "nr": "274",
+        "tipo1": "Erba",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Shiftry",
+        "nr": "275",
+        "tipo1": "Erba",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Taillow",
+        "nr": "276",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Swellow",
+        "nr": "277",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Wingull",
+        "nr": "278",
+        "tipo1": "Acqua",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Pelipper",
+        "nr": "279",
+        "tipo1": "Acqua",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Ralts",
+        "nr": "280",
+        "tipo1": "Psico",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Kirlia",
+        "nr": "281",
+        "tipo1": "Psico",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Gardevoir",
+        "nr": "282",
+        "tipo1": "Psico",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Surskit",
+        "nr": "283",
+        "tipo1": "Coleottero",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Masquerain",
+        "nr": "284",
+        "tipo1": "Coleottero",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Shroomish",
+        "nr": "285",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Breloom",
+        "nr": "286",
+        "tipo1": "Erba",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Slakoth",
+        "nr": "287",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Vigoroth",
+        "nr": "288",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Slaking",
+        "nr": "289",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Nincada",
+        "nr": "290",
+        "tipo1": "Coleottero",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Ninjask",
+        "nr": "291",
+        "tipo1": "Coleottero",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Shedinja",
+        "nr": "292",
+        "tipo1": "Coleottero",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Whismur",
+        "nr": "293",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Loudred",
+        "nr": "294",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Exploud",
+        "nr": "295",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Makuhita",
+        "nr": "296",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Hariyama",
+        "nr": "297",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Azurill",
+        "nr": "298",
+        "tipo1": "Normale",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Nosepass",
+        "nr": "299",
+        "tipo1": "Roccia",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Skitty",
+        "nr": "300",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Delcatty",
+        "nr": "301",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Sableye",
+        "nr": "302",
+        "tipo1": "Buio",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Mawile",
+        "nr": "303",
+        "tipo1": "Acciaio",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Aron",
+        "nr": "304",
+        "tipo1": "Acciaio",
+        "tipo2": "Roccia"
+    },
+    {
+        "pokemon": "Lairon",
+        "nr": "305",
+        "tipo1": "Acciaio",
+        "tipo2": "Roccia"
+    },
+    {
+        "pokemon": "Aggron",
+        "nr": "306",
+        "tipo1": "Acciaio",
+        "tipo2": "Roccia"
+    },
+    {
+        "pokemon": "Meditite",
+        "nr": "307",
+        "tipo1": "Lotta",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Medicham",
+        "nr": "308",
+        "tipo1": "Lotta",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Electrike",
+        "nr": "309",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Manectric",
+        "nr": "310",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Plusle",
+        "nr": "311",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Minun",
+        "nr": "312",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Volbeat",
+        "nr": "313",
+        "tipo1": "Coleottero",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Illumise",
+        "nr": "314",
+        "tipo1": "Coleottero",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Roselia",
+        "nr": "315",
+        "tipo1": "Erba",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Gulpin",
+        "nr": "316",
+        "tipo1": "Veleno",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Swalot",
+        "nr": "317",
+        "tipo1": "Veleno",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Carvanha",
+        "nr": "318",
+        "tipo1": "Acqua",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Sharpedo",
+        "nr": "319",
+        "tipo1": "Acqua",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Wailmer",
+        "nr": "320",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Wailord",
+        "nr": "321",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Numel",
+        "nr": "322",
+        "tipo1": "Fuoco",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Camerupt",
+        "nr": "323",
+        "tipo1": "Fuoco",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Torkoal",
+        "nr": "324",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Spoink",
+        "nr": "325",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Grumpig",
+        "nr": "326",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Spinda",
+        "nr": "327",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Trapinch",
+        "nr": "328",
+        "tipo1": "Terra",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Vibrava",
+        "nr": "329",
+        "tipo1": "Terra",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Flygon",
+        "nr": "330",
+        "tipo1": "Terra",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Cacnea",
+        "nr": "331",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Cacturne",
+        "nr": "332",
+        "tipo1": "Erba",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Swablu",
+        "nr": "333",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Altaria",
+        "nr": "334",
+        "tipo1": "Drago",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Zangoose",
+        "nr": "335",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Seviper",
+        "nr": "336",
+        "tipo1": "Veleno",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Lunatone",
+        "nr": "337",
+        "tipo1": "Roccia",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Solrock",
+        "nr": "338",
+        "tipo1": "Roccia",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Barboach",
+        "nr": "339",
+        "tipo1": "Acqua",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Whiscash",
+        "nr": "340",
+        "tipo1": "Acqua",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Corphish",
+        "nr": "341",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Crawdaunt",
+        "nr": "342",
+        "tipo1": "Acqua",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Baltoy",
+        "nr": "343",
+        "tipo1": "Terra",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Claydol",
+        "nr": "344",
+        "tipo1": "Terra",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Lileep",
+        "nr": "345",
+        "tipo1": "Roccia",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Cradily",
+        "nr": "346",
+        "tipo1": "Roccia",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Anorith",
+        "nr": "347",
+        "tipo1": "Roccia",
+        "tipo2": "Coleottero"
+    },
+    {
+        "pokemon": "Armaldo",
+        "nr": "348",
+        "tipo1": "Roccia",
+        "tipo2": "Coleottero"
+    },
+    {
+        "pokemon": "Feebas",
+        "nr": "349",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Milotic",
+        "nr": "350",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Castform",
+        "nr": "351",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Kecleon",
+        "nr": "352",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Shuppet",
+        "nr": "353",
+        "tipo1": "Spettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Banette",
+        "nr": "354",
+        "tipo1": "Spettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Duskull",
+        "nr": "355",
+        "tipo1": "Spettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Dusclops",
+        "nr": "356",
+        "tipo1": "Spettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Tropius",
+        "nr": "357",
+        "tipo1": "Erba",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Chimecho",
+        "nr": "358",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Absol",
+        "nr": "359",
+        "tipo1": "Buio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Wynaut",
+        "nr": "360",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Snorunt",
+        "nr": "361",
+        "tipo1": "Ghiaccio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Glalie",
+        "nr": "362",
+        "tipo1": "Ghiaccio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Spheal",
+        "nr": "363",
+        "tipo1": "Ghiaccio",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Sealeo",
+        "nr": "364",
+        "tipo1": "Ghiaccio",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Walrein",
+        "nr": "365",
+        "tipo1": "Ghiaccio",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Clamperl",
+        "nr": "366",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Huntail",
+        "nr": "367",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Gorebyss",
+        "nr": "368",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Relicanth",
+        "nr": "369",
+        "tipo1": "Acqua",
+        "tipo2": "Roccia"
+    },
+    {
+        "pokemon": "Luvdisc",
+        "nr": "370",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Bagon",
+        "nr": "371",
+        "tipo1": "Drago",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Shelgon",
+        "nr": "372",
+        "tipo1": "Drago",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Salamence",
+        "nr": "373",
+        "tipo1": "Drago",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Beldum",
+        "nr": "374",
+        "tipo1": "Acciaio",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Metang",
+        "nr": "375",
+        "tipo1": "Acciaio",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Metagross",
+        "nr": "376",
+        "tipo1": "Acciaio",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Regirock",
+        "nr": "377",
+        "tipo1": "Roccia",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Regice",
+        "nr": "378",
+        "tipo1": "Ghiaccio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Registeel",
+        "nr": "379",
+        "tipo1": "Acciaio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Latias",
+        "nr": "380",
+        "tipo1": "Drago",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Latios",
+        "nr": "381",
+        "tipo1": "Drago",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Kyogre",
+        "nr": "382",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Groudon",
+        "nr": "383",
+        "tipo1": "Terra",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Rayquaza",
+        "nr": "384",
+        "tipo1": "Drago",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Jirachi",
+        "nr": "385",
+        "tipo1": "Acciaio",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Deoxys-Normal",
+        "nr": "386",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Turtwig",
+        "nr": "387",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Grotle",
+        "nr": "388",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Torterra",
+        "nr": "389",
+        "tipo1": "Erba",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Chimchar",
+        "nr": "390",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Monferno",
+        "nr": "391",
+        "tipo1": "Fuoco",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Infernape",
+        "nr": "392",
+        "tipo1": "Fuoco",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Piplup",
+        "nr": "393",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Prinplup",
+        "nr": "394",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Empoleon",
+        "nr": "395",
+        "tipo1": "Acqua",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Starly",
+        "nr": "396",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Staravia",
+        "nr": "397",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Staraptor",
+        "nr": "398",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Bidoof",
+        "nr": "399",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Bibarel",
+        "nr": "400",
+        "tipo1": "Normale",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Kricketot",
+        "nr": "401",
+        "tipo1": "Coleottero",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Kricketune",
+        "nr": "402",
+        "tipo1": "Coleottero",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Shinx",
+        "nr": "403",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Luxio",
+        "nr": "404",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Luxray",
+        "nr": "405",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Budew",
+        "nr": "406",
+        "tipo1": "Erba",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Roserade",
+        "nr": "407",
+        "tipo1": "Erba",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Cranidos",
+        "nr": "408",
+        "tipo1": "Roccia",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Rampardos",
+        "nr": "409",
+        "tipo1": "Roccia",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Shieldon",
+        "nr": "410",
+        "tipo1": "Roccia",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Bastiodon",
+        "nr": "411",
+        "tipo1": "Roccia",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Burmy",
+        "nr": "412",
+        "tipo1": "Coleottero",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Wormadam-Plant",
+        "nr": "413",
+        "tipo1": "Coleottero",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Mothim",
+        "nr": "414",
+        "tipo1": "Coleottero",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Combee",
+        "nr": "415",
+        "tipo1": "Coleottero",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Vespiquen",
+        "nr": "416",
+        "tipo1": "Coleottero",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Pachirisu",
+        "nr": "417",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Buizel",
+        "nr": "418",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Floatzel",
+        "nr": "419",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Cherubi",
+        "nr": "420",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Cherrim",
+        "nr": "421",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Shellos",
+        "nr": "422",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Gastrodon",
+        "nr": "423",
+        "tipo1": "Acqua",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Ambipom",
+        "nr": "424",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Drifloon",
+        "nr": "425",
+        "tipo1": "Spettro",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Drifblim",
+        "nr": "426",
+        "tipo1": "Spettro",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Buneary",
+        "nr": "427",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Lopunny",
+        "nr": "428",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Mismagius",
+        "nr": "429",
+        "tipo1": "Spettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Honchkrow",
+        "nr": "430",
+        "tipo1": "Buio",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Glameow",
+        "nr": "431",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Purugly",
+        "nr": "432",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Chingling",
+        "nr": "433",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Stunky",
+        "nr": "434",
+        "tipo1": "Veleno",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Skuntank",
+        "nr": "435",
+        "tipo1": "Veleno",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Bronzor",
+        "nr": "436",
+        "tipo1": "Acciaio",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Bronzong",
+        "nr": "437",
+        "tipo1": "Acciaio",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Bonsly",
+        "nr": "438",
+        "tipo1": "Roccia",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Mime-Jr",
+        "nr": "439",
+        "tipo1": "Psico",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Happiny",
+        "nr": "440",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Chatot",
+        "nr": "441",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Spiritomb",
+        "nr": "442",
+        "tipo1": "Spettro",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Gible",
+        "nr": "443",
+        "tipo1": "Drago",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Gabite",
+        "nr": "444",
+        "tipo1": "Drago",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Garchomp",
+        "nr": "445",
+        "tipo1": "Drago",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Munchlax",
+        "nr": "446",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Riolu",
+        "nr": "447",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Lucario",
+        "nr": "448",
+        "tipo1": "Lotta",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Hippopotas",
+        "nr": "449",
+        "tipo1": "Terra",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Hippowdon",
+        "nr": "450",
+        "tipo1": "Terra",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Skorupi",
+        "nr": "451",
+        "tipo1": "Veleno",
+        "tipo2": "Coleottero"
+    },
+    {
+        "pokemon": "Drapion",
+        "nr": "452",
+        "tipo1": "Veleno",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Croagunk",
+        "nr": "453",
+        "tipo1": "Veleno",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Toxicroak",
+        "nr": "454",
+        "tipo1": "Veleno",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Carnivine",
+        "nr": "455",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Finneon",
+        "nr": "456",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Lumineon",
+        "nr": "457",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Mantyke",
+        "nr": "458",
+        "tipo1": "Acqua",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Snover",
+        "nr": "459",
+        "tipo1": "Erba",
+        "tipo2": "Ghiaccio"
+    },
+    {
+        "pokemon": "Abomasnow",
+        "nr": "460",
+        "tipo1": "Erba",
+        "tipo2": "Ghiaccio"
+    },
+    {
+        "pokemon": "Weavile",
+        "nr": "461",
+        "tipo1": "Buio",
+        "tipo2": "Ghiaccio"
+    },
+    {
+        "pokemon": "Magnezone",
+        "nr": "462",
+        "tipo1": "Elettro",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Lickilicky",
+        "nr": "463",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Rhyperior",
+        "nr": "464",
+        "tipo1": "Terra",
+        "tipo2": "Roccia"
+    },
+    {
+        "pokemon": "Tangrowth",
+        "nr": "465",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Electivire",
+        "nr": "466",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Magmortar",
+        "nr": "467",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Togekiss",
+        "nr": "468",
+        "tipo1": "Folletto",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Yanmega",
+        "nr": "469",
+        "tipo1": "Coleottero",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Leafeon",
+        "nr": "470",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Glaceon",
+        "nr": "471",
+        "tipo1": "Ghiaccio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Gliscor",
+        "nr": "472",
+        "tipo1": "Terra",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Mamoswine",
+        "nr": "473",
+        "tipo1": "Ghiaccio",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Porygon-Z",
+        "nr": "474",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Gallade",
+        "nr": "475",
+        "tipo1": "Psico",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Probopass",
+        "nr": "476",
+        "tipo1": "Roccia",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Dusknoir",
+        "nr": "477",
+        "tipo1": "Spettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Froslass",
+        "nr": "478",
+        "tipo1": "Ghiaccio",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Rotom",
+        "nr": "479",
+        "tipo1": "Elettro",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Uxie",
+        "nr": "480",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Mesprit",
+        "nr": "481",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Azelf",
+        "nr": "482",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Dialga",
+        "nr": "483",
+        "tipo1": "Acciaio",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Palkia",
+        "nr": "484",
+        "tipo1": "Acqua",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Heatran",
+        "nr": "485",
+        "tipo1": "Fuoco",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Regigigas",
+        "nr": "486",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Giratina-Altered",
+        "nr": "487",
+        "tipo1": "Spettro",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Cresselia",
+        "nr": "488",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Phione",
+        "nr": "489",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Manaphy",
+        "nr": "490",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Darkrai",
+        "nr": "491",
+        "tipo1": "Buio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Shaymin-Land",
+        "nr": "492",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Arceus",
+        "nr": "493",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Victini",
+        "nr": "494",
+        "tipo1": "Psico",
+        "tipo2": "Fuoco"
+    },
+    {
+        "pokemon": "Snivy",
+        "nr": "495",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Servine",
+        "nr": "496",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Serperior",
+        "nr": "497",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Tepig",
+        "nr": "498",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Pignite",
+        "nr": "499",
+        "tipo1": "Fuoco",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Emboar",
+        "nr": "500",
+        "tipo1": "Fuoco",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Oshawott",
+        "nr": "501",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Dewott",
+        "nr": "502",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Samurott",
+        "nr": "503",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Patrat",
+        "nr": "504",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Watchog",
+        "nr": "505",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Lillipup",
+        "nr": "506",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Herdier",
+        "nr": "507",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Stoutland",
+        "nr": "508",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Purrloin",
+        "nr": "509",
+        "tipo1": "Buio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Liepard",
+        "nr": "510",
+        "tipo1": "Buio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Pansage",
+        "nr": "511",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Simisage",
+        "nr": "512",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Pansear",
+        "nr": "513",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Simisear",
+        "nr": "514",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Panpour",
+        "nr": "515",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Simipour",
+        "nr": "516",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Munna",
+        "nr": "517",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Musharna",
+        "nr": "518",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Pidove",
+        "nr": "519",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Tranquill",
+        "nr": "520",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Unfezant",
+        "nr": "521",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Blitzle",
+        "nr": "522",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Zebstrika",
+        "nr": "523",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Roggenrola",
+        "nr": "524",
+        "tipo1": "Roccia",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Boldore",
+        "nr": "525",
+        "tipo1": "Roccia",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Gigalith",
+        "nr": "526",
+        "tipo1": "Roccia",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Woobat",
+        "nr": "527",
+        "tipo1": "Psico",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Swoobat",
+        "nr": "528",
+        "tipo1": "Psico",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Drilbur",
+        "nr": "529",
+        "tipo1": "Terra",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Excadrill",
+        "nr": "530",
+        "tipo1": "Terra",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Audino",
+        "nr": "531",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Timburr",
+        "nr": "532",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Gurdurr",
+        "nr": "533",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Conkeldurr",
+        "nr": "534",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Tympole",
+        "nr": "535",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Palpitoad",
+        "nr": "536",
+        "tipo1": "Acqua",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Seismitoad",
+        "nr": "537",
+        "tipo1": "Acqua",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Throh",
+        "nr": "538",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Sawk",
+        "nr": "539",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Sewaddle",
+        "nr": "540",
+        "tipo1": "Coleottero",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Swadloon",
+        "nr": "541",
+        "tipo1": "Coleottero",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Leavanny",
+        "nr": "542",
+        "tipo1": "Coleottero",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Venipede",
+        "nr": "543",
+        "tipo1": "Coleottero",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Whirlipede",
+        "nr": "544",
+        "tipo1": "Coleottero",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Scolipede",
+        "nr": "545",
+        "tipo1": "Coleottero",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Cottonee",
+        "nr": "546",
+        "tipo1": "Erba",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Whimsicott",
+        "nr": "547",
+        "tipo1": "Erba",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Petilil",
+        "nr": "548",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Lilligant",
+        "nr": "549",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Basculin-Red-Striped",
+        "nr": "550",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Sandile",
+        "nr": "551",
+        "tipo1": "Terra",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Krokorok",
+        "nr": "552",
+        "tipo1": "Terra",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Krookodile",
+        "nr": "553",
+        "tipo1": "Terra",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Darumaka",
+        "nr": "554",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Darmanitan-Standard",
+        "nr": "555",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Maractus",
+        "nr": "556",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Dwebble",
+        "nr": "557",
+        "tipo1": "Coleottero",
+        "tipo2": "Roccia"
+    },
+    {
+        "pokemon": "Crustle",
+        "nr": "558",
+        "tipo1": "Coleottero",
+        "tipo2": "Roccia"
+    },
+    {
+        "pokemon": "Scraggy",
+        "nr": "559",
+        "tipo1": "Buio",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Scrafty",
+        "nr": "560",
+        "tipo1": "Buio",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Sigilyph",
+        "nr": "561",
+        "tipo1": "Psico",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Yamask",
+        "nr": "562",
+        "tipo1": "Spettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Cofagrigus",
+        "nr": "563",
+        "tipo1": "Spettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Tirtouga",
+        "nr": "564",
+        "tipo1": "Acqua",
+        "tipo2": "Roccia"
+    },
+    {
+        "pokemon": "Carracosta",
+        "nr": "565",
+        "tipo1": "Acqua",
+        "tipo2": "Roccia"
+    },
+    {
+        "pokemon": "Archen",
+        "nr": "566",
+        "tipo1": "Roccia",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Archeops",
+        "nr": "567",
+        "tipo1": "Roccia",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Trubbish",
+        "nr": "568",
+        "tipo1": "Veleno",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Garbodor",
+        "nr": "569",
+        "tipo1": "Veleno",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Zorua",
+        "nr": "570",
+        "tipo1": "Buio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Zoroark",
+        "nr": "571",
+        "tipo1": "Buio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Minccino",
+        "nr": "572",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Cinccino",
+        "nr": "573",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Gothita",
+        "nr": "574",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Gothorita",
+        "nr": "575",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Gothitelle",
+        "nr": "576",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Solosis",
+        "nr": "577",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Duosion",
+        "nr": "578",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Reuniclus",
+        "nr": "579",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Ducklett",
+        "nr": "580",
+        "tipo1": "Acqua",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Swanna",
+        "nr": "581",
+        "tipo1": "Acqua",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Vanillite",
+        "nr": "582",
+        "tipo1": "Ghiaccio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Vanillish",
+        "nr": "583",
+        "tipo1": "Ghiaccio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Vanilluxe",
+        "nr": "584",
+        "tipo1": "Ghiaccio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Deerling",
+        "nr": "585",
+        "tipo1": "Normale",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Sawsbuck",
+        "nr": "586",
+        "tipo1": "Normale",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Emolga",
+        "nr": "587",
+        "tipo1": "Elettro",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Karrablast",
+        "nr": "588",
+        "tipo1": "Coleottero",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Escavalier",
+        "nr": "589",
+        "tipo1": "Coleottero",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Foongus",
+        "nr": "590",
+        "tipo1": "Erba",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Amoonguss",
+        "nr": "591",
+        "tipo1": "Erba",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Frillish",
+        "nr": "592",
+        "tipo1": "Acqua",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Jellicent",
+        "nr": "593",
+        "tipo1": "Acqua",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Alomomola",
+        "nr": "594",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Joltik",
+        "nr": "595",
+        "tipo1": "Coleottero",
+        "tipo2": "Elettro"
+    },
+    {
+        "pokemon": "Galvantula",
+        "nr": "596",
+        "tipo1": "Coleottero",
+        "tipo2": "Elettro"
+    },
+    {
+        "pokemon": "Ferroseed",
+        "nr": "597",
+        "tipo1": "Erba",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Ferrothorn",
+        "nr": "598",
+        "tipo1": "Erba",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Klink",
+        "nr": "599",
+        "tipo1": "Acciaio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Klang",
+        "nr": "600",
+        "tipo1": "Acciaio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Klinklang",
+        "nr": "601",
+        "tipo1": "Acciaio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Tynamo",
+        "nr": "602",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Eelektrik",
+        "nr": "603",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Eelektross",
+        "nr": "604",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Elgyem",
+        "nr": "605",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Beheeyem",
+        "nr": "606",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Litwick",
+        "nr": "607",
+        "tipo1": "Spettro",
+        "tipo2": "Fuoco"
+    },
+    {
+        "pokemon": "Lampent",
+        "nr": "608",
+        "tipo1": "Spettro",
+        "tipo2": "Fuoco"
+    },
+    {
+        "pokemon": "Chandelure",
+        "nr": "609",
+        "tipo1": "Spettro",
+        "tipo2": "Fuoco"
+    },
+    {
+        "pokemon": "Axew",
+        "nr": "610",
+        "tipo1": "Drago",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Fraxure",
+        "nr": "611",
+        "tipo1": "Drago",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Haxorus",
+        "nr": "612",
+        "tipo1": "Drago",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Cubchoo",
+        "nr": "613",
+        "tipo1": "Ghiaccio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Beartic",
+        "nr": "614",
+        "tipo1": "Ghiaccio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Cryogonal",
+        "nr": "615",
+        "tipo1": "Ghiaccio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Shelmet",
+        "nr": "616",
+        "tipo1": "Coleottero",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Accelgor",
+        "nr": "617",
+        "tipo1": "Coleottero",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Stunfisk",
+        "nr": "618",
+        "tipo1": "Terra",
+        "tipo2": "Elettro"
+    },
+    {
+        "pokemon": "Mienfoo",
+        "nr": "619",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Mienshao",
+        "nr": "620",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Druddigon",
+        "nr": "621",
+        "tipo1": "Drago",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Golett",
+        "nr": "622",
+        "tipo1": "Terra",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Golurk",
+        "nr": "623",
+        "tipo1": "Terra",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Pawniard",
+        "nr": "624",
+        "tipo1": "Buio",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Bisharp",
+        "nr": "625",
+        "tipo1": "Buio",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Bouffalant",
+        "nr": "626",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Rufflet",
+        "nr": "627",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Braviary",
+        "nr": "628",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Vullaby",
+        "nr": "629",
+        "tipo1": "Buio",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Mandibuzz",
+        "nr": "630",
+        "tipo1": "Buio",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Heatmor",
+        "nr": "631",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Durant",
+        "nr": "632",
+        "tipo1": "Coleottero",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Deino",
+        "nr": "633",
+        "tipo1": "Buio",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Zweilous",
+        "nr": "634",
+        "tipo1": "Buio",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Hydreigon",
+        "nr": "635",
+        "tipo1": "Buio",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Larvesta",
+        "nr": "636",
+        "tipo1": "Coleottero",
+        "tipo2": "Fuoco"
+    },
+    {
+        "pokemon": "Volcarona",
+        "nr": "637",
+        "tipo1": "Coleottero",
+        "tipo2": "Fuoco"
+    },
+    {
+        "pokemon": "Cobalion",
+        "nr": "638",
+        "tipo1": "Acciaio",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Terrakion",
+        "nr": "639",
+        "tipo1": "Roccia",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Virizion",
+        "nr": "640",
+        "tipo1": "Erba",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Tornadus-Incarnate",
+        "nr": "641",
+        "tipo1": "Volante",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Thundurus-Incarnate",
+        "nr": "642",
+        "tipo1": "Elettro",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Reshiram",
+        "nr": "643",
+        "tipo1": "Drago",
+        "tipo2": "Fuoco"
+    },
+    {
+        "pokemon": "Zekrom",
+        "nr": "644",
+        "tipo1": "Drago",
+        "tipo2": "Elettro"
+    },
+    {
+        "pokemon": "Landorus-Incarnate",
+        "nr": "645",
+        "tipo1": "Terra",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Kyurem",
+        "nr": "646",
+        "tipo1": "Drago",
+        "tipo2": "Ghiaccio"
+    },
+    {
+        "pokemon": "Keldeo-Ordinary",
+        "nr": "647",
+        "tipo1": "Acqua",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Meloetta-Aria",
+        "nr": "648",
+        "tipo1": "Normale",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Genesect",
+        "nr": "649",
+        "tipo1": "Coleottero",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Chespin",
+        "nr": "650",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Quilladin",
+        "nr": "651",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Chesnaught",
+        "nr": "652",
+        "tipo1": "Erba",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Fennekin",
+        "nr": "653",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Braixen",
+        "nr": "654",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Delphox",
+        "nr": "655",
+        "tipo1": "Fuoco",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Froakie",
+        "nr": "656",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Frogadier",
+        "nr": "657",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Greninja",
+        "nr": "658",
+        "tipo1": "Acqua",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Bunnelby",
+        "nr": "659",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Diggersby",
+        "nr": "660",
+        "tipo1": "Normale",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Fletchling",
+        "nr": "661",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Fletchinder",
+        "nr": "662",
+        "tipo1": "Fuoco",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Talonflame",
+        "nr": "663",
+        "tipo1": "Fuoco",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Scatterbug",
+        "nr": "664",
+        "tipo1": "Coleottero",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Spewpa",
+        "nr": "665",
+        "tipo1": "Coleottero",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Vivillon",
+        "nr": "666",
+        "tipo1": "Coleottero",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Litleo",
+        "nr": "667",
+        "tipo1": "Fuoco",
+        "tipo2": "Normale"
+    },
+    {
+        "pokemon": "Pyroar",
+        "nr": "668",
+        "tipo1": "Fuoco",
+        "tipo2": "Normale"
+    },
+    {
+        "pokemon": "Flabebe",
+        "nr": "669",
+        "tipo1": "Folletto",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Floette",
+        "nr": "670",
+        "tipo1": "Folletto",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Florges",
+        "nr": "671",
+        "tipo1": "Folletto",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Skiddo",
+        "nr": "672",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Gogoat",
+        "nr": "673",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Pancham",
+        "nr": "674",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Pangoro",
+        "nr": "675",
+        "tipo1": "Lotta",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Furfrou",
+        "nr": "676",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Espurr",
+        "nr": "677",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Meowstic-Male",
+        "nr": "678",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Honedge",
+        "nr": "679",
+        "tipo1": "Acciaio",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Doublade",
+        "nr": "680",
+        "tipo1": "Acciaio",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Aegislash-Shield",
+        "nr": "681",
+        "tipo1": "Acciaio",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Spritzee",
+        "nr": "682",
+        "tipo1": "Folletto",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Aromatisse",
+        "nr": "683",
+        "tipo1": "Folletto",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Swirlix",
+        "nr": "684",
+        "tipo1": "Folletto",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Slurpuff",
+        "nr": "685",
+        "tipo1": "Folletto",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Inkay",
+        "nr": "686",
+        "tipo1": "Buio",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Malamar",
+        "nr": "687",
+        "tipo1": "Buio",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Binacle",
+        "nr": "688",
+        "tipo1": "Roccia",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Barbaracle",
+        "nr": "689",
+        "tipo1": "Roccia",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Skrelp",
+        "nr": "690",
+        "tipo1": "Veleno",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Dragalge",
+        "nr": "691",
+        "tipo1": "Veleno",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Clauncher",
+        "nr": "692",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Clawitzer",
+        "nr": "693",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Helioptile",
+        "nr": "694",
+        "tipo1": "Elettro",
+        "tipo2": "Normale"
+    },
+    {
+        "pokemon": "Heliolisk",
+        "nr": "695",
+        "tipo1": "Elettro",
+        "tipo2": "Normale"
+    },
+    {
+        "pokemon": "Tyrunt",
+        "nr": "696",
+        "tipo1": "Roccia",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Tyrantrum",
+        "nr": "697",
+        "tipo1": "Roccia",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Amaura",
+        "nr": "698",
+        "tipo1": "Roccia",
+        "tipo2": "Ghiaccio"
+    },
+    {
+        "pokemon": "Aurorus",
+        "nr": "699",
+        "tipo1": "Roccia",
+        "tipo2": "Ghiaccio"
+    },
+    {
+        "pokemon": "Sylveon",
+        "nr": "700",
+        "tipo1": "Folletto",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Hawlucha",
+        "nr": "701",
+        "tipo1": "Lotta",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Dedenne",
+        "nr": "702",
+        "tipo1": "Elettro",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Carbink",
+        "nr": "703",
+        "tipo1": "Roccia",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Goomy",
+        "nr": "704",
+        "tipo1": "Drago",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Sliggoo",
+        "nr": "705",
+        "tipo1": "Drago",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Goodra",
+        "nr": "706",
+        "tipo1": "Drago",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Klefki",
+        "nr": "707",
+        "tipo1": "Acciaio",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Phantump",
+        "nr": "708",
+        "tipo1": "Spettro",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Trevenant",
+        "nr": "709",
+        "tipo1": "Spettro",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Pumpkaboo-Average",
+        "nr": "710",
+        "tipo1": "Spettro",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Gourgeist-Average",
+        "nr": "711",
+        "tipo1": "Spettro",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Bergmite",
+        "nr": "712",
+        "tipo1": "Ghiaccio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Avalugg",
+        "nr": "713",
+        "tipo1": "Ghiaccio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Noibat",
+        "nr": "714",
+        "tipo1": "Volante",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Noivern",
+        "nr": "715",
+        "tipo1": "Volante",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Xerneas",
+        "nr": "716",
+        "tipo1": "Folletto",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Yveltal",
+        "nr": "717",
+        "tipo1": "Buio",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Zygarde-50",
+        "nr": "718",
+        "tipo1": "Drago",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Diancie",
+        "nr": "719",
+        "tipo1": "Roccia",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Hoopa",
+        "nr": "720",
+        "tipo1": "Psico",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Volcanion",
+        "nr": "721",
+        "tipo1": "Fuoco",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Rowlet",
+        "nr": "722",
+        "tipo1": "Erba",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Dartrix",
+        "nr": "723",
+        "tipo1": "Erba",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Decidueye",
+        "nr": "724",
+        "tipo1": "Erba",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Litten",
+        "nr": "725",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Torracat",
+        "nr": "726",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Incineroar",
+        "nr": "727",
+        "tipo1": "Fuoco",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Popplio",
+        "nr": "728",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Brionne",
+        "nr": "729",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Primarina",
+        "nr": "730",
+        "tipo1": "Acqua",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Pikipek",
+        "nr": "731",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Trumbeak",
+        "nr": "732",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Toucannon",
+        "nr": "733",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Yungoos",
+        "nr": "734",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Gumshoos",
+        "nr": "735",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Grubbin",
+        "nr": "736",
+        "tipo1": "Coleottero",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Charjabug",
+        "nr": "737",
+        "tipo1": "Coleottero",
+        "tipo2": "Elettro"
+    },
+    {
+        "pokemon": "Vikavolt",
+        "nr": "738",
+        "tipo1": "Coleottero",
+        "tipo2": "Elettro"
+    },
+    {
+        "pokemon": "Crabrawler",
+        "nr": "739",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Crabominable",
+        "nr": "740",
+        "tipo1": "Lotta",
+        "tipo2": "Ghiaccio"
+    },
+    {
+        "pokemon": "Oricorio-Baile",
+        "nr": "741",
+        "tipo1": "Fuoco",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Cutiefly",
+        "nr": "742",
+        "tipo1": "Coleottero",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Ribombee",
+        "nr": "743",
+        "tipo1": "Coleottero",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Rockruff",
+        "nr": "744",
+        "tipo1": "Roccia",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Lycanroc-Midday",
+        "nr": "745",
+        "tipo1": "Roccia",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Wishiwashi-Solo",
+        "nr": "746",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Mareanie",
+        "nr": "747",
+        "tipo1": "Veleno",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Toxapex",
+        "nr": "748",
+        "tipo1": "Veleno",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Mudbray",
+        "nr": "749",
+        "tipo1": "Terra",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Mudsdale",
+        "nr": "750",
+        "tipo1": "Terra",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Dewpider",
+        "nr": "751",
+        "tipo1": "Acqua",
+        "tipo2": "Coleottero"
+    },
+    {
+        "pokemon": "Araquanid",
+        "nr": "752",
+        "tipo1": "Acqua",
+        "tipo2": "Coleottero"
+    },
+    {
+        "pokemon": "Fomantis",
+        "nr": "753",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Lurantis",
+        "nr": "754",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Morelull",
+        "nr": "755",
+        "tipo1": "Erba",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Shiinotic",
+        "nr": "756",
+        "tipo1": "Erba",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Salandit",
+        "nr": "757",
+        "tipo1": "Veleno",
+        "tipo2": "Fuoco"
+    },
+    {
+        "pokemon": "Salazzle",
+        "nr": "758",
+        "tipo1": "Veleno",
+        "tipo2": "Fuoco"
+    },
+    {
+        "pokemon": "Stufful",
+        "nr": "759",
+        "tipo1": "Normale",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Bewear",
+        "nr": "760",
+        "tipo1": "Normale",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Bounsweet",
+        "nr": "761",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Steenee",
+        "nr": "762",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Tsareena",
+        "nr": "763",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Comfey",
+        "nr": "764",
+        "tipo1": "Folletto",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Oranguru",
+        "nr": "765",
+        "tipo1": "Normale",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Passimian",
+        "nr": "766",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Wimpod",
+        "nr": "767",
+        "tipo1": "Coleottero",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Golisopod",
+        "nr": "768",
+        "tipo1": "Coleottero",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Sandygast",
+        "nr": "769",
+        "tipo1": "Spettro",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Palossand",
+        "nr": "770",
+        "tipo1": "Spettro",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Pyukumuku",
+        "nr": "771",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Type-Null",
+        "nr": "772",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Silvally",
+        "nr": "773",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Minior-Red-Meteor",
+        "nr": "774",
+        "tipo1": "Roccia",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Komala",
+        "nr": "775",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Turtonator",
+        "nr": "776",
+        "tipo1": "Fuoco",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Togedemaru",
+        "nr": "777",
+        "tipo1": "Elettro",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Mimikyu-Disguised",
+        "nr": "778",
+        "tipo1": "Spettro",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Bruxish",
+        "nr": "779",
+        "tipo1": "Acqua",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Drampa",
+        "nr": "780",
+        "tipo1": "Normale",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Dhelmise",
+        "nr": "781",
+        "tipo1": "Spettro",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Jangmo-O",
+        "nr": "782",
+        "tipo1": "Drago",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Hakamo-O",
+        "nr": "783",
+        "tipo1": "Drago",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Kommo-O",
+        "nr": "784",
+        "tipo1": "Drago",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Tapu-Koko",
+        "nr": "785",
+        "tipo1": "Elettro",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Tapu-Lele",
+        "nr": "786",
+        "tipo1": "Psico",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Tapu-Bulu",
+        "nr": "787",
+        "tipo1": "Erba",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Tapu-Fini",
+        "nr": "788",
+        "tipo1": "Acqua",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Cosmog",
+        "nr": "789",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Cosmoem",
+        "nr": "790",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Solgaleo",
+        "nr": "791",
+        "tipo1": "Psico",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Lunala",
+        "nr": "792",
+        "tipo1": "Psico",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Nihilego",
+        "nr": "793",
+        "tipo1": "Roccia",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Buzzwole",
+        "nr": "794",
+        "tipo1": "Coleottero",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Pheromosa",
+        "nr": "795",
+        "tipo1": "Coleottero",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Xurkitree",
+        "nr": "796",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Celesteela",
+        "nr": "797",
+        "tipo1": "Acciaio",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Kartana",
+        "nr": "798",
+        "tipo1": "Erba",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Guzzlord",
+        "nr": "799",
+        "tipo1": "Buio",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Necrozma",
+        "nr": "800",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Magearna",
+        "nr": "801",
+        "tipo1": "Acciaio",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Marshadow",
+        "nr": "802",
+        "tipo1": "Lotta",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Poipole",
+        "nr": "803",
+        "tipo1": "Veleno",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Naganadel",
+        "nr": "804",
+        "tipo1": "Veleno",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Stakataka",
+        "nr": "805",
+        "tipo1": "Roccia",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Blacephalon",
+        "nr": "806",
+        "tipo1": "Fuoco",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Zeraora",
+        "nr": "807",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Meltan",
+        "nr": "808",
+        "tipo1": "Acciaio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Melmetal",
+        "nr": "809",
+        "tipo1": "Acciaio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Grookey",
+        "nr": "810",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Thwackey",
+        "nr": "811",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Rillaboom",
+        "nr": "812",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Scorbunny",
+        "nr": "813",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Raboot",
+        "nr": "814",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Cinderace",
+        "nr": "815",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Sobble",
+        "nr": "816",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Drizzile",
+        "nr": "817",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Inteleon",
+        "nr": "818",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Skwovet",
+        "nr": "819",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Greedent",
+        "nr": "820",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Rookidee",
+        "nr": "821",
+        "tipo1": "Volante",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Corvisquire",
+        "nr": "822",
+        "tipo1": "Volante",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Corviknight",
+        "nr": "823",
+        "tipo1": "Volante",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Blipbug",
+        "nr": "824",
+        "tipo1": "Coleottero",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Dottler",
+        "nr": "825",
+        "tipo1": "Coleottero",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Orbeetle",
+        "nr": "826",
+        "tipo1": "Coleottero",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Nickit",
+        "nr": "827",
+        "tipo1": "Buio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Thievul",
+        "nr": "828",
+        "tipo1": "Buio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Gossifleur",
+        "nr": "829",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Eldegoss",
+        "nr": "830",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Wooloo",
+        "nr": "831",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Dubwool",
+        "nr": "832",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Chewtle",
+        "nr": "833",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Drednaw",
+        "nr": "834",
+        "tipo1": "Acqua",
+        "tipo2": "Roccia"
+    },
+    {
+        "pokemon": "Yamper",
+        "nr": "835",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Boltund",
+        "nr": "836",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Rolycoly",
+        "nr": "837",
+        "tipo1": "Roccia",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Carkol",
+        "nr": "838",
+        "tipo1": "Roccia",
+        "tipo2": "Fuoco"
+    },
+    {
+        "pokemon": "Coalossal",
+        "nr": "839",
+        "tipo1": "Roccia",
+        "tipo2": "Fuoco"
+    },
+    {
+        "pokemon": "Applin",
+        "nr": "840",
+        "tipo1": "Erba",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Flapple",
+        "nr": "841",
+        "tipo1": "Erba",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Appletun",
+        "nr": "842",
+        "tipo1": "Erba",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Silicobra",
+        "nr": "843",
+        "tipo1": "Terra",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Sandaconda",
+        "nr": "844",
+        "tipo1": "Terra",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Cramorant",
+        "nr": "845",
+        "tipo1": "Volante",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Arrokuda",
+        "nr": "846",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Barraskewda",
+        "nr": "847",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Toxel",
+        "nr": "848",
+        "tipo1": "Elettro",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Toxtricity-Amped",
+        "nr": "849",
+        "tipo1": "Elettro",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Sizzlipede",
+        "nr": "850",
+        "tipo1": "Fuoco",
+        "tipo2": "Coleottero"
+    },
+    {
+        "pokemon": "Centiskorch",
+        "nr": "851",
+        "tipo1": "Fuoco",
+        "tipo2": "Coleottero"
+    },
+    {
+        "pokemon": "Clobbopus",
+        "nr": "852",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Grapploct",
+        "nr": "853",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Sinistea",
+        "nr": "854",
+        "tipo1": "Spettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Polteageist",
+        "nr": "855",
+        "tipo1": "Spettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Hatenna",
+        "nr": "856",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Hattrem",
+        "nr": "857",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Hatterene",
+        "nr": "858",
+        "tipo1": "Psico",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Impidimp",
+        "nr": "859",
+        "tipo1": "Buio",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Morgrem",
+        "nr": "860",
+        "tipo1": "Buio",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Grimmsnarl",
+        "nr": "861",
+        "tipo1": "Buio",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Obstagoon",
+        "nr": "862",
+        "tipo1": "Buio",
+        "tipo2": "Normale"
+    },
+    {
+        "pokemon": "Perrserker",
+        "nr": "863",
+        "tipo1": "Acciaio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Cursola",
+        "nr": "864",
+        "tipo1": "Spettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Sirfetchd",
+        "nr": "865",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Mr-Rime",
+        "nr": "866",
+        "tipo1": "Ghiaccio",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Runerigus",
+        "nr": "867",
+        "tipo1": "Terra",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Milcery",
+        "nr": "868",
+        "tipo1": "Folletto",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Alcremie",
+        "nr": "869",
+        "tipo1": "Folletto",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Falinks",
+        "nr": "870",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Pincurchin",
+        "nr": "871",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Snom",
+        "nr": "872",
+        "tipo1": "Ghiaccio",
+        "tipo2": "Coleottero"
+    },
+    {
+        "pokemon": "Frosmoth",
+        "nr": "873",
+        "tipo1": "Ghiaccio",
+        "tipo2": "Coleottero"
+    },
+    {
+        "pokemon": "Stonjourner",
+        "nr": "874",
+        "tipo1": "Roccia",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Eiscue-Ice",
+        "nr": "875",
+        "tipo1": "Ghiaccio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Indeedee-Male",
+        "nr": "876",
+        "tipo1": "Psico",
+        "tipo2": "Normale"
+    },
+    {
+        "pokemon": "Morpeko-Full-Belly",
+        "nr": "877",
+        "tipo1": "Elettro",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Cufant",
+        "nr": "878",
+        "tipo1": "Acciaio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Copperajah",
+        "nr": "879",
+        "tipo1": "Acciaio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Dracozolt",
+        "nr": "880",
+        "tipo1": "Elettro",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Arctozolt",
+        "nr": "881",
+        "tipo1": "Elettro",
+        "tipo2": "Ghiaccio"
+    },
+    {
+        "pokemon": "Dracovish",
+        "nr": "882",
+        "tipo1": "Acqua",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Arctovish",
+        "nr": "883",
+        "tipo1": "Acqua",
+        "tipo2": "Ghiaccio"
+    },
+    {
+        "pokemon": "Duraludon",
+        "nr": "884",
+        "tipo1": "Acciaio",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Dreepy",
+        "nr": "885",
+        "tipo1": "Drago",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Drakloak",
+        "nr": "886",
+        "tipo1": "Drago",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Dragapult",
+        "nr": "887",
+        "tipo1": "Drago",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Zacian",
+        "nr": "888",
+        "tipo1": "Folletto",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Zamazenta",
+        "nr": "889",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Eternatus",
+        "nr": "890",
+        "tipo1": "Veleno",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Kubfu",
+        "nr": "891",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Urshifu-Single-Strike",
+        "nr": "892",
+        "tipo1": "Lotta",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Zarude",
+        "nr": "893",
+        "tipo1": "Buio",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Regieleki",
+        "nr": "894",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Regidrago",
+        "nr": "895",
+        "tipo1": "Drago",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Glastrier",
+        "nr": "896",
+        "tipo1": "Ghiaccio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Spectrier",
+        "nr": "897",
+        "tipo1": "Spettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Calyrex",
+        "nr": "898",
+        "tipo1": "Psico",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Deoxys-Attack",
+        "nr": "899",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Deoxys-Defense",
+        "nr": "900",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Deoxys-Speed",
+        "nr": "901",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Wormadam-Sandy",
+        "nr": "902",
+        "tipo1": "Coleottero",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Wormadam-Trash",
+        "nr": "903",
+        "tipo1": "Coleottero",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Shaymin-Sky",
+        "nr": "904",
+        "tipo1": "Erba",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Giratina-Origin",
+        "nr": "905",
+        "tipo1": "Spettro",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Rotom-Heat",
+        "nr": "906",
+        "tipo1": "Elettro",
+        "tipo2": "Fuoco"
+    },
+    {
+        "pokemon": "Rotom-Wash",
+        "nr": "907",
+        "tipo1": "Elettro",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Rotom-Frost",
+        "nr": "908",
+        "tipo1": "Elettro",
+        "tipo2": "Ghiaccio"
+    },
+    {
+        "pokemon": "Rotom-Fan",
+        "nr": "909",
+        "tipo1": "Elettro",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Rotom-Mow",
+        "nr": "910",
+        "tipo1": "Elettro",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Castform-Sunny",
+        "nr": "911",
+        "tipo1": "Fuoco",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Castform-Rainy",
+        "nr": "912",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Castform-Snowy",
+        "nr": "913",
+        "tipo1": "Ghiaccio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Basculin-Blue-Striped",
+        "nr": "914",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Darmanitan-Zen",
+        "nr": "915",
+        "tipo1": "Fuoco",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Meloetta-Pirouette",
+        "nr": "916",
+        "tipo1": "Normale",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Tornadus-Therian",
+        "nr": "917",
+        "tipo1": "Volante",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Thundurus-Therian",
+        "nr": "918",
+        "tipo1": "Elettro",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Landorus-Therian",
+        "nr": "919",
+        "tipo1": "Terra",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Kyurem-Black",
+        "nr": "920",
+        "tipo1": "Drago",
+        "tipo2": "Ghiaccio"
+    },
+    {
+        "pokemon": "Kyurem-White",
+        "nr": "921",
+        "tipo1": "Drago",
+        "tipo2": "Ghiaccio"
+    },
+    {
+        "pokemon": "Keldeo-Resolute",
+        "nr": "922",
+        "tipo1": "Acqua",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Meowstic-Female",
+        "nr": "923",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Aegislash-Blade",
+        "nr": "924",
+        "tipo1": "Acciaio",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Pumpkaboo-Small",
+        "nr": "925",
+        "tipo1": "Spettro",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Pumpkaboo-Large",
+        "nr": "926",
+        "tipo1": "Spettro",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Pumpkaboo-Super",
+        "nr": "927",
+        "tipo1": "Spettro",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Gourgeist-Small",
+        "nr": "928",
+        "tipo1": "Spettro",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Gourgeist-Large",
+        "nr": "929",
+        "tipo1": "Spettro",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Gourgeist-Super",
+        "nr": "930",
+        "tipo1": "Spettro",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Venusaur-Mega",
+        "nr": "931",
+        "tipo1": "Erba",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Charizard-Mega-X",
+        "nr": "932",
+        "tipo1": "Fuoco",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Charizard-Mega-Y",
+        "nr": "933",
+        "tipo1": "Fuoco",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Blastoise-Mega",
+        "nr": "934",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Alakazam-Mega",
+        "nr": "935",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Gengar-Mega",
+        "nr": "936",
+        "tipo1": "Spettro",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Kangaskhan-Mega",
+        "nr": "937",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Pinsir-Mega",
+        "nr": "938",
+        "tipo1": "Coleottero",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Gyarados-Mega",
+        "nr": "939",
+        "tipo1": "Acqua",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Aerodactyl-Mega",
+        "nr": "940",
+        "tipo1": "Roccia",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Mewtwo-Mega-X",
+        "nr": "941",
+        "tipo1": "Psico",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Mewtwo-Mega-Y",
+        "nr": "942",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Ampharos-Mega",
+        "nr": "943",
+        "tipo1": "Elettro",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Scizor-Mega",
+        "nr": "944",
+        "tipo1": "Coleottero",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Heracross-Mega",
+        "nr": "945",
+        "tipo1": "Coleottero",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Houndoom-Mega",
+        "nr": "946",
+        "tipo1": "Buio",
+        "tipo2": "Fuoco"
+    },
+    {
+        "pokemon": "Tyranitar-Mega",
+        "nr": "947",
+        "tipo1": "Roccia",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Blaziken-Mega",
+        "nr": "948",
+        "tipo1": "Fuoco",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Gardevoir-Mega",
+        "nr": "949",
+        "tipo1": "Psico",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Mawile-Mega",
+        "nr": "950",
+        "tipo1": "Acciaio",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Aggron-Mega",
+        "nr": "951",
+        "tipo1": "Acciaio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Medicham-Mega",
+        "nr": "952",
+        "tipo1": "Lotta",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Manectric-Mega",
+        "nr": "953",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Banette-Mega",
+        "nr": "954",
+        "tipo1": "Spettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Absol-Mega",
+        "nr": "955",
+        "tipo1": "Buio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Garchomp-Mega",
+        "nr": "956",
+        "tipo1": "Drago",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Lucario-Mega",
+        "nr": "957",
+        "tipo1": "Lotta",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Abomasnow-Mega",
+        "nr": "958",
+        "tipo1": "Erba",
+        "tipo2": "Ghiaccio"
+    },
+    {
+        "pokemon": "Floette-Eternal",
+        "nr": "959",
+        "tipo1": "Folletto",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Latias-Mega",
+        "nr": "960",
+        "tipo1": "Drago",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Latios-Mega",
+        "nr": "961",
+        "tipo1": "Drago",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Swampert-Mega",
+        "nr": "962",
+        "tipo1": "Acqua",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Sceptile-Mega",
+        "nr": "963",
+        "tipo1": "Erba",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Sableye-Mega",
+        "nr": "964",
+        "tipo1": "Buio",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Altaria-Mega",
+        "nr": "965",
+        "tipo1": "Drago",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Gallade-Mega",
+        "nr": "966",
+        "tipo1": "Psico",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Audino-Mega",
+        "nr": "967",
+        "tipo1": "Normale",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Sharpedo-Mega",
+        "nr": "968",
+        "tipo1": "Acqua",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Slowbro-Mega",
+        "nr": "969",
+        "tipo1": "Acqua",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Steelix-Mega",
+        "nr": "970",
+        "tipo1": "Acciaio",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Pidgeot-Mega",
+        "nr": "971",
+        "tipo1": "Normale",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Glalie-Mega",
+        "nr": "972",
+        "tipo1": "Ghiaccio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Diancie-Mega",
+        "nr": "973",
+        "tipo1": "Roccia",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Metagross-Mega",
+        "nr": "974",
+        "tipo1": "Acciaio",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Kyogre-Primal",
+        "nr": "975",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Groudon-Primal",
+        "nr": "976",
+        "tipo1": "Terra",
+        "tipo2": "Fuoco"
+    },
+    {
+        "pokemon": "Rayquaza-Mega",
+        "nr": "977",
+        "tipo1": "Drago",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Pikachu-Rock-Star",
+        "nr": "978",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Pikachu-Belle",
+        "nr": "979",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Pikachu-Pop-Star",
+        "nr": "980",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Pikachu-Phd",
+        "nr": "981",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Pikachu-Libre",
+        "nr": "982",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Pikachu-Cosplay",
+        "nr": "983",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Hoopa-Unbound",
+        "nr": "984",
+        "tipo1": "Psico",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Camerupt-Mega",
+        "nr": "985",
+        "tipo1": "Fuoco",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Lopunny-Mega",
+        "nr": "986",
+        "tipo1": "Normale",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Salamence-Mega",
+        "nr": "987",
+        "tipo1": "Drago",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Beedrill-Mega",
+        "nr": "988",
+        "tipo1": "Coleottero",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Rattata-Alola",
+        "nr": "989",
+        "tipo1": "Buio",
+        "tipo2": "Normale"
+    },
+    {
+        "pokemon": "Raticate-Alola",
+        "nr": "990",
+        "tipo1": "Buio",
+        "tipo2": "Normale"
+    },
+    {
+        "pokemon": "Raticate-Totem-Alola",
+        "nr": "991",
+        "tipo1": "Buio",
+        "tipo2": "Normale"
+    },
+    {
+        "pokemon": "Pikachu-Original-Cap",
+        "nr": "992",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Pikachu-Hoenn-Cap",
+        "nr": "993",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Pikachu-Sinnoh-Cap",
+        "nr": "994",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Pikachu-Unova-Cap",
+        "nr": "995",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Pikachu-Kalos-Cap",
+        "nr": "996",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Pikachu-Alola-Cap",
+        "nr": "997",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Raichu-Alola",
+        "nr": "998",
+        "tipo1": "Elettro",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Sandshrew-Alola",
+        "nr": "999",
+        "tipo1": "Ghiaccio",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Sandslash-Alola",
+        "nr": "1000",
+        "tipo1": "Ghiaccio",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Vulpix-Alola",
+        "nr": "1001",
+        "tipo1": "Ghiaccio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Ninetales-Alola",
+        "nr": "1002",
+        "tipo1": "Ghiaccio",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Diglett-Alola",
+        "nr": "1003",
+        "tipo1": "Terra",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Dugtrio-Alola",
+        "nr": "1004",
+        "tipo1": "Terra",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Meowth-Alola",
+        "nr": "1005",
+        "tipo1": "Buio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Persian-Alola",
+        "nr": "1006",
+        "tipo1": "Buio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Geodude-Alola",
+        "nr": "1007",
+        "tipo1": "Roccia",
+        "tipo2": "Elettro"
+    },
+    {
+        "pokemon": "Graveler-Alola",
+        "nr": "1008",
+        "tipo1": "Roccia",
+        "tipo2": "Elettro"
+    },
+    {
+        "pokemon": "Golem-Alola",
+        "nr": "1009",
+        "tipo1": "Roccia",
+        "tipo2": "Elettro"
+    },
+    {
+        "pokemon": "Grimer-Alola",
+        "nr": "1010",
+        "tipo1": "Veleno",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Muk-Alola",
+        "nr": "1011",
+        "tipo1": "Veleno",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Exeggutor-Alola",
+        "nr": "1012",
+        "tipo1": "Erba",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Marowak-Alola",
+        "nr": "1013",
+        "tipo1": "Fuoco",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Greninja-Battle-Bond",
+        "nr": "1014",
+        "tipo1": "Acqua",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Greninja-Ash",
+        "nr": "1015",
+        "tipo1": "Acqua",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Zygarde-10-Power-Construct",
+        "nr": "1016",
+        "tipo1": "Drago",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Zygarde-50-Power-Construct",
+        "nr": "1017",
+        "tipo1": "Drago",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Zygarde-Complete",
+        "nr": "1018",
+        "tipo1": "Drago",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Gumshoos-Totem",
+        "nr": "1019",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Vikavolt-Totem",
+        "nr": "1020",
+        "tipo1": "Coleottero",
+        "tipo2": "Elettro"
+    },
+    {
+        "pokemon": "Oricorio-Pom-Pom",
+        "nr": "1021",
+        "tipo1": "Elettro",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Oricorio-Pau",
+        "nr": "1022",
+        "tipo1": "Psico",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Oricorio-Sensu",
+        "nr": "1023",
+        "tipo1": "Spettro",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Lycanroc-Midnight",
+        "nr": "1024",
+        "tipo1": "Roccia",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Wishiwashi-School",
+        "nr": "1025",
+        "tipo1": "Acqua",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Lurantis-Totem",
+        "nr": "1026",
+        "tipo1": "Erba",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Salazzle-Totem",
+        "nr": "1027",
+        "tipo1": "Veleno",
+        "tipo2": "Fuoco"
+    },
+    {
+        "pokemon": "Minior-Orange-Meteor",
+        "nr": "1028",
+        "tipo1": "Roccia",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Minior-Yellow-Meteor",
+        "nr": "1029",
+        "tipo1": "Roccia",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Minior-Green-Meteor",
+        "nr": "1030",
+        "tipo1": "Roccia",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Minior-Blue-Meteor",
+        "nr": "1031",
+        "tipo1": "Roccia",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Minior-Indigo-Meteor",
+        "nr": "1032",
+        "tipo1": "Roccia",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Minior-Violet-Meteor",
+        "nr": "1033",
+        "tipo1": "Roccia",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Minior-Red",
+        "nr": "1034",
+        "tipo1": "Roccia",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Minior-Orange",
+        "nr": "1035",
+        "tipo1": "Roccia",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Minior-Yellow",
+        "nr": "1036",
+        "tipo1": "Roccia",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Minior-Green",
+        "nr": "1037",
+        "tipo1": "Roccia",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Minior-Blue",
+        "nr": "1038",
+        "tipo1": "Roccia",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Minior-Indigo",
+        "nr": "1039",
+        "tipo1": "Roccia",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Minior-Violet",
+        "nr": "1040",
+        "tipo1": "Roccia",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Mimikyu-Busted",
+        "nr": "1041",
+        "tipo1": "Spettro",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Mimikyu-Totem-Disguised",
+        "nr": "1042",
+        "tipo1": "Spettro",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Mimikyu-Totem-Busted",
+        "nr": "1043",
+        "tipo1": "Spettro",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Kommo-O-Totem",
+        "nr": "1044",
+        "tipo1": "Drago",
+        "tipo2": "Lotta"
+    },
+    {
+        "pokemon": "Magearna-Original",
+        "nr": "1045",
+        "tipo1": "Acciaio",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Pikachu-Partner-Cap",
+        "nr": "1046",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Marowak-Totem",
+        "nr": "1047",
+        "tipo1": "Fuoco",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Ribombee-Totem",
+        "nr": "1048",
+        "tipo1": "Coleottero",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Rockruff-Own-Tempo",
+        "nr": "1049",
+        "tipo1": "Roccia",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Lycanroc-Dusk",
+        "nr": "1050",
+        "tipo1": "Roccia",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Araquanid-Totem",
+        "nr": "1051",
+        "tipo1": "Acqua",
+        "tipo2": "Coleottero"
+    },
+    {
+        "pokemon": "Togedemaru-Totem",
+        "nr": "1052",
+        "tipo1": "Elettro",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Necrozma-Dusk",
+        "nr": "1053",
+        "tipo1": "Psico",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Necrozma-Dawn",
+        "nr": "1054",
+        "tipo1": "Psico",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Necrozma-Ultra",
+        "nr": "1055",
+        "tipo1": "Psico",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Pikachu-Starter",
+        "nr": "1056",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Eevee-Starter",
+        "nr": "1057",
+        "tipo1": "Normale",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Pikachu-World-Cap",
+        "nr": "1058",
+        "tipo1": "Elettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Meowth-Galar",
+        "nr": "1059",
+        "tipo1": "Acciaio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Ponyta-Galar",
+        "nr": "1060",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Rapidash-Galar",
+        "nr": "1061",
+        "tipo1": "Psico",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Slowpoke-Galar",
+        "nr": "1062",
+        "tipo1": "Psico",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Slowbro-Galar",
+        "nr": "1063",
+        "tipo1": "Veleno",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Farfetchd-Galar",
+        "nr": "1064",
+        "tipo1": "Lotta",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Weezing-Galar",
+        "nr": "1065",
+        "tipo1": "Veleno",
+        "tipo2": "Folletto"
+    },
+    {
+        "pokemon": "Mr-Mime-Galar",
+        "nr": "1066",
+        "tipo1": "Ghiaccio",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Articuno-Galar",
+        "nr": "1067",
+        "tipo1": "Psico",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Zapdos-Galar",
+        "nr": "1068",
+        "tipo1": "Lotta",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Moltres-Galar",
+        "nr": "1069",
+        "tipo1": "Buio",
+        "tipo2": "Volante"
+    },
+    {
+        "pokemon": "Slowking-Galar",
+        "nr": "1070",
+        "tipo1": "Veleno",
+        "tipo2": "Psico"
+    },
+    {
+        "pokemon": "Corsola-Galar",
+        "nr": "1071",
+        "tipo1": "Spettro",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Zigzagoon-Galar",
+        "nr": "1072",
+        "tipo1": "Buio",
+        "tipo2": "Normale"
+    },
+    {
+        "pokemon": "Linoone-Galar",
+        "nr": "1073",
+        "tipo1": "Buio",
+        "tipo2": "Normale"
+    },
+    {
+        "pokemon": "Darumaka-Galar",
+        "nr": "1074",
+        "tipo1": "Ghiaccio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Darmanitan-Galar-Standard",
+        "nr": "1075",
+        "tipo1": "Ghiaccio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Darmanitan-Galar-Zen",
+        "nr": "1076",
+        "tipo1": "Ghiaccio",
+        "tipo2": "Fuoco"
+    },
+    {
+        "pokemon": "Yamask-Galar",
+        "nr": "1077",
+        "tipo1": "Terra",
+        "tipo2": "Spettro"
+    },
+    {
+        "pokemon": "Stunfisk-Galar",
+        "nr": "1078",
+        "tipo1": "Terra",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Zygarde-10",
+        "nr": "1079",
+        "tipo1": "Drago",
+        "tipo2": "Terra"
+    },
+    {
+        "pokemon": "Cramorant-Gulping",
+        "nr": "1080",
+        "tipo1": "Volante",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Cramorant-Gorging",
+        "nr": "1081",
+        "tipo1": "Volante",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Toxtricity-Low-Key",
+        "nr": "1082",
+        "tipo1": "Elettro",
+        "tipo2": "Veleno"
+    },
+    {
+        "pokemon": "Eiscue-Noice",
+        "nr": "1083",
+        "tipo1": "Ghiaccio",
+        "tipo2": ""
+    },
+    {
+        "pokemon": "Indeedee-Female",
+        "nr": "1084",
+        "tipo1": "Psico",
+        "tipo2": "Normale"
+    },
+    {
+        "pokemon": "Morpeko-Hangry",
+        "nr": "1085",
+        "tipo1": "Elettro",
+        "tipo2": "Buio"
+    },
+    {
+        "pokemon": "Zacian-Crowned",
+        "nr": "1086",
+        "tipo1": "Folletto",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Zamazenta-Crowned",
+        "nr": "1087",
+        "tipo1": "Lotta",
+        "tipo2": "Acciaio"
+    },
+    {
+        "pokemon": "Eternatus-Eternamax",
+        "nr": "1088",
+        "tipo1": "Veleno",
+        "tipo2": "Drago"
+    },
+    {
+        "pokemon": "Urshifu-Rapid-Strike",
+        "nr": "1089",
+        "tipo1": "Lotta",
+        "tipo2": "Acqua"
+    },
+    {
+        "pokemon": "Zarude-Dada",
+        "nr": "1090",
+        "tipo1": "Buio",
+        "tipo2": "Erba"
+    },
+    {
+        "pokemon": "Calyrex-Ice",
+        "nr": "1091",
+        "tipo1": "Psico",
+        "tipo2": "Ghiaccio"
+    },
+    {
+        "pokemon": "Calyrex-Shadow",
+        "nr": "1092",
+        "tipo1": "Psico",
+        "tipo2": "Spettro"
+    }
+]

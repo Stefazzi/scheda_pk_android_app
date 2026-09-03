@@ -1,8 +1,0 @@
-[
-  { "label": "Starter", "image": "../img/rank/starter.png" },
-  { "label": "Beginner", "image": "../img/rank/beginner.png" },
-  { "label": "Ace", "image": "../img/rank/ace.png" },
-  { "label": "Pro", "image": "../img/rank/pro.png" },
-  { "label": "Master", "image": "../img/rank/master.png" },
-  { "label": "Champion", "image": "../img/rank/champion.png" }
-]

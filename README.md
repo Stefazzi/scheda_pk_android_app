@@ -2,7 +2,9 @@
 
 Applicazione Android per gestire le schede di allenatori e Pokémon durante una campagna Pokérole.
 
-Il repository deriva dal progetto web originale [Pagliaa/schedapk](https://github.com/Pagliaa/schedapk). La web app legacy è mantenuta separata e continua a funzionare senza dipendere dalla nuova applicazione Android.
+Il repository deriva dal progetto web originale [Pagliaa/schedapk](https://github.com/Pagliaa/schedapk). La vecchia web app è conservata in [`legacy-web/`](legacy-web/README.md), separata dal progetto Android e dai suoi script Supabase.
+
+Per lavorare sull'app attuale aprire [`android-app/`](android-app/README.md) in Android Studio. La cartella `legacy-web` non è necessaria per compilare l'APK.
 
 ## Funzionalità
 
@@ -121,11 +123,26 @@ Prima di eseguire gli script in un nuovo progetto Supabase è consigliato contro
 
 ```text
 android-app/           Applicazione Android nativa
-supabase/migrations/   Schema, policy e configurazione Supabase
-characters/            Schede legacy degli allenatori
-pokemon/               Schede legacy dei Pokémon
-js/, css/, img/        Risorse della web app originale
+supabase/              Database e test dell'app Android
+  migrations/          Schema, policy e configurazione Supabase
+  tests/               Test locali delle query e dei permessi
+legacy-web/            Archivio della vecchia web app
+  index.html           Pagina iniziale originale
+  Tomino.html          Scheda HTML originale
+  characters/          Schede HTML legacy degli allenatori
+  pokemon/             Schede HTML legacy dei Pokémon
+  js/, css/, img/      Script, stili e immagini originali
+  json/                Cataloghi e dati originali
 ```
+
+Le risorse `android-app/app/src/main/assets/legacy/` restano nel progetto Android:
+non sono un archivio da rimuovere, ma dati ancora letti dall'app.
+
+Lo spostamento della web app conserva i file e la loro struttura interna, senza
+cambiare collegamenti esterni o configurazione del vecchio backend. Se questa
+copia viene pubblicata con GitHub Pages dalla radice del repository, il suo ingresso
+è ora `legacy-web/index.html`: i vecchi URL nella radice non vengono reindirizzati.
+Il progetto GitHub originale dell'amico non viene modificato.
 
 ## Sicurezza e ruoli
 
