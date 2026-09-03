@@ -119,13 +119,25 @@ Vedere `android-app/README.md` per utilizzo, limiti ed evoluzioni.
 
 Prima di eseguire gli script in un nuovo progetto Supabase è consigliato controllarne il contenuto e creare un backup dei dati esistenti.
 
+## Controllo esterno del database
+
+Il workflow GitHub Actions `Supabase healthcheck` prepara tre controlli giornalieri
+in sola lettura, senza PC acceso o nuovo APK. Richiede una piccola funzione SQL e
+due impostazioni sul proprio fork: **non è attivo finché non viene configurato e pubblicato**.
+Vedere [attivazione, sicurezza e limiti](supabase/maintenance/README.md).
+Non sostituisce backup o controllo della retention e non garantisce che il piano Free
+non venga sospeso per inattività.
+
 ## Struttura del repository
 
 ```text
+.github/workflows/    Controllo esterno GitHub Actions
+scripts/               Controllo HTTPS e test senza rete
 android-app/           Applicazione Android nativa
 supabase/              Database e test dell'app Android
   migrations/          Schema, policy e configurazione Supabase
   tests/               Test locali delle query e dei permessi
+  maintenance/         Installazione manuale e guida del controllo esterno
 legacy-web/            Archivio della vecchia web app
   index.html           Pagina iniziale originale
   Tomino.html          Scheda HTML originale
