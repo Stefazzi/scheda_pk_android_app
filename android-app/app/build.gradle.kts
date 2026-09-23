@@ -28,8 +28,8 @@ android {
         applicationId = "it.stefazzi.pokerolesheets"
         minSdk = 26
         targetSdk = 37
-        versionCode = 20
-        versionName = "0.11.2"
+        versionCode = 21
+        versionName = "1.0"
 
         buildConfigField("String", "SUPABASE_URL", escapedBuildConfigValue("SUPABASE_URL"))
         buildConfigField(

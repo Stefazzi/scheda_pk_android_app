@@ -49,6 +49,10 @@ data class CatalogItem(
 
 fun validItemImagePath(path:String): Boolean = path.length<=512 && path.matches(Regex("[a-zA-Z0-9_-]+(/[a-zA-Z0-9_-]+)*\\.(png|jpg|jpeg|webp)",RegexOption.IGNORE_CASE))
 
+fun ownedItemImagePath(itemId:String,path:String?): String? = path?.takeIf {
+    itemId.matches(Regex("[a-zA-Z0-9_-]+")) && it.startsWith("oggetti/$itemId/") && validItemImagePath(it)
+}
+
 @Serializable
 data class InventorySlot(
     @SerialName("trainer_id") val trainerId: String,
@@ -143,15 +147,22 @@ class ItemRepository(private val client: SupabaseClient) {
     suspend fun setImage(item:CatalogItem,mode:String,path:String?=null,sourceId:String?=null):CatalogItem {
         require(item.isCustom || mode!="sprite") { "Il cambio sprite base è disponibile solo per gli oggetti custom" }
         require(mode in listOf("upload","sprite","reset"))
-        return client.postgrest.rpc("set_custom_item_image",buildJsonObject {
+        val saved = client.postgrest.rpc("set_custom_item_image",buildJsonObject {
             put("p_id",item.id);put("p_expected_revision",item.revision);put("p_mode",mode)
             put("p_image_path",path?.let(::JsonPrimitive) ?: JsonNull)
             put("p_source_item_id",sourceId?.let(::JsonPrimitive) ?: JsonNull)
         }).decodeSingle<CatalogItem>()
+        val obsolete = ownedItemImagePath(item.id,item.customImagePath)
+            ?.takeIf { it != saved.customImagePath }
+        if(obsolete!=null) try { client.storage.from("pokerole-items").delete(obsolete) }
+        catch(error:CancellationException) { throw error }
+        catch(_:Exception) { /* The metadata update succeeded; orphan cleanup is best effort. */ }
+        return saved
     }
     suspend fun uploadImage(item:CatalogItem,data:ByteArray):CatalogItem {
         require(data.isNotEmpty() && data.size<=2*1024*1024) { "Immagine vuota o superiore a 2 MB" }
-        val path="oggetti/${java.util.UUID.randomUUID()}.webp"
+        require(item.id.matches(Regex("[a-zA-Z0-9_-]+"))) { "Identificatore oggetto non valido" }
+        val path="oggetti/${item.id}/${java.util.UUID.randomUUID()}.webp"
         client.storage.from("pokerole-items").upload(path,data) {
             upsert=false;contentType=ContentType("image","webp")
         }

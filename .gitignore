@@ -4,7 +4,7 @@
 .android-user-home/
 .toolchains/
 **/build/
-android-app/local.properties
+**/local.properties
 android-app/.idea/
 android-app/*.iml
 

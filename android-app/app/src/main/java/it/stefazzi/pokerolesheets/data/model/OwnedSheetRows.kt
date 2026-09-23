@@ -14,6 +14,7 @@ data class UserProfileRow(
 @Serializable
 data class TrainerRow(
     val id: String,
+    val revision: Int = 1,
     @SerialName("owner_id") val ownerId: String? = null,
     @SerialName("legacy_name") val legacyName: String? = null,
     @SerialName("trainer_name") val trainerName: String,
@@ -27,6 +28,7 @@ data class TrainerRow(
 @Serializable
 data class PokemonRow(
     val id: String,
+    val revision: Int = 1,
     @SerialName("trainer_id") val trainerId: String,
     @SerialName("legacy_name") val legacyName: String? = null,
     val nickname: String? = null,

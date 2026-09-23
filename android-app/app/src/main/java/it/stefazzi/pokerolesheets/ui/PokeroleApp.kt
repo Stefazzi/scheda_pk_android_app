@@ -202,6 +202,7 @@ fun PokeroleApp() {
                     initial = state.selectedSheet!!,
                     isDm = state.isDm,
                     trainers = state.sheets.filterNot { it.isPokemon },
+                    teamPokemon = state.sheets.filter { it.isPokemon && it.teamSlot != null },
                     saving = state.saving,
                     uploadingPortrait = state.uploadingPortrait,
                     moveTypes = state.moveTypes,
@@ -213,6 +214,8 @@ fun PokeroleApp() {
                     onUploadPortrait = viewModel::uploadTrainerPortrait,
                     onSave = viewModel::saveSheet,
                     onRelease = viewModel::releasePokemon,
+                    onReload = viewModel::reloadSelectedSheet,
+                    onReorderTeam = viewModel::reorderTeam,
                 )
                 else -> HomeContent(
                     state = state,
@@ -520,6 +523,7 @@ private fun SheetEditor(
     initial: EditableSheet,
     isDm: Boolean,
     trainers: List<EditableSheet>,
+    teamPokemon: List<EditableSheet>,
     saving: Boolean,
     uploadingPortrait: Boolean,
     moveTypes: Map<String, String>,
@@ -531,8 +535,10 @@ private fun SheetEditor(
     onUploadPortrait: (EditableSheet, ByteArray) -> Unit,
     onSave: (EditableSheet) -> Unit,
     onRelease: (EditableSheet) -> Unit,
+    onReload: () -> Unit,
+    onReorderTeam: (String, List<String>) -> Unit,
 ) {
-    var draft by remember(initial.storageKey, initial.raw) { mutableStateOf(initial) }
+    var draft by remember(initial.recordId, initial.revision, initial.raw) { mutableStateOf(initial) }
     val dmCapture = isDm && draft.isPokemon && draft.recordId.isBlank()
     val captureTrainerSelected = trainers.any { it.recordId == draft.trainerId && it.recordId.isNotBlank() }
     var chooseTrainer by remember { mutableStateOf(false) }
@@ -547,6 +553,14 @@ private fun SheetEditor(
     var confirmRelease by remember { mutableStateOf(false) }
     var actionsOpen by remember { mutableStateOf(false) }
     var calculationNotice by remember { mutableStateOf(false) }
+    var confirmReload by remember { mutableStateOf(false) }
+    if (confirmReload) AlertDialog(
+        onDismissRequest = { if (!saving) confirmReload = false },
+        title = { Text("Ricaricare dal server?") },
+        text = { Text("Le modifiche locali non salvate verranno scartate e sarà caricata la revisione più recente.") },
+        confirmButton = { TextButton(enabled = !saving, onClick = { confirmReload = false; onReload() }) { Text("Ricarica") } },
+        dismissButton = { TextButton(enabled = !saving, onClick = { confirmReload = false }) { Text("Annulla") } },
+    )
     if (selectAbility) ReferencePicker("Ability", references.abilities, reference?.abilities.orEmpty(),
         onDismiss = { selectAbility = false }) { draft = draft.selectAbility(it); selectAbility = false }
     if (selectNature) ReferencePicker("Nature", references.natures,
@@ -625,6 +639,8 @@ private fun SheetEditor(
                 DropdownMenu(expanded = actionsOpen, onDismissRequest = { actionsOpen = false }) {
                     DropdownMenuItem(text = { Text("Salva scheda") }, enabled = !dmCapture || captureTrainerSelected,
                         onClick = { actionsOpen = false; onSave(draft) })
+                    DropdownMenuItem(text = { Text("Ricarica dal server") }, enabled = draft.recordId.isNotBlank(),
+                        onClick = { actionsOpen = false; confirmReload = true })
                     DropdownMenuItem(text = { Text("Calcola massimali e valori base") },
                         onClick = { draft = draft.recalculateMaximums(reference); calculationNotice = true; actionsOpen = false })
                     DropdownMenuItem(text = { Text("Reset HP / Will") },
@@ -822,11 +838,25 @@ private fun SheetEditor(
         } else {
             item {
                 SheetSectionCard("Squadra Pokémon") {
-                    draft.pokemonTeam.forEachIndexed { index, value ->
-                        SheetField("Slot ${index + 1}", value) {
-                            draft = draft.copy(pokemonTeam = draft.pokemonTeam.updated(index, it, 3))
+                    val activeTeam = teamPokemon.filter { it.trainerId == draft.recordId }
+                        .sortedBy { it.teamSlot }
+                    if (activeTeam.isEmpty()) Text("Nessun Pokémon nella squadra attiva.")
+                    activeTeam.forEachIndexed { index, pokemon ->
+                        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                            Text("${index + 1}. ${pokemon.displayName}", Modifier.weight(1f))
+                            TextButton(enabled = !saving && index > 0, onClick = {
+                                val order = activeTeam.map { it.recordId }.toMutableList()
+                                val moved = order.removeAt(index); order.add(index - 1, moved)
+                                onReorderTeam(draft.recordId, order)
+                            }) { Text("↑") }
+                            TextButton(enabled = !saving && index < activeTeam.lastIndex, onClick = {
+                                val order = activeTeam.map { it.recordId }.toMutableList()
+                                val moved = order.removeAt(index); order.add(index + 1, moved)
+                                onReorderTeam(draft.recordId, order)
+                            }) { Text("↓") }
                         }
                     }
+                    Text("L'ordine è salvato atomicamente negli slot della squadra; la copia legacy viene aggiornata dal server.", style = MaterialTheme.typography.bodySmall)
                 }
             }
         }

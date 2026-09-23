@@ -4,6 +4,19 @@ App Android nativa per gestire le schede Pokerole nel nuovo progetto Supabase.
 
 ## Funzioni
 
+### Integrità schede e immagini custom — v1.0
+
+La versione **1.0**, versionCode **21**, usa revisioni ottimistiche e RPC atomiche
+per salvare allenatori e Pokémon. In caso di conflitto mantiene aperte le modifiche
+locali e offre `Azioni → Ricarica dal server`; non esegue merge automatici.
+`pokemon.team_slot` è l'ordine autorevole della squadra: cattura e riordino sono
+atomici, mentre `sheet_data.pokemon_team` resta una copia compatibile aggiornata dal
+server. Il DM può scegliere, vedere in anteprima e caricare una foto già durante la
+creazione di un oggetto custom, oltre a sostituirla o ripristinarla in seguito.
+
+La convenzione delle versioni applicative è `1.0 → 1.1 → … → 1.9 → 2.0`; il
+`versionCode` cresce sempre. Non è Semantic Versioning.
+
 ### Skills Trainer — v0.11.2
 
 Corretto solo il riquadro Skills degli allenatori, con queste 16 voci nell'ordine:

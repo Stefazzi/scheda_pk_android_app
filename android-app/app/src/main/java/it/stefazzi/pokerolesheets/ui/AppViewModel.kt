@@ -131,6 +131,28 @@ class AppViewModel(
         loadAuthorizedData()
     }
 
+    fun reloadSelectedSheet() {
+        val repository = characterRepository ?: return
+        val selected = _uiState.value.selectedSheet ?: return
+        if (selected.recordId.isBlank()) return
+        viewModelScope.launch {
+            _uiState.update { it.copy(loading = true, message = null) }
+            runCatching { repository.loadSheets() }
+                .onSuccess { sheets ->
+                    val latest = sheets.firstOrNull { it.recordId == selected.recordId }
+                    _uiState.update { it.copy(
+                        loading = false,
+                        sheets = sheets,
+                        selectedSheet = latest,
+                        message = if (latest == null) "La scheda non esiste più" else "Versione più recente caricata",
+                    ) }
+                }
+                .onFailure { error -> _uiState.update {
+                    it.copy(loading = false, message = error.userMessage("Ricaricamento non riuscito"))
+                } }
+        }
+    }
+
     fun claimTrainer(trainerId: String, claimCode: String) {
         val repository = characterRepository ?: return
         viewModelScope.launch {
@@ -219,10 +241,34 @@ class AppViewModel(
                     refresh()
                 }
                 .onFailure { error ->
+                    val conflict = error.message.orEmpty().contains("modificata altrove", ignoreCase = true)
                     _uiState.update {
-                        it.copy(saving = false, message = error.userMessage("Salvataggio non riuscito"))
+                        it.copy(saving = false, message = if (conflict)
+                            "La scheda è stata modificata altrove. Le modifiche locali sono ancora aperte; usa Azioni → Ricarica dal server prima di salvare di nuovo."
+                        else error.userMessage("Salvataggio non riuscito"))
                     }
                 }
+        }
+    }
+
+    fun reorderTeam(trainerId: String, orderedPokemonIds: List<String>) {
+        val repository = characterRepository ?: return
+        if (_uiState.value.saving) return
+        viewModelScope.launch {
+            _uiState.update { it.copy(saving = true, message = null) }
+            runCatching { repository.reorderTeam(trainerId, orderedPokemonIds) }
+                .onSuccess { reordered ->
+                    val ids = reordered.map { it.recordId }.toSet()
+                    _uiState.update { state -> state.copy(
+                        saving = false,
+                        sheets = state.sheets.filterNot { it.recordId in ids } + reordered,
+                        message = "Ordine della squadra salvato",
+                    ) }
+                    refresh()
+                }
+                .onFailure { error -> _uiState.update {
+                    it.copy(saving = false, message = error.userMessage("Riordino squadra non riuscito; aggiorna le schede e riprova"))
+                } }
         }
     }
 
@@ -458,7 +504,7 @@ class AppViewModel(
         }
     }
 
-    fun createCatalogItem(item: NewItem, onSuccess: () -> Unit) {
+    fun createCatalogItem(item: NewItem, imageData: ByteArray?, onSuccess: () -> Unit) {
         val repository = itemRepository ?: return
         val state = _uiState.value
         val profile = state.profile?.userId ?: return
@@ -466,10 +512,19 @@ class AppViewModel(
         _uiState.update { it.copy(itemSaving = true) }
         viewModelScope.launch {
             try {
-                val saved = repository.createItem(item)
+                val created = repository.createItem(item)
+                val imageResult = if (imageData == null) Result.success(created) else try {
+                    Result.success(repository.uploadImage(created,imageData))
+                } catch (error: CancellationException) {
+                    throw error
+                } catch (error: Exception) {
+                    Result.failure(error)
+                }
+                val saved = imageResult.getOrElse { created }
                 if (_uiState.value.profile?.userId == profile && _uiState.value.portal != null) {
                     _uiState.update { it.copy(itemSaving = false, items = it.items.filterNot { row -> row.id == saved.id } + saved,
-                        message = "Oggetto custom creato: disponibile nel catalogo e nelle borse") }
+                        message = if(imageResult.isSuccess) "Oggetto custom creato: disponibile nel catalogo e nelle borse"
+                            else "Oggetto creato, ma l'immagine non è stata associata. Apri l'oggetto e riprova da Carica immagine; aggiorna prima il catalogo se il caricamento era già partito.") }
                     onSuccess()
                 }
             } catch (error: CancellationException) { throw error

@@ -1,6 +1,6 @@
 {
   "private": true,
   "type": "module",
-  "scripts": { "test": "node item_inventory.test.mjs && node item_image_storage.test.mjs && node item_parameters.test.mjs" },
+  "scripts": { "test": "node item_inventory.test.mjs && node item_image_storage.test.mjs && node item_parameters.test.mjs && node phase_a1_read_models.test.mjs && node phase_a2_revision_team.test.mjs" },
   "devDependencies": { "@electric-sql/pglite": "0.3.14" }
 }

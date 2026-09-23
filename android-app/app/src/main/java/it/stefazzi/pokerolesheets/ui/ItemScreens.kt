@@ -27,7 +27,7 @@ import kotlinx.coroutines.withContext
 internal data class ItemUiContext(val state: AppUiState, val refresh: () -> Unit,
     val saveSlot: (InventorySlot, () -> Unit) -> Unit,
     val saveItem: (CatalogItem, ItemEdits, Boolean, () -> Unit) -> Unit,
-    val createItem: (NewItem, () -> Unit) -> Unit,
+    val createItem: (NewItem, ByteArray?, () -> Unit) -> Unit,
     val changeImage: (CatalogItem, ByteArray?, String?, () -> Unit) -> Unit)
 internal val LocalItems = staticCompositionLocalOf<ItemUiContext> { error("Item UI not provided") }
 
@@ -217,7 +217,7 @@ private fun ItemImageActions(item:CatalogItem,onSuccess:()->Unit) {
             sprite?.let { ItemSprite(it,Modifier.size(96.dp).align(Alignment.CenterHorizontally)) }
             Text("La modifica verrà salvata subito e condivisa con tutte le borse e schede collegate. Gli effetti dell'oggetto non cambiano.")
             if(pending!=null)Text("Il file sarà pubblico: non caricare immagini riservate. Verrà ridimensionato e convertito in WebP (massimo 2 MB).")
-            if(reset)Text("Il file precedente rimane nel bucket: non verrà eliminato automaticamente.")
+            if(reset)Text("Dopo l'aggiornamento l'app prova a eliminare solo i file creati per questo oggetto; immagini condivise o legacy non vengono toccate.")
             if(attempted && !busy) ui.state.message?.let{Text(it,color=MaterialTheme.colorScheme.error)}
         }},
         confirmButton={TextButton(enabled=!busy,onClick={attempted=true;ui.changeImage(item,pending,sprite?.id,onSuccess)}){Text(if(ui.state.itemSaving)"Salvataggio…" else "Conferma")}},
@@ -303,7 +303,23 @@ private fun NewItemDialog(onDismiss:()->Unit) {
     var parameters by rememberSaveable { mutableStateOf(emptyList<String>()) }
     var icon by remember { mutableStateOf<CatalogItem?>(null) }
     var picking by remember { mutableStateOf(false) }
-    if(picking) ItemPicker(ui.state.items.filter{it.imageUrls(BuildConfig.SUPABASE_URL).isNotEmpty()},onDismiss={picking=false}) { icon=it;picking=false }
+    val context=LocalContext.current
+    val scope=rememberCoroutineScope()
+    var preparing by remember { mutableStateOf(false) }
+    var pendingImage by remember { mutableStateOf<ByteArray?>(null) }
+    var imageError by remember { mutableStateOf<String?>(null) }
+    val imagePicker=rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if(uri!=null) {
+            preparing=true;imageError=null
+            scope.launch {
+                try { pendingImage=withContext(Dispatchers.IO){compressPortrait(context,uri)};icon=null }
+                catch(error:CancellationException){throw error}
+                catch(error:Exception){imageError=error.message ?: "Immagine non valida"}
+                finally {preparing=false}
+            }
+        }
+    }
+    if(picking) ItemPicker(ui.state.items.filter{it.imageUrls(BuildConfig.SUPABASE_URL).isNotEmpty()},onDismiss={picking=false}) { icon=it;pendingImage=null;imageError=null;picking=false }
     val valid=name.isNotBlank() && name.length<=200 && category.length<=200 && description.length<=20000 && effect.length<=20000 && price.length<=200
     AlertDialog(onDismissRequest={if(!ui.state.itemSaving)onDismiss()},title={Text("Crea oggetto custom")},
         text={Column(Modifier.heightIn(max=460.dp).verticalScroll(rememberScrollState()),verticalArrangement=Arrangement.spacedBy(8.dp)) {
@@ -312,12 +328,16 @@ private fun NewItemDialog(onDismiss:()->Unit) {
             ItemText("Descrizione",description,{description=it},2);ItemText("Effetto",effect,{effect=it},3);ItemText("Prezzo (facoltativo)",price,{price=it})
             ParameterPicker(parameters) { parameters = it }
             ItemSprite(icon,Modifier.size(64.dp).align(Alignment.CenterHorizontally))
-            OutlinedButton(onClick={picking=true},enabled=!ui.state.itemSaving){Text("Scegli icona dal catalogo")}
-            if(icon!=null)TextButton(onClick={icon=null},enabled=!ui.state.itemSaving){Text("Nessuna icona")}
-            Text("L'icona non copia gli effetti dell'oggetto originale. Senza icona viene mostrato un simbolo generico.",style=MaterialTheme.typography.bodySmall)
+            pendingImage?.let { AsyncImage(model=it,contentDescription="Anteprima immagine oggetto",modifier=Modifier.size(140.dp).align(Alignment.CenterHorizontally)) }
+            OutlinedButton(onClick={imagePicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))},enabled=!ui.state.itemSaving && !preparing){Text("Scegli foto / immagine")}
+            OutlinedButton(onClick={picking=true},enabled=!ui.state.itemSaving && !preparing){Text("Scegli icona dal catalogo")}
+            if(icon!=null || pendingImage!=null)TextButton(onClick={icon=null;pendingImage=null;imageError=null},enabled=!ui.state.itemSaving && !preparing){Text("Nessuna immagine")}
+            if(preparing)Text("Preparazione immagine…",style=MaterialTheme.typography.bodySmall)
+            imageError?.let{Text(it,color=MaterialTheme.colorScheme.error)}
+            Text("La foto viene verificata, ridimensionata e convertita in WebP (massimo 2 MB). È pubblica: non caricare contenuti riservati. L'icona non copia gli effetti dell'oggetto originale.",style=MaterialTheme.typography.bodySmall)
         }},
         confirmButton={TextButton(enabled=valid && ui.state.itemsReady && !ui.state.itemSaving,onClick={
-            ui.createItem(NewItem(requestId,ItemEdits(name,description,effect,price,parameters),category,icon?.id),onDismiss)
+            ui.createItem(NewItem(requestId,ItemEdits(name,description,effect,price,parameters),category,icon?.id),pendingImage,onDismiss)
         }){Text(if(ui.state.itemSaving)"Creazione…" else "Crea oggetto")}},
         dismissButton={TextButton(enabled=!ui.state.itemSaving,onClick=onDismiss){Text("Annulla")}})
 }

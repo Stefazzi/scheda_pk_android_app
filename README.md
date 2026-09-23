@@ -101,6 +101,9 @@ Gli script SQL necessari si trovano in `supabase/migrations`:
 10. `10_edit_custom_item_images.sql` (v0.10.3: caricamento immagini DM, cambio sprite degli oggetti custom e revisioni)
 11. `11_item_affected_parameters.sql` (v0.11.0: parametri influenzati dagli oggetti, modificabili solo dal DM)
 12. `12_seed_standard_item_parameters.sql` (associazioni iniziali per 10 strumenti standard; nessun nuovo APK richiesto dalla v0.11.0)
+13. `20260923191834_phase_a1_read_models_exact_lookup.sql` (read model e lookup esatti)
+14. `20260923212131_phase_a2_revision_atomic_team_integrity.sql` (revisioni, salvataggi e squadra atomici)
+15. `20260923213815_phase_a2_trainer_team_rpc_guard.sql` (impedisce a una bozza allenatore obsoleta di riscrivere la copia squadra)
 
 Per aggiornare dalla v0.9.0, eseguire nel SQL Editor solo **06, poi 07**.
 Se non è ancora installato lo script 05, installarlo per le precedenti azioni Pokémon.
@@ -116,6 +119,12 @@ Per il catalogo della versione Android 0.7.0 devono essere già importate anche 
 del pacchetto SQL Pokérole 3.0 preparato separatamente. Il catalogo completo non è incorporato
 nel repository: l'app lo scarica dopo il login e conserva l'ultima copia valida sul dispositivo.
 Vedere `android-app/README.md` per utilizzo, limiti ed evoluzioni.
+
+La baseline del database live e la migration additiva Phase A1 sono documentate
+in [`supabase/PHASE_A1.md`](supabase/PHASE_A1.md). Non usare gli script storici
+01-12 per ricostruire la migration history del progetto live.
+Revisioni, salvataggi atomici, integrità squadra, immagini custom e checklist di
+Phase A2 sono documentati in [`supabase/PHASE_A2.md`](supabase/PHASE_A2.md).
 
 Prima di eseguire gli script in un nuovo progetto Supabase è consigliato controllarne il contenuto e creare un backup dei dati esistenti.
 
@@ -136,6 +145,8 @@ scripts/               Controllo HTTPS e test senza rete
 android-app/           Applicazione Android nativa
 supabase/              Database e test dell'app Android
   migrations/          Schema, policy e configurazione Supabase
+  baseline/            Inventario canonico non eseguibile dello schema live
+  rollbacks/            Procedure di rollback esplicite (non migration forward)
   tests/               Test locali delle query e dei permessi
   maintenance/         Installazione manuale e guida del controllo esterno
 legacy-web/            Archivio della vecchia web app
@@ -167,6 +178,8 @@ L’accesso ai dati è controllato tramite le policy Row Level Security di Supab
 
 ## Stato del progetto
 
-Versione del codice: **0.11.2**, versionCode **20** (generare e collaudare il nuovo APK prima della distribuzione).
+Versione del codice: **1.0**, versionCode **21** (generare e collaudare il nuovo APK prima della distribuzione).
+
+Le prossime versioni applicative seguono la convenzione semplice `1.0 → 1.1 → … → 1.9 → 2.0`; `versionCode` continua sempre a crescere e non viene mai azzerato.
 
 Il progetto è attualmente destinato all’utilizzo privato della campagna ed è ancora in fase di sviluppo e collaudo.

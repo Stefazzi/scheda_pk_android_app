@@ -143,6 +143,7 @@ data class EditableSheet(
     val resolvedProfilePicture: String = "",
     val heldItemCatalogId: String = "",
     val accessories: List<EquipmentAccessory> = emptyList(),
+    val revision: Int = 0,
 ) {
     val displayName: String
         get() = if (isPokemon) pokemonName.ifBlank { speciesName.ifBlank { storageKey } }

@@ -12,15 +12,16 @@ import io.ktor.http.ContentType
 import it.stefazzi.pokerolesheets.data.model.ClaimTrainerParams
 import it.stefazzi.pokerolesheets.data.model.ClaimableTrainer
 import it.stefazzi.pokerolesheets.data.model.PokemonRow
-import it.stefazzi.pokerolesheets.data.model.PokemonWrite
 import it.stefazzi.pokerolesheets.data.model.SetTrainerClaimCodeParams
 import it.stefazzi.pokerolesheets.data.model.TrainerRow
-import it.stefazzi.pokerolesheets.data.model.TrainerWrite
 import it.stefazzi.pokerolesheets.data.model.UserProfileRow
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonNull
+import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlin.time.Duration.Companion.hours
@@ -126,18 +127,35 @@ class CharacterRepository(
         })
     }
 
+    suspend fun reorderTeam(trainerId: String, orderedPokemonIds: List<String>): List<EditableSheet> {
+        require(trainerId.isNotBlank()) { "Allenatore non valido" }
+        require(orderedPokemonIds.size <= MAX_TEAM_SIZE && orderedPokemonIds.distinct().size == orderedPokemonIds.size) {
+            "Ordine squadra non valido"
+        }
+        val trainer = client.from(TRAINERS_TABLE).select {
+            filter { eq("id", trainerId) }
+            limit(1)
+        }.decodeSingle<TrainerRow>()
+        return client.postgrest.rpc("reorder_pokemon_team", buildJsonObject {
+            put("p_trainer_id", trainerId)
+            put("p_ordered_pokemon_ids", JsonArray(orderedPokemonIds.map(::JsonPrimitive)))
+        }).decodeList<PokemonRow>().map { it.toEditableSheet(trainer.trainerName) }
+    }
+
     private suspend fun saveTrainer(sheet: EditableSheet): EditableSheet {
         val storageKey = sheet.storageKey.ifBlank { sheet.trainerName.trim() }
         val normalized = sheet.copy(storageKey = storageKey)
-        val payload = normalized.toTrainerWrite()
-        val row = if (sheet.recordId.isBlank()) {
-            client.from(TRAINERS_TABLE).insert(payload) { select() }.decodeSingle<TrainerRow>()
-        } else {
-            client.from(TRAINERS_TABLE).update(payload) {
-                filter { eq("id", sheet.recordId) }
-                select()
-            }.decodeSingle<TrainerRow>()
-        }
+        val row = client.postgrest.rpc("save_trainer_sheet", buildJsonObject {
+            put("p_id", sheet.recordId.takeIf(String::isNotBlank)?.let(::JsonPrimitive) ?: JsonNull)
+            put("p_expected_revision", sheet.revision)
+            put("p_legacy_name", storageKey)
+            put("p_trainer_name", normalized.trainerName.trim())
+            put("p_team", normalized.team.trim().ifBlank { null }?.let(::JsonPrimitive) ?: JsonNull)
+            put("p_age", normalized.age.trim().ifBlank { null }?.let(::JsonPrimitive) ?: JsonNull)
+            put("p_money", normalized.money.trim().ifBlank { null }?.let(::JsonPrimitive) ?: JsonNull)
+            put("p_reputation", normalized.reputation.trim().ifBlank { null }?.let(::JsonPrimitive) ?: JsonNull)
+            put("p_sheet_data", normalized.updatedJson())
+        }).decodeSingle<TrainerRow>()
         return row.toEditableSheet()
     }
 
@@ -152,23 +170,24 @@ class CharacterRepository(
                 .filter(String::isNotBlank)
                 .joinToString("_")
         }
-        val slot = sheet.teamSlot ?: firstAvailableTeamSlot(trainer.id)
         val normalized = sheet.copy(
             storageKey = storageKey,
             trainerId = trainer.id,
             trainerName = trainer.trainerName,
-            teamSlot = slot,
         )
-        val payload = normalized.toPokemonWrite(trainer.id)
-        val row = if (sheet.recordId.isBlank()) {
-            client.from(POKEMON_TABLE).insert(payload) { select() }.decodeSingle<PokemonRow>()
-        } else {
-            client.from(POKEMON_TABLE).update(payload) {
-                filter { eq("id", sheet.recordId) }
-                select()
-            }.decodeSingle<PokemonRow>()
-        }
-        synchronizeTrainerTeam(trainer.id)
+        val row = client.postgrest.rpc("save_pokemon_sheet", buildJsonObject {
+            put("p_id", sheet.recordId.takeIf(String::isNotBlank)?.let(::JsonPrimitive) ?: JsonNull)
+            put("p_expected_revision", sheet.revision)
+            put("p_trainer_id", trainer.id)
+            put("p_legacy_name", storageKey)
+            put("p_nickname", normalized.pokemonName.trim().ifBlank { null }?.let(::JsonPrimitive) ?: JsonNull)
+            put("p_species", normalized.speciesName.trim().ifBlank { null }?.let(::JsonPrimitive) ?: JsonNull)
+            put("p_pokedex_number", normalized.pokedexNumber.trim().ifBlank { null }?.let(::JsonPrimitive) ?: JsonNull)
+            put("p_primary_type", normalized.primaryType.trim().ifBlank { null }?.let(::JsonPrimitive) ?: JsonNull)
+            put("p_secondary_type", normalized.secondaryType.trim().ifBlank { null }?.let(::JsonPrimitive) ?: JsonNull)
+            put("p_team_slot", normalized.teamSlot?.let(::JsonPrimitive) ?: JsonNull)
+            put("p_sheet_data", normalized.updatedJson())
+        }).decodeSingle<PokemonRow>()
         return row.toEditableSheet(trainer.trainerName)
     }
 
@@ -188,32 +207,6 @@ class CharacterRepository(
             ?: error("Allenatore non trovato o non accessibile")
     }
 
-    private suspend fun firstAvailableTeamSlot(trainerId: String): Int? {
-        val occupied = client.from(POKEMON_TABLE).select {
-            filter { eq("trainer_id", trainerId) }
-        }.decodeList<PokemonRow>().mapNotNull(PokemonRow::teamSlot).toSet()
-        return (1..MAX_TEAM_SIZE).firstOrNull { it !in occupied }
-    }
-
-    private suspend fun synchronizeTrainerTeam(trainerId: String) {
-        val trainer = client.from(TRAINERS_TABLE).select {
-            filter { eq("id", trainerId) }
-            limit(1)
-        }.decodeSingle<TrainerRow>()
-        val pokemon = client.from(POKEMON_TABLE).select {
-            filter { eq("trainer_id", trainerId) }
-        }.decodeList<PokemonRow>()
-        val namesBySlot = pokemon.mapNotNull { row ->
-            row.teamSlot?.let { it to row.nickname.orEmpty().ifBlank { row.species.orEmpty() } }
-        }.toMap()
-        val updatedTrainer = trainer.toEditableSheet().copy(
-            pokemonTeam = (1..MAX_TEAM_SIZE).map { namesBySlot[it].orEmpty() },
-        )
-        client.from(TRAINERS_TABLE).update(updatedTrainer.toTrainerWrite()) {
-            filter { eq("id", trainerId) }
-        }
-    }
-
     private fun TrainerRow.toEditableSheet(): EditableSheet = EditableSheet
         .from(legacyName ?: id, sheetData, json)
         .copy(
@@ -221,6 +214,7 @@ class CharacterRepository(
             recordId = id,
             trainerId = id,
             ownerId = ownerId,
+            revision = revision,
             trainerName = trainerName,
             team = team.orEmpty(),
             age = age.orEmpty(),
@@ -241,29 +235,8 @@ class CharacterRepository(
             pokedexNumber = pokedexNumber.orEmpty(),
             primaryType = primaryType.orEmpty(),
             secondaryType = secondaryType.orEmpty(),
+            revision = revision,
         )
-
-    private fun EditableSheet.toTrainerWrite() = TrainerWrite(
-        legacyName = storageKey,
-        trainerName = trainerName.trim(),
-        team = team.trim().ifBlank { null },
-        age = age.trim().ifBlank { null },
-        money = money.trim().ifBlank { null },
-        reputation = reputation.trim().ifBlank { null },
-        sheetData = updatedJson(),
-    )
-
-    private fun EditableSheet.toPokemonWrite(parentTrainerId: String) = PokemonWrite(
-        trainerId = parentTrainerId,
-        legacyName = storageKey,
-        nickname = pokemonName.trim().ifBlank { null },
-        species = speciesName.trim(),
-        pokedexNumber = pokedexNumber.trim().ifBlank { null },
-        primaryType = primaryType.trim().ifBlank { null },
-        secondaryType = secondaryType.trim().ifBlank { null },
-        teamSlot = teamSlot,
-        sheetData = updatedJson(),
-    )
 
     private suspend fun EditableSheet.withResolvedPortrait(): EditableSheet {
         val objectPath = profilePicture

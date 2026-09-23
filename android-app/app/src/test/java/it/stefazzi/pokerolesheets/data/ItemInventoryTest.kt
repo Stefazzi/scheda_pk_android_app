@@ -29,6 +29,13 @@ class ItemInventoryTest {
         assertEquals(item,Json.decodeFromString<CatalogItem>(Json.encodeToString(item)))
         assertEquals(2,item.imageUrls("https://project.supabase.co").size)
     }
+    @Test fun cleanupOnlyClaimsFilesInsideTheItemsOwnFolder() {
+        assertEquals("oggetti/custom-abc/file.webp",ownedItemImagePath("custom-abc","oggetti/custom-abc/file.webp"))
+        assertNull(ownedItemImagePath("custom-abc","oggetti/other/file.webp"))
+        assertNull(ownedItemImagePath("custom-abc","oggetti/legacy.webp"))
+        assertNull(ownedItemImagePath("custom-abc","oggetti/custom-abc/../file.webp"))
+        assertNull(ownedItemImagePath("bad/id","oggetti/bad/id/file.webp"))
+    }
     @Test fun pokemonEquipmentSurvivesJsonRoundTripWithoutChangingLegacyItem() {
         val source=Json.parseToJsonElement("""{"header":{"pokemon_name":"Hatenna"},"quick_references":{"held_item":"Old Charm"},"equipment":{"keep":"future"}}""")
         val sheet=EditableSheet.from("Hatenna",source,Json)
