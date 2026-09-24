@@ -1,0 +1,276 @@
+{
+  "schema_version": "1.0",
+  "rules_version": "3.0",
+  "canonical_source": "android-app/app/src/main/assets/pokerole/abilities-v3.json",
+  "comparison_source": "android-app/app/src/main/assets/legacy/json/Abilities",
+  "comparison_normalization": "JSON formatting and object key order only; text is compared exactly.",
+  "canonical_count": 305,
+  "comparison_count": 305,
+  "canonical_md5": "8f82ace5b4b9e5384c2ac833df86e802",
+  "comparison_md5": "1c7277c85930f8eaf64d078435717a7f",
+  "matched_definitions": 290,
+  "mismatched_definitions": 15,
+  "mismatches": [
+    {
+      "name": "Berserk",
+      "legacy_id": "berserk",
+      "canonical_id": "berserk",
+      "differing_fields": [
+        "Description"
+      ],
+      "classifications": [
+        "formatting/spelling only"
+      ],
+      "differences": {
+        "Description": {
+          "legacy": "This Pokemon is usually calm in demeanor, but when its life or someone it cares for is in danger, the adrenaline rush will transform it into an enranged beast.",
+          "canonical": "This Pokemon is usually calm in demeanor, but when its life or someone it cares for is in danger, the adrenaline rush will transform it into an enraged beast."
+        }
+      }
+    },
+    {
+      "name": "Cloud Nine",
+      "legacy_id": "cloud-nine",
+      "canonical_id": "cloud-nine",
+      "differing_fields": [
+        "Description"
+      ],
+      "classifications": [
+        "formatting/spelling only"
+      ],
+      "differences": {
+        "Description": {
+          "legacy": "This Pokemon will easily feel pleased, and it's prone to be heappier than others. No matter if it's sunny or rainy it will never feel gloomy.",
+          "canonical": "This Pokemon will easily feel pleased, and it's prone to be happier than others. No matter if it's sunny or rainy it will never feel gloomy."
+        }
+      }
+    },
+    {
+      "name": "Drought",
+      "legacy_id": "drought",
+      "canonical_id": "drought",
+      "differing_fields": [
+        "Description"
+      ],
+      "classifications": [
+        "formatting/spelling only"
+      ],
+      "differences": {
+        "Description": {
+          "legacy": "The Sunlight will be harsly bright, and the heat will increase in the field for as long as this Pokemon wants to.",
+          "canonical": "The Sunlight will be harshly bright, and the heat will increase in the field for as long as this Pokemon wants to."
+        }
+      }
+    },
+    {
+      "name": "Effect Spore",
+      "legacy_id": "effect-spore",
+      "canonical_id": "effect-spore",
+      "differing_fields": [
+        "Effect"
+      ],
+      "classifications": [
+        "formatting/spelling only"
+      ],
+      "differences": {
+        "Effect": {
+          "legacy": "If hit by a Non-Ranged Physical Move, the Pokemon rolls 3 Chance Dice to Poison, Paralize or Sleep the foe at random.",
+          "canonical": "If hit by a Non-Ranged Physical Move, the Pokemon rolls 3 Chance Dice to Poison, Paralyze or Sleep the foe at random."
+        }
+      }
+    },
+    {
+      "name": "Inner Focus",
+      "legacy_id": "inner-focus",
+      "canonical_id": "inner-focus",
+      "differing_fields": [
+        "Description"
+      ],
+      "classifications": [
+        "formatting/spelling only"
+      ],
+      "differences": {
+        "Description": {
+          "legacy": "The Pokemon is extrmely serious and focused on everything it does. It remains calm and never backs down, even if it's getting severly injured.",
+          "canonical": "The Pokemon is extremely serious and focused on everything it does. It remains calm and never backs down, even if it's getting severly injured."
+        }
+      }
+    },
+    {
+      "name": "Mimicry",
+      "legacy_id": "mimicry",
+      "canonical_id": "mimicry",
+      "differing_fields": [
+        "Effect"
+      ],
+      "classifications": [
+        "formatting/spelling only"
+      ],
+      "differences": {
+        "Effect": {
+          "legacy": "If there is a Terrain Move active on the field (i.e. Electric Terrain, Psyichic Terrain etc.) Change this Pokemon's main type to match that of the active Terrain. Restore its original main type if the terrain effects end.",
+          "canonical": "If there is a Terrain Move active on the field (i.e. Electric Terrain, Psychic Terrain etc.) Change this Pokemon's main type to match that of the active Terrain. Restore its original main type if the terrain effects end."
+        }
+      }
+    },
+    {
+      "name": "Neutralizing Gas",
+      "legacy_id": "neutralizing-gas",
+      "canonical_id": "neutralizing-gas",
+      "differing_fields": [
+        "Description"
+      ],
+      "classifications": [
+        "formatting/spelling only"
+      ],
+      "differences": {
+        "Description": {
+          "legacy": "The Pokemon is surrounded by a sweet-smelling but noxious gas. Most poeple and Pokemon can't help but to stop and smell it, though.",
+          "canonical": "The Pokemon is surrounded by a sweet-smelling but noxious gas. Most people and Pokemon can't help but to stop and smell it, though."
+        }
+      }
+    },
+    {
+      "name": "Overcoat",
+      "legacy_id": "overcoat",
+      "canonical_id": "overcoat",
+      "differing_fields": [
+        "Description",
+        "Effect"
+      ],
+      "classifications": [
+        "descriptive/flavour",
+        "mechanical"
+      ],
+      "differences": {
+        "Description": {
+          "legacy": "The Pokemon will have a protective coat surrounding its body that allows it to live under extreme weather conditions.",
+          "canonical": "The Pokemon will have a protective coat surrounding its body that allows it to live under extreme weather conditions. Plus, it repels dust!"
+        },
+        "Effect": {
+          "legacy": "This Pokemon won't recieve damage from active weather.",
+          "canonical": "This Pokemon won't recieve damage from Hail or Sandstorm weather. This Pokémon is immune to the added effects of Powder Moves."
+        }
+      }
+    },
+    {
+      "name": "Protean",
+      "legacy_id": "protean",
+      "canonical_id": "protean",
+      "differing_fields": [
+        "Description"
+      ],
+      "classifications": [
+        "formatting/spelling only"
+      ],
+      "differences": {
+        "Description": {
+          "legacy": "This Pokemon's versitile body gives it profeciency on practically everything it sets out to do.",
+          "canonical": "This Pokemon's versatile body gives it proficiency on practically everything it sets out to do."
+        }
+      }
+    },
+    {
+      "name": "Purifying Salt",
+      "legacy_id": "purifying-salt",
+      "canonical_id": "purifying-salt",
+      "differing_fields": [
+        "Effect"
+      ],
+      "classifications": [
+        "formatting/spelling only"
+      ],
+      "differences": {
+        "Effect": {
+          "legacy": "This Pokemon can't have any Status Ailment infliced on them. Previously inflicted Ailments remain. Ghost-Type Moves used against this Pokemon have their total Damage Reduced by 3.",
+          "canonical": "This Pokemon can't have any Status Ailment inflicted on them. Previously inflicted Ailments remain. Ghost-Type Moves used against this Pokemon have their total Damage Reduced by 3."
+        }
+      }
+    },
+    {
+      "name": "Run Away",
+      "legacy_id": "run-away",
+      "canonical_id": "run-away-ability",
+      "differing_fields": [
+        "_id"
+      ],
+      "classifications": [
+        "identifier/reference"
+      ],
+      "differences": {
+        "_id": {
+          "legacy": "run-away",
+          "canonical": "run-away-ability"
+        }
+      }
+    },
+    {
+      "name": "Shed Skin",
+      "legacy_id": "shed-skin",
+      "canonical_id": "shed-skin",
+      "differing_fields": [
+        "Effect"
+      ],
+      "classifications": [
+        "formatting/spelling only"
+      ],
+      "differences": {
+        "Effect": {
+          "legacy": "At the end of the round, if this Pokemon has a Status Ailment/Condition, Roll 3 Chance Dice to heal it. If affected by multiple Ailments/Conditons, one will be healed at random.",
+          "canonical": "At the end of the round, if this Pokemon has a Status Ailment/Condition, Roll 3 Chance Dice to heal it. If affected by multiple Ailments/Conditions, one will be healed at random."
+        }
+      }
+    },
+    {
+      "name": "Slush Rush",
+      "legacy_id": "slush-rush",
+      "canonical_id": "slush-rush",
+      "differing_fields": [
+        "Effect"
+      ],
+      "classifications": [
+        "mechanical"
+      ],
+      "differences": {
+        "Effect": {
+          "legacy": "While Hail/Snow Weather is active, increase the Dexterity Attribute of this Pokemon by 1. The Pokemon is immune to damage from Hail/Snow Weather.",
+          "canonical": "While Hail/Snow Weather is active, increase the Dexterity Attribute of this Pokemon by 2. The Pokemon is immune to damage from Hail/Snow Weather."
+        }
+      }
+    },
+    {
+      "name": "Stalwart",
+      "legacy_id": "stalwart",
+      "canonical_id": "stalwart",
+      "differing_fields": [
+        "Effect"
+      ],
+      "classifications": [
+        "formatting/spelling only"
+      ],
+      "differences": {
+        "Effect": {
+          "legacy": "Ignore any Moves or Abilities that would redirect this Pokemon's Moves into another Target. (i.e. The Move \"Follow Me\", the Ability \"Lightining Rod\" etc.)",
+          "canonical": "Ignore any Moves or Abilities that would redirect this Pokemon's Moves into another Target. (i.e. The Move \"Follow Me\", the Ability \"Lightning Rod\" etc.)"
+        }
+      }
+    },
+    {
+      "name": "Water Compaction",
+      "legacy_id": "water-compaction",
+      "canonical_id": "water-compaction",
+      "differing_fields": [
+        "Effect"
+      ],
+      "classifications": [
+        "formatting/spelling only"
+      ],
+      "differences": {
+        "Effect": {
+          "legacy": "The fist time this Pokemon is hit by a Water-Type Move, Increase its Defense by 2. Water-type moves do not deal damage to this Pokemon.",
+          "canonical": "The first time this Pokemon is hit by a Water-Type Move, Increase its Defense by 2. Water-type moves do not deal damage to this Pokemon."
+        }
+      }
+    }
+  ]
+}
