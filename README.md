@@ -40,6 +40,17 @@ Per lavorare sull'app attuale aprire [`android-app/`](android-app/README.md) in 
 - Creazione di oggetti custom del DM e personalizzazione dei singoli slot della borsa.
 - Inventario separato per allenatore, con quantità e note, senza conversioni automatiche dei testi legacy.
 
+## Novità della versione 1.1
+
+- Salvataggi Android single-flight per ciascuna scheda, così richieste duplicate sullo stesso obiettivo non vengono eseguite in parallelo.
+- Timeout client esplicito di 30 secondi e nessun retry automatico delle scritture Supabase.
+- I conflitti di revisione (`40001`) richiedono una ricarica esplicita prima di un nuovo salvataggio.
+- Timeout, errori di rete ed errori server con esito ambiguo non causano nuovi tentativi automatici; sulle schede esistenti richiedono una riconciliazione dal server.
+- Messaggi di errore del salvataggio sanitizzati, senza token, payload completi o dettagli interni del servizio.
+- Aggiornamento della toolchain ad Android Gradle Plugin 9.4.1 e Gradle 9.6.0; Ktor Android è allineato alla versione 3.4.2 usata dal client Supabase.
+
+La versione 1.1 non richiede nuove migration e non modifica RPC, policy RLS o configurazioni del progetto Supabase.
+
 ## Tecnologie
 
 - Kotlin
@@ -178,7 +189,7 @@ L’accesso ai dati è controllato tramite le policy Row Level Security di Supab
 
 ## Stato del progetto
 
-Versione del codice: **1.0**, versionCode **21** (generare e collaudare il nuovo APK prima della distribuzione).
+Versione del codice: **1.1**, versionCode **22** (generare e collaudare il nuovo APK prima della distribuzione).
 
 Le prossime versioni applicative seguono la convenzione semplice `1.0 → 1.1 → … → 1.9 → 2.0`; `versionCode` continua sempre a crescere e non viene mai azzerato.
 

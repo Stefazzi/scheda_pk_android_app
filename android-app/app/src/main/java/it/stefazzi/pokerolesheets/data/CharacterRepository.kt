@@ -7,6 +7,7 @@ import io.github.jan.supabase.auth.status.SessionStatus
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.rpc
+import io.github.jan.supabase.postgrest.exception.PostgrestRestException
 import io.github.jan.supabase.storage.storage
 import io.ktor.http.ContentType
 import it.stefazzi.pokerolesheets.data.model.ClaimTrainerParams
@@ -96,9 +97,13 @@ class CharacterRepository(
         )
     }
 
-    suspend fun saveSheet(sheet: EditableSheet): EditableSheet {
+    suspend fun saveSheet(sheet: EditableSheet): EditableSheet = try {
         require(sheet.trainerName.isNotBlank()) { "Inserisci il nome dell'allenatore" }
-        return if (sheet.isPokemon) savePokemon(sheet) else saveTrainer(sheet)
+        if (sheet.isPokemon) savePokemon(sheet) else saveTrainer(sheet)
+    } catch (error: PostgrestRestException) {
+        if (error.code == REVISION_CONFLICT_SQLSTATE) throw SheetSaveConflictException(error)
+        if (error.statusCode in 500..599) throw SheetSaveAmbiguousException(error)
+        throw error
     }
 
     suspend fun uploadTrainerPortrait(sheet: EditableSheet, imageData: ByteArray): EditableSheet {
@@ -258,6 +263,10 @@ class CharacterRepository(
         const val MEDIA_BUCKET = "pokerole-media"
         const val STORAGE_PREFIX = "storage://pokerole-media/"
         const val MAX_PORTRAIT_BYTES = 2 * 1024 * 1024
+        const val REVISION_CONFLICT_SQLSTATE = "40001"
         val SIGNED_URL_DURATION = 12.hours
     }
 }
+
+internal class SheetSaveConflictException(cause: Throwable) : Exception("Sheet revision conflict", cause)
+internal class SheetSaveAmbiguousException(cause: Throwable) : Exception("Ambiguous sheet save outcome", cause)

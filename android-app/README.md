@@ -4,6 +4,24 @@ App Android nativa per gestire le schede Pokerole nel nuovo progetto Supabase.
 
 ## Funzioni
 
+### Salvataggi Android più sicuri — v1.1
+
+La versione **1.1**, versionCode **22**, rende esplicito il confine delle scritture
+verso Supabase: una sola operazione alla volta per scheda, timeout client di 30 secondi
+e nessun retry automatico. Un conflitto di revisione `40001` è terminale e richiede
+`Azioni → Ricarica dal server` prima di salvare nuovamente. Anche timeout, interruzioni
+di rete e risposte server ambigue non vengono ripetuti automaticamente, perché la
+transazione potrebbe essere stata completata nonostante l'assenza di una risposta.
+
+Il blocco single-flight viene sempre rilasciato dopo successo, errore o cancellazione;
+i messaggi mostrati non includono dettagli interni, token o payload della scheda.
+Le stesse protezioni coprono il caricamento del ritratto quando termina salvando la
+scheda. La toolchain passa ad Android Gradle Plugin 9.4.1 e Gradle 9.6.0, mentre il
+motore Ktor Android è allineato alla versione 3.4.2 risolta dal client Supabase.
+
+Non sono state modificate RPC, revisioni ottimistiche, policy RLS, trigger o timeout
+del progetto Supabase. Non sono necessarie nuove migration per installare la v1.1.
+
 ### Integrità schede e immagini custom — v1.0
 
 La versione **1.0**, versionCode **21**, usa revisioni ottimistiche e RPC atomiche

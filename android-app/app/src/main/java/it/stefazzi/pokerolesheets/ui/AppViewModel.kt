@@ -18,6 +18,10 @@ import it.stefazzi.pokerolesheets.data.FullCatalog
 import it.stefazzi.pokerolesheets.data.normalizeMoveName
 import it.stefazzi.pokerolesheets.data.CharacterRepository
 import it.stefazzi.pokerolesheets.data.EditableSheet
+import it.stefazzi.pokerolesheets.data.SheetWriteCoordinator
+import it.stefazzi.pokerolesheets.data.SheetWriteFailure
+import it.stefazzi.pokerolesheets.data.SheetWriteKey
+import it.stefazzi.pokerolesheets.data.SheetWriteResult
 import it.stefazzi.pokerolesheets.data.SupabaseProvider
 import it.stefazzi.pokerolesheets.data.model.ClaimableTrainer
 import it.stefazzi.pokerolesheets.data.model.PokemonSpecies
@@ -81,6 +85,7 @@ class AppViewModel(
     private val localCatalogReady = CompletableDeferred<Unit>()
     private var catalogJob: Job? = null
     private var itemsJob: Job? = null
+    private val sheetWriteCoordinator = SheetWriteCoordinator()
 
     init {
         loadCatalog()
@@ -140,6 +145,9 @@ class AppViewModel(
             runCatching { repository.loadSheets() }
                 .onSuccess { sheets ->
                     val latest = sheets.firstOrNull { it.recordId == selected.recordId }
+                    if (latest != null) {
+                        sheetWriteCoordinator.clearReloadRequirement(SheetWriteKey.from(selected))
+                    }
                     _uiState.update { it.copy(
                         loading = false,
                         sheets = sheets,
@@ -205,6 +213,7 @@ class AppViewModel(
                 )
             } else sheet
         }
+        sheetWriteCoordinator.clearReloadRequirement(SheetWriteKey.from(blank))
         _uiState.update { it.copy(selectedSheet = blank, message = null) }
     }
 
@@ -216,38 +225,52 @@ class AppViewModel(
             _uiState.update { it.copy(message = "Seleziona un allenatore dall'elenco prima di salvare la cattura") }
             return
         }
+        val writeKey = SheetWriteKey.from(sheet)
         viewModelScope.launch {
-            _uiState.update { it.copy(saving = true, message = null) }
-            runCatching { repository.saveSheet(sheet) }
-                .onSuccess { saved ->
-                    _uiState.update { state ->
-                        val updatedSheets = state.sheets
-                            .filterNot { existing ->
-                                existing.recordId == saved.recordId ||
-                                    (sheet.recordId.isNotBlank() && existing.recordId == sheet.recordId)
-                            }
-                            .plus(saved)
-                            .sortedWith(
-                                compareBy<EditableSheet> { it.isPokemon }
-                                    .thenBy { it.displayName.lowercase() },
+            var started = false
+            try {
+                when (val result = sheetWriteCoordinator.execute(
+                    key = writeKey,
+                    onStarted = {
+                        started = true
+                        _uiState.update { it.copy(saving = true, message = null) }
+                    },
+                    operation = { repository.saveSheet(sheet) },
+                )) {
+                    is SheetWriteResult.Success -> {
+                        val saved = result.value
+                        _uiState.update { state ->
+                            val updatedSheets = state.sheets
+                                .filterNot { existing ->
+                                    existing.recordId == saved.recordId ||
+                                        (sheet.recordId.isNotBlank() && existing.recordId == sheet.recordId)
+                                }
+                                .plus(saved)
+                                .sortedWith(
+                                    compareBy<EditableSheet> { it.isPokemon }
+                                        .thenBy { it.displayName.lowercase() },
+                                )
+                            state.copy(
+                                selectedSheet = saved,
+                                sheets = updatedSheets,
+                                message = "Scheda salvata",
                             )
-                        state.copy(
-                            saving = false,
-                            selectedSheet = saved,
-                            sheets = updatedSheets,
-                            message = "Scheda salvata",
-                        )
+                        }
+                        refresh()
                     }
-                    refresh()
-                }
-                .onFailure { error ->
-                    val conflict = error.message.orEmpty().contains("modificata altrove", ignoreCase = true)
-                    _uiState.update {
-                        it.copy(saving = false, message = if (conflict)
-                            "La scheda è stata modificata altrove. Le modifiche locali sono ancora aperte; usa Azioni → Ricarica dal server prima di salvare di nuovo."
-                        else error.userMessage("Salvataggio non riuscito"))
+                    SheetWriteResult.AlreadyInFlight -> _uiState.update {
+                        it.copy(message = "Un salvataggio di questa scheda è già in corso")
+                    }
+                    SheetWriteResult.ReloadRequired -> _uiState.update {
+                        it.copy(message = reloadRequiredMessage(writeKey))
+                    }
+                    is SheetWriteResult.Failure -> _uiState.update {
+                        it.copy(message = sheetWriteFailureMessage(result.reason, writeKey))
                     }
                 }
+            } finally {
+                if (started) _uiState.update { it.copy(saving = false) }
+            }
         }
     }
 
@@ -291,33 +314,47 @@ class AppViewModel(
 
     fun uploadTrainerPortrait(sheet: EditableSheet, imageData: ByteArray) {
         val repository = characterRepository ?: return
+        val writeKey = SheetWriteKey.from(sheet)
         viewModelScope.launch {
-            _uiState.update { it.copy(uploadingPortrait = true, message = null) }
-            runCatching { repository.uploadTrainerPortrait(sheet, imageData) }
-                .onSuccess { saved ->
-                    _uiState.update { state ->
-                        state.copy(
-                            uploadingPortrait = false,
-                            selectedSheet = saved,
-                            sheets = state.sheets
-                                .filterNot { it.recordId == saved.recordId }
-                                .plus(saved)
-                                .sortedWith(
-                                    compareBy<EditableSheet> { it.isPokemon }
-                                        .thenBy { it.displayName.lowercase() },
-                                ),
-                            message = "Immagine allenatore aggiornata",
-                        )
+            var started = false
+            try {
+                when (val result = sheetWriteCoordinator.execute(
+                    key = writeKey,
+                    onStarted = {
+                        started = true
+                        _uiState.update { it.copy(uploadingPortrait = true, message = null) }
+                    },
+                    operation = { repository.uploadTrainerPortrait(sheet, imageData) },
+                )) {
+                    is SheetWriteResult.Success -> {
+                        val saved = result.value
+                        _uiState.update { state ->
+                            state.copy(
+                                selectedSheet = saved,
+                                sheets = state.sheets
+                                    .filterNot { it.recordId == saved.recordId }
+                                    .plus(saved)
+                                    .sortedWith(
+                                        compareBy<EditableSheet> { it.isPokemon }
+                                            .thenBy { it.displayName.lowercase() },
+                                    ),
+                                message = "Immagine allenatore aggiornata",
+                            )
+                        }
+                    }
+                    SheetWriteResult.AlreadyInFlight -> _uiState.update {
+                        it.copy(message = "Un salvataggio di questa scheda è già in corso")
+                    }
+                    SheetWriteResult.ReloadRequired -> _uiState.update {
+                        it.copy(message = reloadRequiredMessage(writeKey))
+                    }
+                    is SheetWriteResult.Failure -> _uiState.update {
+                        it.copy(message = sheetWriteFailureMessage(result.reason, writeKey, portrait = true))
                     }
                 }
-                .onFailure { error ->
-                    _uiState.update {
-                        it.copy(
-                            uploadingPortrait = false,
-                            message = error.userMessage("Caricamento immagine non riuscito"),
-                        )
-                    }
-                }
+            } finally {
+                if (started) _uiState.update { it.copy(uploadingPortrait = false) }
+            }
         }
     }
 
@@ -631,6 +668,37 @@ class AppViewModel(
             }
         }
     }
+}
+
+private fun reloadRequiredMessage(key: SheetWriteKey): String = if (key.isPersisted) {
+    "Ricarica la scheda dal server prima di salvarla nuovamente."
+} else {
+    "Aggiorna l'elenco dal server e verifica se la scheda è stata creata prima di riprovare."
+}
+
+private fun sheetWriteFailureMessage(
+    failure: SheetWriteFailure,
+    key: SheetWriteKey,
+    portrait: Boolean = false,
+): String = when (failure) {
+    SheetWriteFailure.CONFLICT ->
+        "La scheda è stata modificata altrove. Ricaricala prima di salvarla nuovamente."
+    SheetWriteFailure.TIMEOUT -> if (key.isPersisted) {
+        "Tempo scaduto: il salvataggio potrebbe essere riuscito. Ricarica la scheda dal server prima di riprovare."
+    } else {
+        "Tempo scaduto: la creazione potrebbe essere riuscita. Aggiorna l'elenco dal server prima di riprovare."
+    }
+    SheetWriteFailure.NETWORK -> if (key.isPersisted) {
+        "Connessione interrotta: l'esito del salvataggio è incerto. Ricarica la scheda dal server prima di riprovare."
+    } else {
+        "Connessione interrotta: la creazione potrebbe essere riuscita. Aggiorna l'elenco dal server prima di riprovare."
+    }
+    SheetWriteFailure.AMBIGUOUS_SERVER -> if (key.isPersisted) {
+        "Il servizio non ha confermato il salvataggio. Ricarica la scheda dal server prima di riprovare."
+    } else {
+        "Il servizio non ha confermato la creazione. Aggiorna l'elenco dal server prima di riprovare."
+    }
+    SheetWriteFailure.OTHER -> if (portrait) "Caricamento immagine non riuscito" else "Salvataggio non riuscito"
 }
 
 private fun Throwable.userMessage(fallback: String): String =

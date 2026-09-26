@@ -28,8 +28,8 @@ android {
         applicationId = "it.stefazzi.pokerolesheets"
         minSdk = 26
         targetSdk = 37
-        versionCode = 21
-        versionName = "1.0"
+        versionCode = 22
+        versionName = "1.1"
 
         buildConfigField("String", "SUPABASE_URL", escapedBuildConfigValue("SUPABASE_URL"))
         buildConfigField(
@@ -72,7 +72,7 @@ dependencies {
     implementation("io.github.jan-tennert.supabase:auth-kt")
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
     implementation("io.github.jan-tennert.supabase:storage-kt")
-    implementation("io.ktor:ktor-client-android:3.0.3")
+    implementation("io.ktor:ktor-client-android:3.4.2")
     implementation("io.coil-kt.coil3:coil-compose:3.6.1")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.6.1")
 
