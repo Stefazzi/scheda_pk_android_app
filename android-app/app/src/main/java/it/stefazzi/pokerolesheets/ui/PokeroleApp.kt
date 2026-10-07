@@ -108,6 +108,7 @@ import java.io.ByteArrayOutputStream
 import kotlin.math.roundToInt
 
 private enum class HomeTab(val label: String) {
+    NOVA("Nova"),
     TRAINERS("Allenatori"),
     POKEMON("Pokémon"),
     CATALOG("Pokédex"),
@@ -219,6 +220,7 @@ fun PokeroleApp() {
                 )
                 else -> HomeContent(
                     state = state,
+                    onAskNova = viewModel::askNova,
                     onSelect = viewModel::selectSheet,
                     onCreate = viewModel::beginNewSheet,
                     onSetClaimCode = { claimCodeTrainer = it },
@@ -386,6 +388,7 @@ private fun ConfigurationMissing() {
 @Composable
 private fun HomeContent(
     state: AppUiState,
+    onAskNova: (String) -> Unit,
     onSelect: (EditableSheet) -> Unit,
     onCreate: (Boolean) -> Unit,
     onSetClaimCode: (EditableSheet) -> Unit,
@@ -413,6 +416,12 @@ private fun HomeContent(
         }
 
         when (HomeTab.entries[tabIndex]) {
+            HomeTab.NOVA -> NovaChatScreen(
+                configured = state.novaConfigured,
+                messages = state.novaMessages,
+                loading = state.novaLoading,
+                onSend = onAskNova,
+            )
             HomeTab.TRAINERS -> SheetList(
                 sheets = state.sheets.filterNot { it.isPokemon },
                 createLabel = if (state.isDm) "Nuovo allenatore" else null,

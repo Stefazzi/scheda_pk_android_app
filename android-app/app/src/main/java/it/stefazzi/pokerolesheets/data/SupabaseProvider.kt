@@ -6,6 +6,7 @@ import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.ExternalAuthAction
 import io.github.jan.supabase.auth.FlowType
 import io.github.jan.supabase.auth.handleDeeplinks
+import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.storage.Storage
@@ -43,6 +44,13 @@ object SupabaseProvider {
     }
 
     fun repository(): CharacterRepository = CharacterRepository(client, json)
+
+    val isChatConfigured: Boolean get() = BuildConfig.POKEROLE_API_BASE_URL.isNotBlank()
+
+    fun chatClient(): NovaChatClient = NovaChatClient(
+        BuildConfig.POKEROLE_API_BASE_URL,
+        accessToken = { client.auth.currentSessionOrNull()?.accessToken },
+    )
 
     fun handleDeepLink(intent: Intent) {
         if (isConfigured) client.handleDeeplinks(intent)

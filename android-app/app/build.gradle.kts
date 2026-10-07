@@ -37,6 +37,11 @@ android {
             "SUPABASE_PUBLISHABLE_KEY",
             escapedBuildConfigValue("SUPABASE_PUBLISHABLE_KEY"),
         )
+        buildConfigField(
+            "String",
+            "POKEROLE_API_BASE_URL",
+            escapedBuildConfigValue("POKEROLE_API_BASE_URL"),
+        )
     }
 
     buildFeatures {
@@ -73,9 +78,12 @@ dependencies {
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
     implementation("io.github.jan-tennert.supabase:storage-kt")
     implementation("io.ktor:ktor-client-android:3.4.2")
+    implementation("io.ktor:ktor-client-content-negotiation:3.4.2")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:3.4.2")
     implementation("io.coil-kt.coil3:coil-compose:3.6.1")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.6.1")
 
     debugImplementation("androidx.compose.ui:ui-tooling")
     testImplementation("junit:junit:4.13.2")
+    testImplementation("io.ktor:ktor-client-mock:3.4.2")
 }

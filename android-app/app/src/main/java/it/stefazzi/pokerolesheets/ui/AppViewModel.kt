@@ -13,6 +13,7 @@ import it.stefazzi.pokerolesheets.data.CatalogItem
 import it.stefazzi.pokerolesheets.data.InventorySlot
 import it.stefazzi.pokerolesheets.data.ItemEdits
 import it.stefazzi.pokerolesheets.data.NewItem
+import it.stefazzi.pokerolesheets.data.NovaChatClient
 import it.stefazzi.pokerolesheets.data.ItemRepository
 import it.stefazzi.pokerolesheets.data.FullCatalog
 import it.stefazzi.pokerolesheets.data.normalizeMoveName
@@ -40,6 +41,12 @@ import kotlinx.coroutines.withContext
 
 enum class LoginPortal { DM, PLAYER }
 
+data class NovaChatMessage(
+    val text: String,
+    val fromUser: Boolean,
+    val citations: List<String> = emptyList(),
+)
+
 data class AppUiState(
     val configured: Boolean = SupabaseProvider.isConfigured,
     val authLoading: Boolean = SupabaseProvider.isConfigured,
@@ -66,6 +73,9 @@ data class AppUiState(
     val itemsReady: Boolean = false,
     val itemSaving: Boolean = false,
     val itemsStatus: String = "Catalogo oggetti non caricato",
+    val novaConfigured: Boolean = SupabaseProvider.isChatConfigured,
+    val novaMessages: List<NovaChatMessage> = emptyList(),
+    val novaLoading: Boolean = false,
     val selectedSheet: EditableSheet? = null,
     val message: String? = null,
 ) {
@@ -78,6 +88,7 @@ class AppViewModel(
     private val characterRepository: CharacterRepository?,
     private val catalogRepository: CatalogRepository,
     private val itemRepository: ItemRepository? = null,
+    private val novaChatClient: NovaChatClient? = null,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(AppUiState())
     val uiState: StateFlow<AppUiState> = _uiState.asStateFlow()
@@ -215,6 +226,42 @@ class AppViewModel(
         }
         sheetWriteCoordinator.clearReloadRequirement(SheetWriteKey.from(blank))
         _uiState.update { it.copy(selectedSheet = blank, message = null) }
+    }
+
+    fun askNova(message: String) {
+        val client = novaChatClient ?: return
+        val question = message.trim()
+        if (question.isEmpty() || _uiState.value.novaLoading) return
+        _uiState.update {
+            it.copy(
+                novaLoading = true,
+                novaMessages = it.novaMessages + NovaChatMessage(question, fromUser = true),
+            )
+        }
+        viewModelScope.launch {
+            runCatching { client.ask(question) }
+                .onSuccess { reply -> _uiState.update {
+                    it.copy(
+                        novaLoading = false,
+                        novaMessages = it.novaMessages + NovaChatMessage(
+                            reply.answer,
+                            fromUser = false,
+                            citations = reply.citations,
+                        ),
+                    )
+                } }
+                .onFailure { error -> _uiState.update {
+                    it.copy(
+                        novaLoading = false,
+                        message = error.userMessage("Nova non è disponibile"),
+                    )
+                } }
+        }
+    }
+
+    override fun onCleared() {
+        novaChatClient?.close()
+        super.onCleared()
     }
 
     fun saveSheet(sheet: EditableSheet) {
@@ -664,6 +711,9 @@ class AppViewModel(
                     catalogRepository = CatalogRepository(context.applicationContext, SupabaseProvider.json,
                         if (SupabaseProvider.isConfigured) SupabaseProvider.client else null),
                     itemRepository = if (SupabaseProvider.isConfigured) ItemRepository(SupabaseProvider.client) else null,
+                    novaChatClient = if (
+                        SupabaseProvider.isConfigured && SupabaseProvider.isChatConfigured
+                    ) SupabaseProvider.chatClient() else null,
                 ) as T
             }
         }

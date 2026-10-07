@@ -81,6 +81,7 @@ Gli aggiornamenti devono essere firmati con la stessa chiave utilizzata per la p
 ```properties
 SUPABASE_URL=https://PROJECT_REF.supabase.co
 SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
+POKEROLE_API_BASE_URL=http://10.0.2.2:8000
 ```
 
 5. Sincronizzare il progetto con Gradle.
