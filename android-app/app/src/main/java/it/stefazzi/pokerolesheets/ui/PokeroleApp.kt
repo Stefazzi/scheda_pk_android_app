@@ -108,9 +108,9 @@ import java.io.ByteArrayOutputStream
 import kotlin.math.roundToInt
 
 private enum class HomeTab(val label: String) {
-    NOVA("Nova"),
     TRAINERS("Allenatori"),
     POKEMON("Pokémon"),
+    NOVA("Nova"),
     CATALOG("Pokédex"),
     ITEMS("Oggetti"),
 }

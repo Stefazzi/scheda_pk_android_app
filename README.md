@@ -16,6 +16,8 @@ Per lavorare sull'app attuale aprire [`android-app/`](android-app/README.md) in 
 - Creazione e cattura di nuovi Pokémon.
 - Catalogo community Pokérole 3.0 da Supabase, con cache locale: specie/forme, valori base, limiti e mosse per Rank.
 - Pokédex consultabile con ricerca, filtro per tipo e dettagli di specie, evoluzioni e mosse.
+- Chat Nova disponibile tra le schede Pokémon e il Pokédex, autenticata con la sessione Supabase dell'utente.
+- Espressioni di Nova incluse nell'APK e adattate allo stato della conversazione; risposte cordiali ed euforiche concluse da `Super!!!`.
 - Ricerca delle schede per il DM e Pokémon ordinati per allenatore, poi per nome.
 - Cattura con ricerca della specie, Rank manuale (predefinito Starter) e scelta delle mosse.
 - Per le catture del DM, selezione dell'allenatore dalle schede Supabase; per i player, associazione automatica al proprio allenatore.
@@ -48,6 +50,7 @@ Per lavorare sull'app attuale aprire [`android-app/`](android-app/README.md) in 
 - Timeout, errori di rete ed errori server con esito ambiguo non causano nuovi tentativi automatici; sulle schede esistenti richiedono una riconciliazione dal server.
 - Messaggi di errore del salvataggio sanitizzati, senza token, payload completi o dettagli interni del servizio.
 - Aggiornamento della toolchain ad Android Gradle Plugin 9.4.1 e Gradle 9.6.0; Ktor Android è allineato alla versione 3.4.2 usata dal client Supabase.
+- Nova è posizionata dopo Pokémon e prima del Pokédex e usa sette espressioni locali: neutrale, felice, pensierosa, confusa, scettica, triste e arrabbiata.
 
 La versione 1.1 non richiede nuove migration e non modifica RPC, policy RLS o configurazioni del progetto Supabase.
 

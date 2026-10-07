@@ -47,6 +47,25 @@ data class NovaChatMessage(
     val citations: List<String> = emptyList(),
 )
 
+enum class NovaExpression { HAPPY, NEUTRAL, SAD, SKEPTICAL, THINKING, ANGRY, CONFUSED }
+
+internal fun novaExpression(messages: List<NovaChatMessage>, loading: Boolean): NovaExpression {
+    if (loading) return NovaExpression.THINKING
+    val answer = messages.lastOrNull { !it.fromUser }?.text?.lowercase()
+        ?: return NovaExpression.NEUTRAL
+    return when {
+        listOf("vietato", "non posso", "impossibile").any(answer::contains) -> NovaExpression.ANGRY
+        listOf("errore", "non disponibile", "fallito").any(answer::contains) -> NovaExpression.SAD
+        listOf("non è chiaro", "non capisco", "specifica", "quale").any(answer::contains) -> NovaExpression.CONFUSED
+        listOf("attenzione", "potrebbe", "dipende", "verifica").any(answer::contains) -> NovaExpression.SKEPTICAL
+        else -> NovaExpression.HAPPY
+    }
+}
+
+internal fun novaVoice(answer: String): String = answer.trim().let {
+    if (it.endsWith("Super!!!")) it else "$it Super!!!"
+}
+
 data class AppUiState(
     val configured: Boolean = SupabaseProvider.isConfigured,
     val authLoading: Boolean = SupabaseProvider.isConfigured,
@@ -244,7 +263,7 @@ class AppViewModel(
                     it.copy(
                         novaLoading = false,
                         novaMessages = it.novaMessages + NovaChatMessage(
-                            reply.answer,
+                            novaVoice(reply.answer),
                             fromUser = false,
                             citations = reply.citations,
                         ),
