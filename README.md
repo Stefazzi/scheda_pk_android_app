@@ -18,6 +18,8 @@ Per lavorare sull'app attuale aprire [`android-app/`](android-app/README.md) in 
 - Pokédex consultabile con ricerca, filtro per tipo e dettagli di specie, evoluzioni e mosse.
 - Chat Nova disponibile tra le schede Pokémon e il Pokédex, autenticata con la sessione Supabase dell'utente.
 - Espressioni di Nova incluse nell'APK e adattate allo stato della conversazione; risposte cordiali ed euforiche concluse da `Super!!!`.
+- Contesto locale delle ultime sei battute per domande successive sullo stesso combattimento.
+- Feedback anonimo utile/non utile associato alla singola risposta di Nova.
 - Ricerca delle schede per il DM e Pokémon ordinati per allenatore, poi per nome.
 - Cattura con ricerca della specie, Rank manuale (predefinito Starter) e scelta delle mosse.
 - Per le catture del DM, selezione dell'allenatore dalle schede Supabase; per i player, associazione automatica al proprio allenatore.

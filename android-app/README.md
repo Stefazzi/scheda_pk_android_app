@@ -4,6 +4,34 @@ App Android nativa per gestire le schede Pokerole nel nuovo progetto Supabase.
 
 ## Funzioni
 
+### Nova completa — v1.3
+
+La versione **1.3**, versionCode **24**, completa le funzioni interattive di Nova:
+
+- tiro reale da 1 a 100 D6, con 4, 5 e 6 contati come successi;
+- contesto locale delle ultime sei battute, utile per proseguire lo stesso combattimento;
+- calcoli di pool, successi, danni, STAB, efficacia, immunità e difesa;
+- consultazione di regole, condizioni, Pokémon, mosse, Ability e strumenti;
+- accesso autenticato al profilo, agli allenatori e ai Pokémon consentiti dalle RLS;
+- feedback anonimo **Utile / Non utile** su ogni risposta.
+
+Il contesto resta nell'app e non crea memoria permanente sul server. Nova non modifica
+schede o inventari. Gli effetti descrittivi di Ability, strumenti, meteo e mosse
+speciali non diventano automaticamente modificatori numerici. Consultare il
+[manuale utente di Nova](NOVA_USER_GUIDE.md) per esempi e limiti.
+
+### Introduzione di Nova — v1.2
+
+La versione **1.2**, versionCode **23**, introduce la scheda **Nova** dopo Pokémon e
+prima del Pokédex. La chat usa il JWT della sessione Supabase e comunica con l'API
+PokéRole protetta tramite HTTPS. Nova risponde in italiano con tono cordiale ed
+euforico e conclude le risposte con `Super!!!`.
+
+Le sette espressioni incluse nell'APK sono neutrale, felice, pensierosa, confusa,
+scettica, triste e arrabbiata. Nessuna immagine viene scaricata durante la chat.
+Questa prima versione supporta regole PokéRole, cataloghi strutturati e dati utente
+in sola lettura, senza scritture automatiche su Supabase.
+
 ### Salvataggi Android più sicuri — v1.1
 
 La versione **1.1**, versionCode **22**, rende esplicito il confine delle scritture

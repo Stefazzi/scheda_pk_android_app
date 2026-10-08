@@ -15,6 +15,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,6 +34,7 @@ fun NovaChatScreen(
     messages: List<NovaChatMessage>,
     loading: Boolean,
     onSend: (String) -> Unit,
+    onFeedback: (String, Boolean) -> Unit,
 ) {
     var input by remember { mutableStateOf("") }
     val expression = novaExpression(messages, loading)
@@ -71,6 +73,16 @@ fun NovaChatScreen(
                         Text(message.text)
                         if (message.citations.isNotEmpty()) {
                             Text(message.citations.joinToString(" · "), style = MaterialTheme.typography.labelSmall)
+                        }
+                        message.requestId?.let { requestId ->
+                            if (message.feedbackSent) {
+                                Text("Grazie per il feedback", style = MaterialTheme.typography.labelSmall)
+                            } else {
+                                Row {
+                                    TextButton(onClick = { onFeedback(requestId, true) }) { Text("Utile") }
+                                    TextButton(onClick = { onFeedback(requestId, false) }) { Text("Non utile") }
+                                }
+                            }
                         }
                     }
                 }

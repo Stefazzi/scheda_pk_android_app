@@ -45,6 +45,8 @@ data class NovaChatMessage(
     val text: String,
     val fromUser: Boolean,
     val citations: List<String> = emptyList(),
+    val requestId: String? = null,
+    val feedbackSent: Boolean = false,
 )
 
 enum class NovaExpression { HAPPY, NEUTRAL, SAD, SKEPTICAL, THINKING, ANGRY, CONFUSED }
@@ -251,6 +253,9 @@ class AppViewModel(
         val client = novaChatClient ?: return
         val question = message.trim()
         if (question.isEmpty() || _uiState.value.novaLoading) return
+        val context = _uiState.value.novaMessages.map {
+            "${if (it.fromUser) "Utente" else "Nova"}: ${it.text}"
+        }
         _uiState.update {
             it.copy(
                 novaLoading = true,
@@ -258,7 +263,7 @@ class AppViewModel(
             )
         }
         viewModelScope.launch {
-            runCatching { client.ask(question) }
+            runCatching { client.ask(question, context) }
                 .onSuccess { reply -> _uiState.update {
                     it.copy(
                         novaLoading = false,
@@ -266,6 +271,7 @@ class AppViewModel(
                             novaVoice(reply.answer),
                             fromUser = false,
                             citations = reply.citations,
+                            requestId = reply.requestId,
                         ),
                     )
                 } }
@@ -274,6 +280,21 @@ class AppViewModel(
                         novaLoading = false,
                         message = error.userMessage("Nova non è disponibile"),
                     )
+                } }
+        }
+    }
+
+    fun sendNovaFeedback(requestId: String, useful: Boolean) {
+        val client = novaChatClient ?: return
+        viewModelScope.launch {
+            runCatching { client.sendFeedback(requestId, useful) }
+                .onSuccess { _uiState.update { state ->
+                    state.copy(novaMessages = state.novaMessages.map {
+                        if (it.requestId == requestId) it.copy(feedbackSent = true) else it
+                    })
+                } }
+                .onFailure { error -> _uiState.update {
+                    it.copy(message = error.userMessage("Feedback non inviato"))
                 } }
         }
     }

@@ -20,7 +20,7 @@ class NovaChatClientTest {
             assertEquals("Bearer player-token", request.headers[HttpHeaders.Authorization])
             assertEquals("https://nova.example/api/v1/chat", request.url.toString())
             respond(
-                content = """{"synthesis":{"answer":"Tre successi [S1].","citation_ids":["S1"]}}""",
+                content = """{"request_id":"req-1","synthesis":{"answer":"Tre successi [S1].","citation_ids":["S1"]}}""",
                 status = HttpStatusCode.OK,
                 headers = headersOf(HttpHeaders.ContentType, "application/json"),
             )
@@ -30,7 +30,23 @@ class NovaChatClientTest {
         }
         val client = NovaChatClient("https://nova.example", { "player-token" }, http)
 
-        assertEquals(NovaReply("Tre successi [S1].", listOf("S1")), client.ask("Conta"))
+        assertEquals(NovaReply("req-1", "Tre successi [S1].", listOf("S1")), client.ask("Conta"))
+        client.close()
+    }
+
+    @Test
+    fun `sends anonymous feedback for response request id`() = runBlocking {
+        val engine = MockEngine { request ->
+            assertEquals("Bearer player-token", request.headers[HttpHeaders.Authorization])
+            assertEquals("https://nova.example/api/v1/feedback", request.url.toString())
+            respond("""{"status":"accepted"}""", HttpStatusCode.OK)
+        }
+        val http = HttpClient(engine) {
+            install(ContentNegotiation) { json(SupabaseProvider.json) }
+        }
+        val client = NovaChatClient("https://nova.example", { "player-token" }, http)
+
+        client.sendFeedback("req-1", true)
         client.close()
     }
 

@@ -16,7 +16,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
-data class NovaReply(val answer: String, val citations: List<String>)
+data class NovaReply(val requestId: String, val answer: String, val citations: List<String>)
 
 class NovaChatException(message: String) : RuntimeException(message)
 
@@ -26,26 +26,42 @@ class NovaChatClient(
     private val http: HttpClient = defaultHttpClient(),
 ) {
     private val endpoint = "${baseUrl.trimEnd('/')}/api/v1/chat"
+    private val feedbackEndpoint = "${baseUrl.trimEnd('/')}/api/v1/feedback"
 
     init {
         require(baseUrl.isNotBlank()) { "Configurazione API Nova mancante" }
     }
 
-    suspend fun ask(message: String): NovaReply {
+    suspend fun ask(message: String, context: List<String> = emptyList()): NovaReply {
         val token = accessToken()?.takeIf(String::isNotBlank)
             ?: throw NovaChatException("Sessione scaduta: accedi nuovamente")
         val response = http.post(endpoint) {
             bearerAuth(token)
             contentType(ContentType.Application.Json)
-            setBody(ChatRequest(message.trim()))
+            val prompt = (context.takeLast(6) + "Domanda attuale: ${message.trim()}")
+                .joinToString("\n")
+                .takeLast(4_000)
+            setBody(ChatRequest(prompt))
         }
         if (!response.status.isSuccess()) {
             val error = runCatching { response.body<ApiErrorEnvelope>().error.message }.getOrNull()
             throw NovaChatException(error ?: "Nova non è disponibile")
         }
-        val synthesis = response.body<ChatResponse>().synthesis
+        val chat = response.body<ChatResponse>()
+        val synthesis = chat.synthesis
             ?: throw NovaChatException("Nova non ha prodotto una risposta completa")
-        return NovaReply(synthesis.answer, synthesis.citationIds)
+        return NovaReply(chat.requestId, synthesis.answer, synthesis.citationIds)
+    }
+
+    suspend fun sendFeedback(requestId: String, useful: Boolean) {
+        val token = accessToken()?.takeIf(String::isNotBlank)
+            ?: throw NovaChatException("Sessione scaduta: accedi nuovamente")
+        val response = http.post(feedbackEndpoint) {
+            bearerAuth(token)
+            contentType(ContentType.Application.Json)
+            setBody(ChatFeedbackRequest(requestId, useful))
+        }
+        if (!response.status.isSuccess()) throw NovaChatException("Feedback non inviato")
     }
 
     fun close() = http.close()
@@ -66,7 +82,16 @@ class NovaChatClient(
 private data class ChatRequest(val message: String)
 
 @Serializable
-private data class ChatResponse(val synthesis: ChatSynthesis? = null)
+private data class ChatResponse(
+    @SerialName("request_id") val requestId: String,
+    val synthesis: ChatSynthesis? = null,
+)
+
+@Serializable
+private data class ChatFeedbackRequest(
+    @SerialName("request_id") val requestId: String,
+    val useful: Boolean,
+)
 
 @Serializable
 private data class ChatSynthesis(

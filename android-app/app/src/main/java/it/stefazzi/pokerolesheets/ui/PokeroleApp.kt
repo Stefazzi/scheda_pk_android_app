@@ -221,6 +221,7 @@ fun PokeroleApp() {
                 else -> HomeContent(
                     state = state,
                     onAskNova = viewModel::askNova,
+                    onNovaFeedback = viewModel::sendNovaFeedback,
                     onSelect = viewModel::selectSheet,
                     onCreate = viewModel::beginNewSheet,
                     onSetClaimCode = { claimCodeTrainer = it },
@@ -389,6 +390,7 @@ private fun ConfigurationMissing() {
 private fun HomeContent(
     state: AppUiState,
     onAskNova: (String) -> Unit,
+    onNovaFeedback: (String, Boolean) -> Unit,
     onSelect: (EditableSheet) -> Unit,
     onCreate: (Boolean) -> Unit,
     onSetClaimCode: (EditableSheet) -> Unit,
@@ -421,6 +423,7 @@ private fun HomeContent(
                 messages = state.novaMessages,
                 loading = state.novaLoading,
                 onSend = onAskNova,
+                onFeedback = onNovaFeedback,
             )
             HomeTab.TRAINERS -> SheetList(
                 sheets = state.sheets.filterNot { it.isPokemon },
